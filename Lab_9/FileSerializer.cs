@@ -19,19 +19,18 @@ namespace Lab_9
             get;
         }
 
-        public void SelectFolder(string folderPath)
+        public void SelectFolder(string path)
         {
-            _folderPath = folderPath;
+            _folderPath = path;
             if (!Directory.Exists(_folderPath))
             {
                 Directory.CreateDirectory(_folderPath);
             }
         }
-        public void SelectFile(string filePath)
+        public void SelectFile(string name)
         {
-            _filePath = filePath;
-
-            string path = $"{FolderPath}{FilePath}.{Extension}";
+            string path = $"{FolderPath}{name}.{Extension}";
+            _filePath = path;
             if (!File.Exists(path)) {
                 File.Create(path);
             }
