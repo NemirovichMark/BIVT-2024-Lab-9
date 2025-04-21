@@ -32,7 +32,7 @@ namespace Lab_9
             _filePath = filePath;
 
             string path = $"{FolderPath}{FilePath}.{Extension}";
-            if (File.Exists(path)) {
+            if (!File.Exists(path)) {
                 File.Create(path);
             }
         }
