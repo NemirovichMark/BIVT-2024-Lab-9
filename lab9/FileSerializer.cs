@@ -27,7 +27,7 @@ namespace Lab_9
 
         void SelectFile(string name){
             _filePath = name;
-            string full_path = $"{_folderPath}/{_filePath}.{Extension}";
+            string full_path = Path.Combine(_folderPath, _filePath);
             if (!File.Exists(_filePath)){
                 File.Create(_filePath);
             }
