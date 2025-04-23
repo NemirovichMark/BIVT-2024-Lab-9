@@ -29,7 +29,7 @@ namespace Lab_9
         }
         public void SelectFile(string name)
         {
-            string path = $"{FolderPath}{name}.{Extension}";
+            string path = Path.Combine(FolderPath, $"{name}.{Extension}");
             _filePath = path;
             if (!File.Exists(path)) {
                 File.Create(path);
