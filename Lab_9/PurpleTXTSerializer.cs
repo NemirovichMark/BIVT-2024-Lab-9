@@ -1,28 +1,25 @@
 using System;
-using System.Reflection.Metadata.Ecma335;
-using System.Security.Cryptography.X509Certificates;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
-using Newtonsoft.Json;
 using Lab_7;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Reflection.Metadata;
-using System.Collections.Immutable;
-using System.Security;
 
 namespace Lab_9 {
-    public class PurpleJSONSerializer : PurpleSerializer {
-        public override string Extension => "json";
+    public class PurpleTXTSerializer : PurpleSerializer {
+        public override string Extension => "txt";
+
         private void SerializeObject<T>(T obj, string folder, string file) {
             if (folder == null || file == null) return;
 
             string targetPath = $"{Path.Combine(folder, file)}.{Extension}";
 
             string serializedData = JsonConvert.SerializeObject(obj);
-   
             var jObj = JObject.Parse(serializedData);
             jObj["$type"] = obj.GetType().AssemblyQualifiedName;
+
             serializedData = jObj.ToString();
-        
+
             using (var writer = new StreamWriter(targetPath)) 
                 writer.Write(serializedData);
         }
@@ -155,9 +152,6 @@ namespace Lab_9 {
                 resultParticipants.Add(curParticipant);
             }
 
-
-
-
             resultObj.Add(resultParticipants.ToArray());  
 
             return resultObj;
@@ -252,5 +246,6 @@ namespace Lab_9 {
 
             return resultObj;
         }
+
     }
 }
