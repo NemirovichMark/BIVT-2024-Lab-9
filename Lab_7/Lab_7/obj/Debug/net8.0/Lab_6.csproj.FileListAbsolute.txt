@@ -1,0 +1,14 @@
+C:\Users\alexe\Desktop\zalupa123\Lab_6\Lab_6\bin\Debug\net8.0\Lab_6.exe
+C:\Users\alexe\Desktop\zalupa123\Lab_6\Lab_6\bin\Debug\net8.0\Lab_6.deps.json
+C:\Users\alexe\Desktop\zalupa123\Lab_6\Lab_6\bin\Debug\net8.0\Lab_6.runtimeconfig.json
+C:\Users\alexe\Desktop\zalupa123\Lab_6\Lab_6\bin\Debug\net8.0\Lab_6.dll
+C:\Users\alexe\Desktop\zalupa123\Lab_6\Lab_6\bin\Debug\net8.0\Lab_6.pdb
+C:\Users\alexe\Desktop\zalupa123\Lab_6\Lab_6\obj\Debug\net8.0\Lab_6.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alexe\Desktop\zalupa123\Lab_6\Lab_6\obj\Debug\net8.0\Lab_6.AssemblyInfoInputs.cache
+C:\Users\alexe\Desktop\zalupa123\Lab_6\Lab_6\obj\Debug\net8.0\Lab_6.AssemblyInfo.cs
+C:\Users\alexe\Desktop\zalupa123\Lab_6\Lab_6\obj\Debug\net8.0\Lab_6.csproj.CoreCompileInputs.cache
+C:\Users\alexe\Desktop\zalupa123\Lab_6\Lab_6\obj\Debug\net8.0\Lab_6.dll
+C:\Users\alexe\Desktop\zalupa123\Lab_6\Lab_6\obj\Debug\net8.0\refint\Lab_6.dll
+C:\Users\alexe\Desktop\zalupa123\Lab_6\Lab_6\obj\Debug\net8.0\Lab_6.pdb
+C:\Users\alexe\Desktop\zalupa123\Lab_6\Lab_6\obj\Debug\net8.0\Lab_6.genruntimeconfig.cache
+C:\Users\alexe\Desktop\zalupa123\Lab_6\Lab_6\obj\Debug\net8.0\ref\Lab_6.dll

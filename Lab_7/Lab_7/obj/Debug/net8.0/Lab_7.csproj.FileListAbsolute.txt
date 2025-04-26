@@ -1,0 +1,17 @@
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\bin\Debug\net8.0\Lab_7.exe
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\bin\Debug\net8.0\Lab_7.deps.json
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\bin\Debug\net8.0\Lab_7.runtimeconfig.json
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\bin\Debug\net8.0\Lab_7.dll
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\bin\Debug\net8.0\Lab_7.pdb
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\obj\Debug\net8.0\Lab_7.csproj.AssemblyReference.cache
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\obj\Debug\net8.0\Lab_7.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\obj\Debug\net8.0\Lab_7.AssemblyInfoInputs.cache
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\obj\Debug\net8.0\Lab_7.AssemblyInfo.cs
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\obj\Debug\net8.0\Lab_7.csproj.CoreCompileInputs.cache
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\obj\Debug\net8.0\Lab_7.csproj.Up2Date
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\obj\Debug\net8.0\Lab_7.dll
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\obj\Debug\net8.0\refint\Lab_7.dll
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\obj\Debug\net8.0\Lab_7.pdb
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\obj\Debug\net8.0\Lab_7.genruntimeconfig.cache
+C:\Users\alexe\Desktop\zalupa123\Lab_9\Lab_7\Lab_7\obj\Debug\net8.0\ref\Lab_7.dll
