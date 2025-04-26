@@ -1,10 +1,10 @@
 ﻿namespace Lab_9{
-public interface IFileManager{
+    public interface IFileManager{
 
-    string FolderPath {get;}
-    string FilePath {get;}
+        string FolderPath {get;}
+        string FilePath {get;}
 
-    public void SelectFile(string name);
-    void SelectFolder(string path);
-}
+        public void SelectFile(string name);
+        void SelectFolder(string path);
+    }
 }
