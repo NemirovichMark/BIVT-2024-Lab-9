@@ -1,24 +1,54 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj": {}
+    "C:\\Users\\sanik\\source\\repos\\Lab_9\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj": {
+    "C:\\Users\\sanik\\source\\repos\\BIVT-2024-Lab-7\\Lab-7\\Lab-7.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\sanik\\source\\repos\\BIVT-2024-Lab-7\\Lab-7\\Lab-7.csproj",
+        "projectName": "Lab-7",
+        "projectPath": "C:\\Users\\sanik\\source\\repos\\BIVT-2024-Lab-7\\Lab-7\\Lab-7.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "C:\\Users\\sanik\\source\\repos\\Lab_9\\Lab_9\\Lab_9.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\sanik\\source\\repos\\Lab_9\\Lab_9\\Lab_9.csproj",
+        "projectName": "Lab_9",
+        "projectPath": "C:\\Users\\sanik\\source\\repos\\Lab_9\\Lab_9\\Lab_9.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "C:\\Users\\sanik\\source\\repos\\BIVT-2024-Lab-7\\Lab-7\\Lab-7.csproj": {
+                "projectPath": "C:\\Users\\sanik\\source\\repos\\BIVT-2024-Lab-7\\Lab-7\\Lab-7.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "C:\\Users\\sanik\\source\\repos\\Lab_9\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj",
+        "projectUniqueName": "C:\\Users\\sanik\\source\\repos\\Lab_9\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj",
         "projectName": "Lab_9_Purple_Test",
-        "projectPath": "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj",
-        "packagesPath": "C:\\Users\\Markosias\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\obj\\",
+        "projectPath": "C:\\Users\\sanik\\source\\repos\\Lab_9\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj",
+        "packagesPath": "C:\\Users\\sanik\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\sanik\\source\\repos\\Lab_9\\Lab_9_Purple_Test\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Markosias\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\sanik\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -31,7 +61,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\sanik\\source\\repos\\Lab_9\\Lab_9\\Lab_9.csproj": {
+                "projectPath": "C:\\Users\\sanik\\source\\repos\\Lab_9\\Lab_9\\Lab_9.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -43,8 +77,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.200"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -75,7 +108,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

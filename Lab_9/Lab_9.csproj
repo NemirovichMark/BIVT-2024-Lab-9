@@ -54,8 +54,10 @@
     <Compile Include="IFileManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurpleJSONSerializer .cs" />
     <Compile Include="PurpleSerializer.cs" />
     <Compile Include="PurpleTXTSerializer.cs" />
+    <Compile Include="PurpleXMLSerializer .cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -65,10 +67,6 @@
     <ProjectReference Include="..\..\BIVT-2024-Lab-7\Lab-7\Lab-7.csproj">
       <Project>{887c3b3f-5412-4f24-b66f-d502d0c88aaa}</Project>
       <Name>Lab-7</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lab_9_Purple_Test\Lab_9_Purple_Test.csproj">
-      <Project>{4b408a3a-3b7d-4439-a999-69a5342a15c8}</Project>
-      <Name>Lab_9_Purple_Test</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

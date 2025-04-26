@@ -684,6 +684,27 @@
             "related": ".xml"
           }
         }
+      },
+      "Lab-7/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/Lab-7.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Lab-7.dll": {}
+        }
+      },
+      "Lab_9/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "Lab-7": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Lab_9.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Lab_9.dll": {}
+        }
       }
     }
   },
@@ -1643,33 +1664,39 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "Lab-7/1.0.0": {
+      "type": "project",
+      "path": "../../BIVT-2024-Lab-7/Lab-7/Lab-7.csproj",
+      "msbuildProject": "../../BIVT-2024-Lab-7/Lab-7/Lab-7.csproj"
+    },
+    "Lab_9/1.0.0": {
+      "type": "project",
+      "path": "../Lab_9/Lab_9.csproj",
+      "msbuildProject": "../Lab_9/Lab_9.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "Lab_9 >= 1.0.0",
       "MSTest >= 3.6.4",
       "Microsoft.NET.Test.Sdk >= 17.12.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Markosias\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\sanik\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj",
+      "projectUniqueName": "C:\\Users\\sanik\\source\\repos\\Lab_9\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj",
       "projectName": "Lab_9_Purple_Test",
-      "projectPath": "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj",
-      "packagesPath": "C:\\Users\\Markosias\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\obj\\",
+      "projectPath": "C:\\Users\\sanik\\source\\repos\\Lab_9\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj",
+      "packagesPath": "C:\\Users\\sanik\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\sanik\\source\\repos\\Lab_9\\Lab_9_Purple_Test\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Markosias\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\sanik\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1682,7 +1709,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\sanik\\source\\repos\\Lab_9\\Lab_9\\Lab_9.csproj": {
+              "projectPath": "C:\\Users\\sanik\\source\\repos\\Lab_9\\Lab_9\\Lab_9.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -1694,8 +1725,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.200"
+      }
     },
     "frameworks": {
       "net8.0": {
@@ -1726,7 +1756,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

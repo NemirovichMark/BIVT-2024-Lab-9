@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab_9
 {
-    internal interface IFileManager
+    public interface IFileManager
     {
         public string FolderPath
         {
