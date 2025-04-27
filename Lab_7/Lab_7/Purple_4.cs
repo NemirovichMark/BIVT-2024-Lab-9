@@ -17,7 +17,7 @@ namespace Lab_7
             public string Name => _name;
             public string Surname => _surname;
             
-            [JsonProperty]
+            // [JsonProperty]
             public double Time
             {
                 get { return _time; }
@@ -70,7 +70,7 @@ namespace Lab_7
 
             public string Name => _name;
             
-            [JsonProperty]
+            // [JsonProperty]
             public Sportsman[] Sportsmen
             {
                 get { return _sportsmen; }
@@ -78,7 +78,7 @@ namespace Lab_7
             }
 
             
-            [JsonConstructor]
+            // [JsonConstructor]
             public Group(string name)
             {
                 _name = name;

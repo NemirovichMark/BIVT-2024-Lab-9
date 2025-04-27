@@ -49,7 +49,7 @@ namespace Lab_7
 
             public string Name => _name;
 
-            [JsonProperty]
+            // [JsonProperty]
             public Response[] Responses
             {
                 get
@@ -124,7 +124,7 @@ namespace Lab_7
             private static int _counter;
             private int _id;
             
-            [JsonProperty]
+            // [JsonProperty]
             public Research[] Researches
             {
                 get
@@ -152,13 +152,13 @@ namespace Lab_7
                 _id = _counter++;
             }
             
-            public void Add(Research research)
+            public void AddResearch(Research research)
             {
                 if (_researches == null) return;
                 Array.Resize(ref _researches, _researches.Length + 1);
                 _researches[_researches.Length - 1] = research;
             }
-            public void Add(Research[] researches)
+            public void AddResearch(Research[] researches)
             {
                 if (researches == null || _researches == null) return;
                 int n = _researches.Length;

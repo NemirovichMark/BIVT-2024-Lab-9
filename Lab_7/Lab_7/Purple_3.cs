@@ -31,7 +31,7 @@ namespace Lab_7
                 _markIndex = 0;
             }
 
-            [JsonProperty]
+            // [JsonProperty]
             public double[] Marks
             {
                 get
@@ -48,7 +48,7 @@ namespace Lab_7
                 }
             }
 
-            [JsonProperty]
+            // [JsonProperty]
             public int[] Places
             {
                 get

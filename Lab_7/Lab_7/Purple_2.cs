@@ -19,21 +19,21 @@ namespace Lab_7
             public string Name => _name;
             public string Surname => _surname;
             
-            [JsonProperty]
+            // [JsonProperty]
             public int Distance
             {
                 get { return _distance; }
                 private set { _distance = value; }
             }
 
-            [JsonProperty]
+            // [JsonProperty]
             public int Result
             {
                 get;
                 private set;
             }
             
-            [JsonProperty]
+            // [JsonProperty]
             public int[] Marks
             {
                 get

@@ -24,7 +24,7 @@ namespace Lab_7
             
             public double TotalScore { get; private set; }
             
-            [JsonProperty]
+            // [JsonProperty]
             public double[] Coefs
             {
                 get
@@ -34,14 +34,9 @@ namespace Lab_7
                     Array.Copy(_coefs, coefs, _coefs.Length);
                     return coefs;
                 }
-                private set
-                {
-                    if (value == null) _coefs = null;
-                    else _coefs = (double[])value.Clone();
-                }
             }
             
-            [JsonProperty]
+            // [JsonProperty]
             public int[,] Marks
             {
                 get
@@ -50,11 +45,6 @@ namespace Lab_7
                     int[,] marks = new int[_marks.GetLength(0), _marks.GetLength(1)];
                     Array.Copy(_marks, marks, _marks.Length);
                     return marks;
-                }
-                private set
-                {
-                    if (value == null) _marks = null;
-                    else _marks = (int[,])value.Clone();
                 }
             }
             
