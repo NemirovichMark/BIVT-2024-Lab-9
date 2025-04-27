@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab_9
 {
-    public abstract class FileSerializer : iFileManager{
+    public abstract class FileSerializer : IFileManager{
         private string _folderPath;
         private string _filePath;
         private string _extension;
@@ -18,19 +18,22 @@ namespace Lab_9
             get;
         }
 
-        public void SelectFolder(string path){
-            _folderPath = path;
-            if (!Directory.Exists(_folderPath)){
-                Directory.CreateDirectory(_folderPath);
+        public void SelectFile(string name){
+            _filePath = Path.Combine(_folderPath, $"{name}.{Extension}");
+
+            Directory.CreateDirectory(_folderPath); //create dir if not exist
+
+            if (!File.Exists(_filePath)){
+                using (File.Create(_filePath)){}; //auto-closer
             }
         }
 
-        void SelectFile(string name){
-            _filePath = name;
-            string full_path = Path.Combine(_folderPath, _filePath);
-            if (!File.Exists(_filePath)){
-                File.Create(_filePath);
-            }
+        public void SelectFolder(string path){
+            _folderPath = Path.GetFullPath(path); // delete double-slash in link
+
+            Directory.CreateDirectory(_folderPath); // create dir if not exist
+
+            _filePath = null; //change file_path if the folder path have been changed
         }
     }
 }
