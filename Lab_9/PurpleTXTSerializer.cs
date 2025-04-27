@@ -312,7 +312,7 @@ public class PurpleTXTSerializer : PurpleSerializer
                 var concept = dict[$"R_{i}_C{j}"];
                 research.Add(new[] { animal, trait, concept });
             }
-            report.Add(research);
+            report.AddResearch(research);
         }
         return report;
     }

@@ -409,7 +409,7 @@ public class PurpleXMLSerializer : PurpleSerializer
         {
             var research = new Purple_5.Research(r.Name);
             foreach (var resp in r.Responses) research.Add([resp.Animal, resp.CharacterTrait, resp.Concept]); 
-            report.Add(research);
+            report.AddResearch(research);
         }
         return report;
     }
