@@ -1,7 +1,6 @@
 using System.Globalization;
 
 using Lab_7;
-using static Lab_7.Purple_2;
 
 namespace Lab_9
 {
@@ -82,11 +81,11 @@ namespace Lab_9
 
             using (var writer = new StreamWriter(FilePath))
             {
-                writer.WriteLine($"Name: {((SkiJumping)(object)jumping).Name}");
-                writer.WriteLine($"Standard: {((SkiJumping)(object)jumping).Standard}");
+                writer.WriteLine($"Name: {((Purple_2.SkiJumping)(object)jumping).Name}");
+                writer.WriteLine($"Standard: {((Purple_2.SkiJumping)(object)jumping).Standard}");
 
-                writer.WriteLine($"Participants count: {((SkiJumping)(object)jumping).Participants.Length}");
-                foreach (var participant in ((SkiJumping)(object)jumping).Participants)
+                writer.WriteLine($"Participants count: {((Purple_2.SkiJumping)(object)jumping).Participants.Length}");
+                foreach (var participant in ((Purple_2.SkiJumping)(object)jumping).Participants)
                 {
                     writer.WriteLine($"{participant.Name} {participant.Surname} Result: {participant.Result}");
                     writer.WriteLine($"Marks: {string.Join(", ", participant.Marks)}");
@@ -245,7 +244,7 @@ namespace Lab_9
             
             string name = null;
             int standard = 0;
-            List<Participant> participants = new List<Participant>();
+            List<Purple_2.Participant> participants = new List<Purple_2.Participant>();
 
             foreach (var line in lines)
             {
@@ -271,7 +270,7 @@ namespace Lab_9
                                         .Select(m => int.Parse(m.Trim()))
                                         .ToArray();
 
-                    var participant = new Participant(participantName, participantSurname);
+                    var participant = new Purple_2.Participant(participantName, participantSurname);
                     participant.Jump(0, marks, standard);
 
                     participants.Add(participant);
@@ -280,13 +279,13 @@ namespace Lab_9
 
             if (name == "100m")
             {
-                var competition = new JuniorSkiJumping();
+                var competition = new Purple_2.JuniorSkiJumping();
                 competition.Add(participants.ToArray());
                 return (T)(object)competition;
             }
             else
             {
-                var competition = new ProSkiJumping();
+                var competition = new Purple_2.ProSkiJumping();
                 competition.Add(participants.ToArray());
                 return (T)(object)competition;
             }
