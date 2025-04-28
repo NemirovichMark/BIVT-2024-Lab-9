@@ -79,15 +79,19 @@ namespace Lab_9
         {
             SelectFile(fileName);
 
-            using (var writer = new StreamWriter(FilePath))
-            {
-                writer.WriteLine($"Name: {((Purple_2.SkiJumping)(object)jumping).Name}");
-                writer.WriteLine($"Standard: {((Purple_2.SkiJumping)(object)jumping).Standard}");
+            using var writer = new StreamWriter(FilePath);
 
-                writer.WriteLine($"Participants count: {((Purple_2.SkiJumping)(object)jumping).Participants.Length}");
-                foreach (var participant in ((Purple_2.SkiJumping)(object)jumping).Participants)
+            if (jumping is Purple_2.SkiJumping skiJumping)
+            {
+
+                writer.WriteLine($"Name: {skiJumping.Name}");
+                writer.WriteLine($"Standard: {skiJumping.Standard}");
+
+                writer.WriteLine($"Participants count: {skiJumping.Participants.Length}");
+
+                foreach (var participant in skiJumping.Participants)
                 {
-                    writer.WriteLine($"{participant.Name} {participant.Surname} Result: {participant.Result}");
+                    writer.WriteLine($"{participant.Name} {participant.Surname} Result: {participant.Result} Distance: {participant.Distance}");
                     writer.WriteLine($"Marks: {string.Join(", ", participant.Marks)}");
                 }
             }
@@ -265,30 +269,30 @@ namespace Lab_9
                     string participantSurname = parts[1];
                     int result = int.Parse(parts[3]);
                     var marksLine = lines[Array.IndexOf(lines, line) + 1]; 
+                    var distance = int.Parse(parts[5]);
                     int[] marks = marksLine.Substring(7) 
                                         .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                         .Select(m => int.Parse(m.Trim()))
                                         .ToArray();
 
                     var participant = new Purple_2.Participant(participantName, participantSurname);
-                    participant.Jump(0, marks, standard);
+                    participant.Jump(distance, marks, standard);
 
                     participants.Add(participant);
                 }
             }
 
+            Purple_2.SkiJumping competition;
             if (name == "100m")
             {
-                var competition = new Purple_2.JuniorSkiJumping();
-                competition.Add(participants.ToArray());
-                return (T)(object)competition;
+                competition = new Purple_2.JuniorSkiJumping();
             }
             else
             {
-                var competition = new Purple_2.ProSkiJumping();
-                competition.Add(participants.ToArray());
-                return (T)(object)competition;
+                competition = new Purple_2.ProSkiJumping();
             }
+            competition.Add(participants.ToArray());
+            return (T)(object)competition;
         }
 
         public override T DeserializePurple3Skating<T>(string fileName)
@@ -367,10 +371,12 @@ namespace Lab_9
                     {
                         string line = reader.ReadLine();
                         var parts = line.Split(';');
-                        if (parts.Length == 3)
-                        {
-                            research.Add(parts);
-                        }
+
+                        string animal = string.IsNullOrEmpty(parts[0]) ? null : parts[0];
+                        string response = string.IsNullOrEmpty(parts[1]) ? null : parts[1];
+                        string additionalInfo = string.IsNullOrEmpty(parts[2]) ? null : parts[2];
+
+                        research.Add(new string[] { animal, response, additionalInfo });
                     }
 
                     report.AddResearch(research);

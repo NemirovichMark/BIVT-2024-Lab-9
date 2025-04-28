@@ -96,7 +96,8 @@ namespace Lab_9{
                     Name = p.Name,
                     Surname = p.Surname,
                     Result = p.Result,
-                    Marks = p.Marks.ToList()
+                    Marks = p.Marks.ToList(),
+                    Distance = p.Distance
                 }).ToList()
             };
 
@@ -247,7 +248,7 @@ namespace Lab_9{
             var participants = container.Participants.Select(p =>
             {
                 var part = new Purple_2.Participant(p.Name, p.Surname);
-                part.Jump(0, p.Marks.ToArray(), container.Standard);
+                part.Jump(p.Distance, p.Marks.ToArray(), container.Standard);
                 return part;
             }).ToArray();
 
@@ -411,6 +412,7 @@ namespace Lab_9{
             public string Name { get; set; }
             public string Surname { get; set; }
             public int Result { get; set; }
+            public int Distance { get; set; }
 
             [XmlArray]
             [XmlArrayItem("Mark")]

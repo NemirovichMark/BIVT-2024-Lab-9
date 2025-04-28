@@ -14,6 +14,10 @@ namespace Lab_9
             public string Surname { get; set; }
             public double[] Coefs { get; set; }
             public int[][] Marks { get; set; }
+
+            public double[][] Marks_d { get; set; }
+
+            public int Distance { get; set; }
         }
         
         private class JudgeDto
@@ -103,7 +107,8 @@ namespace Lab_9
                     Name = p.Name,
                     Surname = p.Surname,
                     Coefs = null, 
-                    Marks = new[] { p.Marks } 
+                    Marks = new[] { p.Marks },
+                    Distance = p.Distance
                 }).ToArray()
             };
 
@@ -131,7 +136,7 @@ namespace Lab_9
                     Name = p.Name,
                     Surname = p.Surname,
                     Coefs = null, 
-                    Marks = p.Marks.Select(m => new[] { (int)m }).ToArray() 
+                    Marks_d = p.Marks.Select(m => new[] { (double)m }).ToArray() 
                 }).ToArray()
             };
 
@@ -295,7 +300,7 @@ namespace Lab_9
             foreach (var p in dto.Participants)
             {
                 var part = new Purple_2.Participant(p.Name, p.Surname);
-                part.Jump(0, p.Marks[0], dto.Standard);
+                part.Jump(p.Distance, p.Marks[0], dto.Standard);
                 participants.Add(part);
             }
 
@@ -328,7 +333,7 @@ namespace Lab_9
             foreach (var p in dto.Participants)
             {
                 var participant = new Purple_3.Participant(p.Name, p.Surname);
-                foreach (var m in p.Marks)
+                foreach (var m in p.Marks_d)
                     participant.Evaluate(m[0]);
                 skating.Add(participant);
             }
