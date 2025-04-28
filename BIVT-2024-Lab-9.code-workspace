@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../BIVT-2024-Lab-7"
+		}
+	],
+	"settings": {
+		"dotnet.defaultSolution": "Lab_9.sln"
+	}
+}

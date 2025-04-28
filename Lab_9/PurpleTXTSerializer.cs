@@ -8,25 +8,24 @@ using Newtonsoft.Json.Linq;
 namespace Lab_9 {
     public class PurpleTXTSerializer : PurpleSerializer {
         public override string Extension => "txt";
+        private void SerializeObject<T>(T obj) {
+            if (FolderPath == null || FilePath  == null) return;
 
-        private void SerializeObject<T>(T obj, string folder, string file) {
-            if (folder == null || file == null) return;
-
-            string targetPath = $"{Path.Combine(folder, file)}.{Extension}";
+            string targetPath = $"{Path.Combine(FolderPath, FilePath)}.{Extension}";
 
             string serializedData = JsonConvert.SerializeObject(obj);
+   
             var jObj = JObject.Parse(serializedData);
             jObj["$type"] = obj.GetType().AssemblyQualifiedName;
-
             serializedData = jObj.ToString();
-
+        
             using (var writer = new StreamWriter(targetPath)) 
                 writer.Write(serializedData);
         }
-        private Dictionary<string, JToken> GetFileData(string folder, string file) {
-            if (folder == null || file == null) return null;
+        private Dictionary<string, JToken> GetFileData() {
+            if (FolderPath == null || FilePath == null) return null;
 
-            string targetPath = $"{Path.Combine(folder, file)}.{Extension}";
+            string targetPath = $"{Path.Combine(FolderPath, FilePath)}.{Extension}";
             if (!File.Exists(targetPath)) return null;
 
             string objData = File.ReadAllText(targetPath);
@@ -36,28 +35,34 @@ namespace Lab_9 {
             return objDict;
         }
         public override void SerializePurple1<T>(T obj, string fileName)  {
-            SerializeObject(obj, FolderPath, fileName);
+            SelectFile(fileName);
+            SerializeObject(obj);
         }
 
         public override void SerializePurple2SkiJumping<T>(T jumping, string fileName) {
-            SerializeObject(jumping, FolderPath, fileName);
+            SelectFile(fileName);    
+            SerializeObject(jumping);
         }
 
         public override void SerializePurple3Skating<T>(T skating, string fileName) {
-            SerializeObject(skating, FolderPath, fileName);
+            SelectFile(fileName);
+            SerializeObject(skating);
         }
 
         public override void SerializePurple4Group(Purple_4.Group participant, string fileName) {
-            SerializeObject(participant, FolderPath, fileName);
+            SelectFile(fileName);
+            SerializeObject(participant);
         }
 
         public override void SerializePurple5Report(Purple_5.Report group, string fileName) {
-            SerializeObject(group, FolderPath, fileName);
+            SelectFile(fileName);
+            SerializeObject(group);
         }
 
         public override T DeserializePurple1<T>(string fileName) {
+            SelectFile(fileName);
             
-            var objDict = GetFileData(FolderPath, fileName);
+            var objDict = GetFileData();
             if (objDict == null) return null;
 
             if (typeof(T) == typeof(Purple_1.Participant)) { 
@@ -125,7 +130,9 @@ namespace Lab_9 {
         }
 
         public override T DeserializePurple2SkiJumping<T>(string fileName) {
-            var objDict = GetFileData(FolderPath, fileName);
+            SelectFile(fileName);
+
+            var objDict = GetFileData();
             if (objDict == null) return null;
 
             var objTypeName = objDict["$type"].ToObject<string>();
@@ -152,27 +159,24 @@ namespace Lab_9 {
                 resultParticipants.Add(curParticipant);
             }
 
+
+
+
             resultObj.Add(resultParticipants.ToArray());  
 
             return resultObj;
         }
 
         public override T DeserializePurple3Skating<T>(string fileName) {
-            var objDict = GetFileData(FolderPath, fileName);
+            SelectFile(fileName);
+
+            var objDict = GetFileData();
             if (objDict == null) return null;
 
             var Moods = objDict.GetValueOrDefault("Moods", null)?.ToObject<double[]>(); 
 
-            var tmp = Moods.ToArray();
-
             var objTypeName = objDict["$type"].ToObject<string>();
             var objType = Type.GetType(objTypeName);
-
-            // if (objType == typeof(Purple_3.FigureSkating)) 
-            //     Moods = Moods.Select((m, i) => m - (double)(i + 1) / 10).ToArray();
-            // else 
-            //     Moods = Moods.Select((m, i) => 100 * m / (100 + i + 1)).ToArray();
-
 
             dynamic resultObj = Activator.CreateInstance(objType, Moods, false);
 
@@ -199,7 +203,9 @@ namespace Lab_9 {
         }
 
         public override Purple_4.Group DeserializePurple4Group(string fileName) {
-            var objDict = GetFileData(FolderPath, fileName);
+            SelectFile(fileName);
+
+            var objDict = GetFileData();
             if (objDict == null) return null;
 
             var Name = objDict.GetValueOrDefault("Name", null)?.ToObject<string>();
@@ -224,7 +230,9 @@ namespace Lab_9 {
         }
 
         public override Purple_5.Report DeserializePurple5Report(string fileName) {
-            var objDict = GetFileData(FolderPath, fileName);
+            SelectFile(fileName);
+
+            var objDict = GetFileData();
             if (objDict == null) return null;
 
             var resultObj = new Purple_5.Report();
@@ -246,6 +254,5 @@ namespace Lab_9 {
 
             return resultObj;
         }
-
     }
 }

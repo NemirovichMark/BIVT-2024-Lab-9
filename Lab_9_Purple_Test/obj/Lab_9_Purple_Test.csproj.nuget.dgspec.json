@@ -1,0 +1,218 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_7\\Lab_7.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_7\\Lab_7.csproj",
+        "projectName": "Lab_7",
+        "projectPath": "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_7\\Lab_7.csproj",
+        "packagesPath": "C:\\Users\\Mi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_7\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Mi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.202/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_9\\Lab_9.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_9\\Lab_9.csproj",
+        "projectName": "Lab_9",
+        "projectPath": "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_9\\Lab_9.csproj",
+        "packagesPath": "C:\\Users\\Mi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_9\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Mi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_7\\Lab_7.csproj": {
+                "projectPath": "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_7\\Lab_7.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.202/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj",
+        "projectName": "Lab_9_Purple_Test",
+        "projectPath": "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj",
+        "packagesPath": "C:\\Users\\Mi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_9_Purple_Test\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Mi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_7\\Lab_7.csproj": {
+                "projectPath": "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_7\\Lab_7.csproj"
+              },
+              "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_9\\Lab_9.csproj": {
+                "projectPath": "C:\\Users\\Mi\\Desktop\\Visual Studio Code Projects\\BIVT-2024-Lab-9\\Lab_9\\Lab_9.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "MSTest": {
+              "target": "Package",
+              "version": "[3.6.4, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.12.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.202/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
