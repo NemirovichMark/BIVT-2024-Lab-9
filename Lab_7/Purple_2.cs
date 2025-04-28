@@ -86,7 +86,7 @@ namespace Lab_7
             {
                 _name = name;
                 _standard = standard;
-                _participants = new Participant[0]; // what if null needed?or
+                _participants = new Participant[0]; 
             }
 
             public void Add(Participant participant)

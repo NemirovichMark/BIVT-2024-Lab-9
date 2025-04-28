@@ -142,7 +142,7 @@ namespace Lab_7
 
             public Report() {
                 ID = IDCounter++;
-                _researches = new Research[0]; // what if null needed?
+                _researches = new Research[0]; 
             }
 
             public Research MakeResearch() {
