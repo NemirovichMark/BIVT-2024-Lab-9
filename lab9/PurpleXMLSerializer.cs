@@ -10,7 +10,7 @@ using Lab_7;
 namespace Lab_9
 {
     public class PurpleXMLSerializer : PurpleSerializer{
-        public override string Extension => "XML";
+        public override string Extension => "xml";
         public override void SerializePurple1<T>(T obj, string fileName){
             throw new NotImplementedException();
         }

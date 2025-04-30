@@ -10,7 +10,7 @@ using Lab_7;
 namespace Lab_9
 {
     public class PurpleJSONSerializer : PurpleSerializer{
-        public override string Extension => "JSON";
+        public override string Extension => "json";
         public override void SerializePurple1<T>(T obj, string fileName){
             throw new NotImplementedException();
         }
