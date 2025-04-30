@@ -1,4 +1,3 @@
-using System;
 using Lab_7;
 
 namespace Lab_9 {

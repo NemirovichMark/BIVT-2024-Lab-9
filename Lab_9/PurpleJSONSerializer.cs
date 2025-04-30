@@ -1,13 +1,7 @@
-using System;
-using System.Reflection.Metadata.Ecma335;
-using System.Security.Cryptography.X509Certificates;
-using System.Text.Json;
 using Newtonsoft.Json;
 using Lab_7;
 using Newtonsoft.Json.Linq;
-using System.Reflection.Metadata;
 using System.Collections.Immutable;
-using System.Security;
 
 namespace Lab_9 {
     public class PurpleJSONSerializer : PurpleSerializer {

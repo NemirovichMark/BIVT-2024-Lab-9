@@ -1,8 +1,3 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Net.Cache;
-using System.Runtime.Intrinsics.X86;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 using Lab_7;
 
