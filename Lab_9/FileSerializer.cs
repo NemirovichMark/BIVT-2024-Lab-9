@@ -21,6 +21,8 @@ namespace Lab_9
 
         public void SelectFolder(string path)
         {
+            if (path == null)
+                return;
             _folderPath = path;
             if (!Directory.Exists(_folderPath))
             {
@@ -29,10 +31,12 @@ namespace Lab_9
         }
         public void SelectFile(string name)
         {
+            if (name == null || FolderPath == null) 
+                return;
             string path = Path.Combine(FolderPath, $"{name}.{Extension}");
             _filePath = path;
             if (!File.Exists(path)) {
-                File.Create(path);
+                File.Create(path).Close();
             }
         }
     }

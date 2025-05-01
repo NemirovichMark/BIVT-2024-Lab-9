@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace Lab_9
@@ -12,28 +13,78 @@ namespace Lab_9
     {
         public override string Extension => "json";
 
+        private T[][] ConvertMatrixTo2D<T>(T[,] mat) {
+            int rows = mat.GetLength(0), cols = mat.GetLength(1);
+            T[][] ans = new T[rows][];
+            for (int i = 0; i < rows; i++) {
+                ans[i] = new T[cols];
+                for (int j = 0; j < cols; j++) {
+                    ans[i][j] = mat[i, j];
+                }
+            }
+            return ans;
+        } 
+
+        private class Purple1ParticipantDTO {
+            public string Name { get; set; }
+            public string Surname { get; set; }
+            public double[] Coefs { get; set; }
+            public int[][] Marks { get; set; }
+        }
+
+        private class Purple1JudgeDTO {
+            public string Name { get; set; }
+            public int[] Marks { get; set; }
+        }
+
+        private class Purple1CompetitionDTO {
+            public Purple1JudgeDTO[] Judges { get; set; }
+            public Purple1ParticipantDTO[] Participants { get; set; }
+        }
+
         private void writePurple1Participant(StreamWriter writer, Purple_1.Participant participant)
         {
-            writer.WriteLine($"Type: {nameof(Purple_1.Participant)}");
-            writer.WriteLine($"Name: {participant.Name}");
-            writer.WriteLine($"Surname: {participant.Surname}");
-            writer.WriteLine($"Coefs: {String.Join(" ", participant.Coefs)}");
-            writer.WriteLine($"Marks: {String.Join(" ", participant.Marks.Cast<int>().ToArray())}");
-            writer.WriteLine($"TotalScore: {participant.TotalScore}");
-
+            Purple1ParticipantDTO partDTO = new Purple1ParticipantDTO{
+                Name = participant.Name,
+                Surname = participant.Surname,
+                Coefs = participant.Coefs,
+                Marks = ConvertMatrixTo2D<int>(participant.Marks)
+            };
+            string jsonPart = JsonConvert.SerializeObject(partDTO, Formatting.Indented);
+            writer.Write(jsonPart);
         }
-        private void writePurple1Judge(StreamWriter writer, Purple_1.Judge judge)
+        private void writePurple1Judge(StreamWriter writer, Purple_1.Judge judge) {
+            Purple1JudgeDTO judgeDTO = new Purple1JudgeDTO{
+                Name = judge.Name,
+                Marks = judge.Marks
+            };
+            string jsonJudge = JsonConvert.SerializeObject(judgeDTO, Formatting.Indented);
+            writer.Write(jsonJudge);
+        }
+
+        private void writePurple1Competition(StreamWriter writer, Purple_1.Competition comp)
         {
-            writer.WriteLine($"Type: {nameof(Purple_1.Judge)}");
-            writer.WriteLine($"Name: {judge.Name}");
-            writer.WriteLine($"Marks: {String.Join(" ", judge.Marks.Cast<int>().ToArray())}");
+            Purple1CompetitionDTO compDTO = new Purple1CompetitionDTO{
+                Judges = comp.Judges.Select(j => new Purple1JudgeDTO{
+                    Name = j.Name,
+                    Marks = j.Marks
+                }).ToArray(),
+                Participants = comp.Participants.Select(p => new Purple1ParticipantDTO{
+                    Name = p.Name,
+                    Surname = p.Surname,
+                    Coefs = p.Coefs,
+                    Marks = ConvertMatrixTo2D<int>(p.Marks)
+                }).ToArray(),
+            };
+            string jsonComp = JsonConvert.SerializeObject(compDTO, Formatting.Indented);
+            writer.Write(jsonComp);
         }
         public override void SerializePurple1<T>(T obj, string fileName) where T : class
         {
             if (obj == null)
                 return;
             SelectFile(fileName);
-            using (StreamWriter writer = File.AppendText(FilePath))
+            using (StreamWriter writer = new StreamWriter(FilePath))
             {
                 if (obj.GetType().Name == nameof(Purple_1.Participant))
                 {
@@ -48,41 +99,23 @@ namespace Lab_9
                 else if (obj.GetType().Name == nameof(Purple_1.Competition))
                 {
                     Purple_1.Competition competition = obj as Purple_1.Competition;
-                    Purple_1.Participant[] participants = competition.Participants;
-                    Purple_1.Judge[] judges = competition.Judges;
-
-                    if (participants == null)
-                    {
-                        participants = new Purple_1.Participant[0];
-                    }
-                    if (judges == null)
-                    {
-                        judges = new Purple_1.Judge[0];
-                    }
-
-                    writer.WriteLine($"Type: {nameof(Purple_1.Competition)}");
-                    writer.WriteLine(participants.Length);
-                    foreach (Purple_1.Participant participant in participants)
-                    {
-                        writePurple1Participant(writer, participant);
-                    }
-
-                    writer.WriteLine(judges.Length);
-                    foreach (Purple_1.Judge judge in judges)
-                    {
-                        writePurple1Judge(writer, judge);
-                    }
+                    writePurple1Competition(writer, competition);
                 }
             }
         }
-        private void writePurple2Participant(StreamWriter writer, Purple_2.Participant participant)
-        {
-            writer.WriteLine($"Type: {nameof(Purple_2.Participant)}");
-            writer.WriteLine($"Name: {participant.Name}");
-            writer.WriteLine($"Surname: {participant.Surname}");
-            writer.WriteLine($"Distance: {participant.Distance}");
-            writer.WriteLine($"Marks: {String.Join(" ", participant.Marks.Cast<int>().ToArray())}");
-            writer.WriteLine($"Result: {participant.Result}");
+        
+        private class Purple2ParticipantDTO {
+            public string Name { get; set; }
+            public string Surname { get; set; }
+            public int Distance { get; set; }
+            public int[] Marks { get; set; }
+        }
+        
+        private class SkiJumpingDto {
+            public string Type { get; set; }
+            public string Name { get; set; }
+            public int Standard { get; set; }
+            public Purple2ParticipantDTO[] Participants { get; set; }
         }
         public override void SerializePurple2SkiJumping<T>(T jumping, string fileName)
         {
@@ -91,85 +124,74 @@ namespace Lab_9
             SelectFile(fileName);
 
 
-            using (StreamWriter writer = File.AppendText(FilePath))
+            using (StreamWriter writer = new StreamWriter(FilePath))
             {
-                if (jumping is Purple_2.JuniorSkiJumping)
-                {
-                    writer.WriteLine($"Type: {nameof(Purple_2.JuniorSkiJumping)}");
-                }
-                else if (jumping is Purple_2.ProSkiJumping)
-                {
-                    writer.WriteLine($"Type: {nameof(Purple_2.ProSkiJumping)}");
-                }
-                else
-                {
-                    writer.WriteLine($"Type: NULL");
-                }
-                writer.WriteLine($"Name: {jumping.Name}");
-                writer.WriteLine($"Standard: {jumping.Standard}");
-                Purple_2.Participant[] participants = jumping.Participants;
-                writer.WriteLine(participants.Length);
-                foreach (Purple_2.Participant participant in participants)
-                    writePurple2Participant(writer, participant);
+                
+                SkiJumpingDto skiDto = new SkiJumpingDto{
+                    Type = jumping.GetType().Name,
+                    Name = jumping.Name,
+                    Standard = jumping.Standard,
+                    Participants = jumping.Participants.Select(p => new Purple2ParticipantDTO{
+                        Name = p.Name,
+                        Surname = p.Surname,
+                        Distance = p.Distance,
+                        Marks = p.Marks
+                    }).ToArray()
+                };
+
+                string skiJson = JsonConvert.SerializeObject(skiDto, Formatting.Indented);
+
+                writer.Write(skiJson);
             }
         }
-        private void writePurple3Participant(StreamWriter writer, Purple_3.Participant participant)
-        {
-            writer.WriteLine($"Type: {nameof(Purple_3.Participant)}");
-            writer.WriteLine($"Name: {participant.Name}");
-            writer.WriteLine($"Surname: {participant.Surname}");
-            writer.WriteLine($"Marks: {String.Join(" ", participant.Marks.Cast<int>().ToArray())}");
-            writer.WriteLine($"Places: {String.Join(" ", participant.Places)}");
+
+        private class Purple3ParticipantDTO {
+            public string Name { get; set; }
+            public string Surname { get; set; }
+            public double[] Marks { get; set; }
         }
+
+        private class SkatingDto {
+            public string Type { get; set; }
+            public double[] Moods { get; set; }
+            public Purple3ParticipantDTO[] Participants { get; set; }
+        }
+
         public override void SerializePurple3Skating<T>(T skating, string fileName)
         {
             if (skating == null) return;
+
             SelectFile(fileName);
 
 
-            using (StreamWriter writer = File.AppendText(FilePath))
+            using (StreamWriter writer = new StreamWriter(FilePath))
             {
+                
+                SkatingDto skateDto = new SkatingDto{
+                    Type = skating.GetType().Name,
+                    Moods = skating.Moods,
+                    Participants = skating.Participants.Select(p => new Purple3ParticipantDTO{
+                        Name = p.Name,
+                        Surname = p.Surname,
+                        Marks = p.Marks
+                    }).ToArray()
+                };
 
-                if (skating is Purple_3.IceSkating)
-                {
-                    writer.WriteLine($"Type: {nameof(Purple_3.IceSkating)}");
-                }
-                else if (skating is Purple_3.FigureSkating)
-                {
-                    writer.WriteLine($"Type: {nameof(Purple_3.FigureSkating)}");
-                }
-                else
-                {
-                    writer.WriteLine($"Type: NULL");
-                }
-                Purple_3.Participant[] participants = skating.Participants;
-                if (participants == null)
-                    participants = new Purple_3.Participant[0];
-                writer.WriteLine(participants.Length);
-                foreach (Purple_3.Participant participant in participants)
-                    writePurple3Participant(writer, participant);
-                writer.WriteLine($"Moods: {String.Join(" ", skating.Moods)}");
+                string skateJson = JsonConvert.SerializeObject(skateDto, Formatting.Indented);
+
+                writer.Write(skateJson);
             }
         }
-        private void writePurple4Sportsman(StreamWriter writer, Purple_4.Sportsman sportsman)
-        {
-            if (sportsman == null)
-            {
-                writer.WriteLine($"Type: NULL");
-                return;
-            }
-            else if (sportsman is Purple_4.SkiMan)
-            {
-                writer.WriteLine($"Type: {nameof(Purple_4.SkiMan)}");
-            }
-            else if (sportsman is Purple_4.SkiWoman)
-            {
-                writer.WriteLine($"Type: {nameof(Purple_4.SkiWoman)}");
-            }
+        
+        private class SportsmanDTO {
+            public string Name { get; set; }
+            public string Surname { get; set; }
+            public double Time { get; set; }
+        }
 
-            writer.WriteLine($"Name: {sportsman.Name}");
-            writer.WriteLine($"Surname: {sportsman.Surname}");
-            writer.WriteLine($"Time: {sportsman.Time}");
+        private class GroupDto {
+            public string Name { get; set; }
+            public SportsmanDTO[] Sportsmen { get; set; }
         }
         public override void SerializePurple4Group(Purple_4.Group group, string fileName)
         {
@@ -177,40 +199,40 @@ namespace Lab_9
 
             SelectFile(fileName);
 
-            using (StreamWriter writer = File.AppendText(FilePath))
+            using (StreamWriter writer = new StreamWriter(FilePath))
             {
-                writer.WriteLine($"Type: {nameof(group)}");
-                writer.WriteLine($"Name: {group.Name}");
-                Purple_4.Sportsman[] sportsmen = group.Sportsmen;
-                if (sportsmen == null)
-                    sportsmen = new Purple_4.Sportsman[0];
-                writer.WriteLine(sportsmen.Length);
-                foreach (Purple_4.Sportsman sportsman in sportsmen)
-                    writePurple4Sportsman(writer, sportsman);
+                
+                GroupDto groupDto = new GroupDto{
+                    Name  = group.Name,
+                    Sportsmen = group.Sportsmen.Select(s => new SportsmanDTO{
+                        Name = s.Name,
+                        Surname = s.Surname,
+                        Time = s.Time
+                    }).ToArray()
+                };
+
+                string groupJson = JsonConvert.SerializeObject(groupDto, Formatting.Indented);
+
+                writer.Write(groupJson);
             }
 
         }
-
-        private void writePurple5Response(StreamWriter writer, Purple_5.Response response)
-        {
-            writer.WriteLine($"Type: {nameof(response)}");
-            writer.WriteLine($"Animal: {response.Animal}");
-            writer.WriteLine($"CharacterTrait: {response.CharacterTrait}");
-            writer.WriteLine($"Concept: {response.Concept}");
+        
+        private class ResponseDTO {
+            public string Animal { get; set; }
+            public string CharacterTrait { get; set; }
+            public string Concept { get; set; }
+        }
+        
+        private class ResearchDTO {
+            public string Name { get; set; }
+            public ResponseDTO[] Responses { get; set; }
         }
 
-        private void writePurple5Research(StreamWriter writer, Purple_5.Research research)
-        {
-            writer.WriteLine($"Type: {nameof(research)}");
-            writer.WriteLine($"Name: {research.Name}");
-
-            Purple_5.Response[] responses = research.Responses;
-            if (responses == null)
-                responses = new Purple_5.Response[0];
-
-            foreach (Purple_5.Response response in responses)
-                writePurple5Response(writer, response);
+        private class ReportDTO {
+            public ResearchDTO[] Researches { get; set; }
         }
+
         public override void SerializePurple5Report(Purple_5.Report report, string fileName)
         {
             if (report == null) return;
@@ -219,150 +241,190 @@ namespace Lab_9
 
             using (StreamWriter writer = File.AppendText(FilePath))
             {
-                writer.WriteLine($"Type: {nameof(report)}");
-                Purple_5.Research[] researches = report.Researches;
-                if (researches == null)
-                    researches = new Purple_5.Research[0];
+                ReportDTO reportDTO = new ReportDTO {
+                    Researches = report.Researches.Select(rsch => new ResearchDTO{
+                        Name = rsch.Name,
+                        Responses = rsch.Responses.Select(rsp => new ResponseDTO {
+                            Animal = rsp.Animal,
+                            CharacterTrait = rsp.CharacterTrait,
+                            Concept = rsp.Concept
+                        }).ToArray()
+                    }).ToArray()
+                };
 
-                foreach (Purple_5.Research research in researches)
-                    writePurple5Research(writer, research);
-            }
-        }
+                string reportJson = JsonConvert.SerializeObject(reportDTO, Formatting.Indented);
 
-        public override T DeserializePurple1<T>(string fileName)
-        {
-            SelectFile(fileName);
-            using (StreamReader reader = new StreamReader(FilePath))
-            {
-                string type = reader.ReadLine();
-                if (type == nameof(Purple_1.Participant))
-                {
-                    string name = reader.ReadLine().Split(':')[1].Trim();
-                    string surname = reader.ReadLine().Split(':')[1].Trim();
-                    string[] inputCoefs = reader.ReadLine().Split(':')[1].Trim().Split();
-                    string[] inputMarks = reader.ReadLine().Split(':')[1].Trim().Split();
-
-                    double[] coefs = new double[inputCoefs.Length];
-
-                    for (int i = 0; i < inputCoefs.Length; i++)
-                    {
-                        double.TryParse(inputCoefs[i].Trim(), out coefs[i]);
-                    }
-                    Purple_1.Participant participant = new Purple_1.Participant(name, surname);
-                    participant.SetCriterias(coefs);
-
-                    int[] marks = new int[7];
-
-                    for (int i = 0, k = 0; i < 4; i++)
-                    {
-                        for (int j = 0; j < 7; j++)
-                        {
-                            Int32.TryParse(inputMarks[k++].Trim(), out marks[j]);
-                        }
-                        participant.Jump(marks);
-                    }
-                    T part = participant as T;
-                    return part;
-
-                }
-                else if (type == nameof(Purple_1.Judge))
-                {
-                    string name = reader.ReadLine().Split(':')[1].Trim();
-                    string[] inputMarks = reader.ReadLine().Split(':')[1].Trim().Split();
-
-                    int[] marks = new int[inputMarks.Length];
-
-                    for (int i = 0; i < inputMarks.Length; i++)
-                    {
-                        Int32.TryParse(inputMarks[i].Trim(), out marks[i]);
-                    }
-
-                    Purple_1.Judge judge = new Purple_1.Judge(name, marks);
-
-                    T jdg = judge as T;
-                    return jdg;
-                }
-                else
-                {
-                    int numParticipants;
-                    Int32.TryParse(reader.ReadLine().Trim(), out numParticipants);
-
-                    Purple_1.Participant[] participants = new Purple_1.Participant[numParticipants];
-
-                    for (int i = 0; i < numParticipants; i++)
-                    {
-                        string tp = reader.ReadLine();
-                        string name = reader.ReadLine().Split(':')[1].Trim();
-                        string surname = reader.ReadLine().Split(':')[1].Trim();
-                        string[] inputCoefs = reader.ReadLine().Split(':')[1].Trim().Split();
-                        string[] inputMarks = reader.ReadLine().Split(':')[1].Trim().Split();
-
-                        double[] coefs = new double[inputCoefs.Length];
-
-                        for (int j = 0; j < inputCoefs.Length; j++)
-                        {
-                            double.TryParse(inputCoefs[j].Trim(), out coefs[j]);
-                        }
-                        participants[i] = new Purple_1.Participant(name, surname);
-                        participants[i].SetCriterias(coefs);
-
-                        int[] marks = new int[7];
-
-                        for (int j = 0, k = 0; j < 4; j++)
-                        {
-                            for (int z = 0; z < 7; z++)
-                            {
-                                Int32.TryParse(inputMarks[k++].Trim(), out marks[z]);
-                            }
-                            participants[i].Jump(marks);
-                        }
-                    }
-
-                    int numJudges;
-                    Int32.TryParse(reader.ReadLine().Trim(), out numJudges);
-
-                    Purple_1.Judge[] judges = new Purple_1.Judge[numJudges];
-
-                    for (int i = 0; i < numJudges; i++)
-                    {
-                        string tp = reader.ReadLine();
-                        string name = reader.ReadLine().Split(':')[1].Trim();
-                        string[] inputMarks = reader.ReadLine().Split(':')[1].Trim().Split();
-
-                        int[] marks = new int[inputMarks.Length];
-
-                        for (int j = 0; j < inputMarks.Length; j++)
-                        {
-                            Int32.TryParse(inputMarks[j].Trim(), out marks[j]);
-                        }
-
-                        judges[i] = new Purple_1.Judge(name, marks);
-                    }
-
-                    Purple_1.Competition competition = new Purple_1.Competition(judges);
-                    competition.Add(participants);
-
-                    T comp = competition as T;
-                    return comp;
-                }
+                writer.Write(reportJson);
 
             }
         }
         public override T DeserializePurple2SkiJumping<T>(string fileName)
+        {   
+            if (fileName == null) {
+                return null;
+            }
+
+            SelectFile(fileName);
+            using (StreamReader reader = new StreamReader(FilePath))
+            {
+                string jsonDTO = reader.ReadToEnd();
+                SkiJumpingDto skiDto = JsonConvert.DeserializeObject<SkiJumpingDto>(jsonDTO);
+                Purple_2.Participant[] participants = new Purple_2.Participant[skiDto.Participants.Length];
+                int iter = 0;
+                foreach (Purple2ParticipantDTO partDto in skiDto.Participants) {
+                    participants[iter] = new Purple_2.Participant(partDto.Name, partDto.Surname);
+                    participants[iter].Jump(partDto.Distance, partDto.Marks, skiDto.Standard);
+                    iter++;
+                }
+                if (skiDto.Type == nameof(Purple_2.ProSkiJumping)) {
+                    Purple_2.ProSkiJumping proSkiJumping = new Purple_2.ProSkiJumping();
+                    proSkiJumping.Add(participants);
+                    return proSkiJumping as T;
+                } else {
+                    Purple_2.JuniorSkiJumping juniorSkiJumping = new Purple_2.JuniorSkiJumping();
+                    juniorSkiJumping.Add(participants);
+                    return juniorSkiJumping as T;
+                }
+            }
+        }
+        public override T DeserializePurple1<T>(string fileName)
         {
-            return null;
+            if (fileName == null) {
+                return null;
+            }
+
+            SelectFile(fileName);
+            using (StreamReader reader = new StreamReader(FilePath))
+            {
+                string jsonDTO = reader.ReadToEnd();
+                if (typeof(T) == typeof(Purple_1.Participant)) {
+                    Purple1ParticipantDTO partDto = JsonConvert.DeserializeObject<Purple1ParticipantDTO>(jsonDTO);
+
+                    Purple_1.Participant participant = new Purple_1.Participant(partDto.Name, partDto.Surname); 
+
+                    participant.SetCriterias(partDto.Coefs);
+
+                    foreach (int[] marks in partDto.Marks)
+                        participant.Jump(marks);
+
+                    return participant as T;
+                } else if (typeof(T) == typeof(Purple_1.Judge)) {
+                    Purple1JudgeDTO judgeDto = JsonConvert.DeserializeObject<Purple1JudgeDTO>(jsonDTO);
+
+                    Purple_1.Judge judge = new Purple_1.Judge(judgeDto.Name, judgeDto.Marks); 
+
+                    return judge as T;
+                } else {
+                    Purple1CompetitionDTO compDTO = JsonConvert.DeserializeObject<Purple1CompetitionDTO>(jsonDTO);
+
+                    Purple_1.Judge[] judges = compDTO.Judges.Select(j => new Purple_1.Judge(j.Name, j.Marks)).ToArray();
+                    Purple_1.Competition competition = new Purple_1.Competition(judges); 
+
+                    foreach(Purple1ParticipantDTO partDto in compDTO.Participants) {
+                        Purple_1.Participant participant = new Purple_1.Participant(partDto.Name, partDto.Surname); 
+
+                        participant.SetCriterias(partDto.Coefs);
+
+                        foreach (int[] marks in partDto.Marks) {
+                            participant.Jump(marks);
+                        }
+                        competition.Add(participant);
+                    }
+                    
+                    return competition as T;
+                }
+            }
         }
         public override T DeserializePurple3Skating<T>(string fileName)
-        {
-            return null;
+        {   
+            if (fileName == null) {
+                return null;
+            }
+
+            SelectFile(fileName);
+            using (StreamReader reader = new StreamReader(FilePath))
+            {
+                string jsonDTO = reader.ReadToEnd();
+                SkatingDto skateDto = JsonConvert.DeserializeObject<SkatingDto>(jsonDTO);
+                Purple_3.Participant[] participants = new Purple_3.Participant[skateDto.Participants.Length];
+                int iter = 0;
+                foreach (Purple3ParticipantDTO partDto in skateDto.Participants) {
+                    participants[iter] = new Purple_3.Participant(partDto.Name, partDto.Surname);
+                    foreach (double mark in partDto.Marks)
+                        participants[iter].Evaluate(mark);
+                    iter++;
+                }
+                double[] moods = skateDto.Moods;
+                if (skateDto.Type == nameof(Purple_3.IceSkating)) {
+                    for (int i = 0; i < moods.Length; i++) {
+                        moods[i] /= (1 + (i + 1) / 100.0);
+                    }
+
+                    Purple_3.IceSkating iceSkating = new Purple_3.IceSkating(moods);
+                    iceSkating.Add(participants);
+                    return iceSkating as T;
+                } else {
+                    for (int i = 0; i < moods.Length; i++) {
+                        moods[i] -= ((i + 1) / 10.0);
+                    }
+                    
+                    Purple_3.FigureSkating figureSkating = new Purple_3.FigureSkating(moods);
+                    figureSkating.Add(participants);
+                    return figureSkating as T;
+                }
+            }
         }
         public override Purple_4.Group DeserializePurple4Group(string fileName)
         {
-            return null;
+            if (fileName == null) {
+                return null;
+            }
+            SelectFile(fileName);
+            using (StreamReader reader = new StreamReader(FilePath))
+            {
+                string jsonDTO = reader.ReadToEnd();
+                GroupDto groupDto = JsonConvert.DeserializeObject<GroupDto>(jsonDTO);
+                if (groupDto == null)
+                    return null;
+                Purple_4.Sportsman[] sportsmen = new Purple_4.Sportsman[groupDto.Sportsmen.Length];
+                int iter = 0;
+                foreach (SportsmanDTO sportDto in groupDto.Sportsmen) {
+                    sportsmen[iter] = new Purple_4.Sportsman(sportDto.Name, sportDto.Surname);
+                    sportsmen[iter].Run(sportDto.Time);
+                    iter++;
+                }
+                Purple_4.Group group = new Purple_4.Group(groupDto.Name);
+                group.Add(sportsmen);
+                return group;
+            }
         }
         public override Purple_5.Report DeserializePurple5Report(string fileName)
         {
-            return null;
+            if (fileName == null) {
+                return null;
+            }
+            SelectFile(fileName);
+
+            using (StreamReader reader = new StreamReader(FilePath))
+            {
+                string jsonDTO = reader.ReadToEnd();
+                ReportDTO reportDto = JsonConvert.DeserializeObject<ReportDTO>(jsonDTO);
+                if (reportDto == null)
+                    return null;
+                Purple_5.Research[] researches = new Purple_5.Research[reportDto.Researches.Length];
+
+                Purple_5.Report report = new Purple_5.Report();
+                int iter = 0;
+                foreach (ResearchDTO rschDto in reportDto.Researches) {
+                    researches[iter] = new Purple_5.Research(rschDto.Name);
+                    foreach(ResponseDTO rsp in rschDto.Responses) {
+                        researches[iter].Add(new string[] {rsp.Animal, rsp.CharacterTrait, rsp.Concept});
+                    }
+                    iter++;
+                }
+                report.AddResearch(researches);
+                return report;
+            }
         }
     }
 }
