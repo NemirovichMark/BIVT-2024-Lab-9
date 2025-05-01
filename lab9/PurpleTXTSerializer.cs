@@ -244,7 +244,7 @@ namespace Lab_9
         }
 
         public override void SerializePurple2SkiJumping<T>(T jumping, string fileName){
-            using (StreamWriter writer = File.AppendText(fileName)){
+            using (StreamWriter writer = new StreamWriter(fileName)){
                 if (jumping is Purple_2.JuniorSkiJumping){
                     writer.WriteLine($"Type:{nameof(Purple_2.JuniorSkiJumping)}");
                 }
@@ -262,105 +262,298 @@ namespace Lab_9
         }
 
         public override T DeserializePurple2SkiJumping<T>(string fileName){
-            throw new NotImplementedException();
+            Dictionary <string, string> parsedObj = new Dictionary<string, string>();
+
+            var lines = File.ReadAllLines(fileName);
+            foreach(var line in lines){
+                if (line.Contains(":")){
+                    var parts = line.Split(":");
+                    parsedObj[parts[0].Trim()] = parts[1].Trim();
+                }
+            }
+            string type = parsedObj["Type"];
+            
+            string name = parsedObj["Name"];
+            int.TryParse(parsedObj["Standard"], out int standard);
+            Purple_2.SkiJumping jumper;
+            if (type == nameof(Purple_2.JuniorSkiJumping))
+            {
+                jumper = new Purple_2.JuniorSkiJumping();
+            }
+            else
+            {
+                jumper = new Purple_2.ProSkiJumping();
+            }
+
+            int.TryParse(parsedObj["ParticipantsCount"], out int participantsCount);
+            int currLine = 4;
+            Purple_2.Participant[] participants = new Purple_2.Participant[participantsCount];
+
+            for (int i = 0; i < participantsCount; i++){
+                Dictionary<string, string> parsedParticipant = new Dictionary<string, string>();
+                for (int k = 0; k < 5; k++){
+                    if (lines[currLine].Contains(":")){
+                        var parsedParts = lines[currLine+k].Split(":");
+                        parsedParticipant[parsedParts[0].Trim()] = parsedParts[1].Trim();
+                    }
+                }
+                currLine+=5;
+                string participantName = parsedParticipant["ParticipantName"];
+                string surname = parsedParticipant["Surname"];
+                var distance = int.Parse(parsedParticipant["Distance"]);
+                var result = int.Parse(parsedParticipant["Result"]);
+
+                int[] marks = new int[5];
+                string[] mark = parsedParticipant.ContainsKey("Marks") ? parsedParticipant["Marks"].Split("|") : null;
+
+                for (int j = 0; j < mark.Length && j < marks.Length; j++){
+                    int.TryParse(mark[j].Trim(), out marks[j]);
+                }
+                participants[i] = new Purple_2.Participant(participantName, surname);
+
+                //_result += deafultPoints + (_distance - target) * extraPoints;
+                //_result = markMinMax + 60 + (_distance - target) * extraPoints;
+                //target = distance - ((_result - markMinMax - 60)/2.0)
+
+                double target;
+                var markMinMax = marks.Sum() - marks.Min() - marks.Max();
+                if (result != 0){
+                    target = distance - ((result - markMinMax - 60)/2.0);
+                }
+                else{
+                    target = distance + (result + markMinMax + 60);
+                }
+                participants[i].Jump(distance, marks, (int)target);// | jumper.Standard
+            }
+            jumper.Add(participants);
+            T jump = jumper as T;
+            return jump;
+            
         }
 
-        // public override T DeserializePurple2SkiJumping<T>(string fileName){
-        //     Dictionary <string, string> parsedObj = new Dictionary<string, string>();
+        private void Purple_3ParticipantWriter(StreamWriter writer, Purple_3.Participant[] participants){
+            foreach (var participant in participants){
+                writer.WriteLine($"Name:{participant.Name}");
+                writer.WriteLine($"Surname:{participant.Surname}");
+                writer.WriteLine($"Marks:{String.Join("|", participant.Marks)}");
+                writer.WriteLine($"Places:{String.Join("|", participant.Places)}");
+                writer.WriteLine($"Score:{participant.Score}");
 
-        //     var lines = File.ReadAllLines(fileName);
-        //     foreach(var line in lines){
-        //         if (line.Contains(":")){
-        //             var parts = line.Split(":");
-        //             parsedObj[parts[0].Trim()] = parts[1].Trim();
-        //         }
-        //     }
-        //     string type = parsedObj["Type"];
-            
-        //     string name = parsedObj["Name"];
-        //     int.TryParse(parsedObj["Standard"], out int standard);
-        //     Purple_2.SkiJumping jumper;
-        //     if (type == nameof(Purple_2.JuniorSkiJumping))
-        //     {
-        //         jumper = new Purple_2.JuniorSkiJumping();
-        //     }
-        //     else
-        //     {
-        //         jumper = new Purple_2.ProSkiJumping();
-        //     }
-
-        //     int.TryParse(parsedObj["ParticipantsCount"], out int participantsCount);
-        //     int currLine = 4;
-        //     Purple_2.Participant[] participants = new Purple_2.Participant[participantsCount];
-
-        //     for (int i = 0; i < participantsCount; i++){
-        //         Dictionary<string, string> parsedParticipant = new Dictionary<string, string>();
-        //         for (int k = 0; k < 5; k++){
-        //             if (lines[currLine].Contains(":")){
-        //                 var parsedParts = lines[currLine+k].Split(":");
-        //                 parsedParticipant[parsedParts[0].Trim()] = parsedParts[1].Trim();
-        //             }
-        //         }
-        //         currLine+=5;
-        //         string participantName = parsedParticipant["ParticipantName"];
-        //         string surname = parsedParticipant["Surname"];
-        //         var distance = int.Parse(parsedParticipant["Distance"]);
-        //         var result = int.Parse(parsedParticipant["Result"]);
-
-        //         int[] marks = new int[5];
-        //         string[] mark = parsedParticipant.ContainsKey("Marks") ? parsedParticipant["Marks"].Split("|") : null;
-
-        //         for (int j = 0; j < mark.Length && j < marks.Length; j++){
-        //             int.TryParse(mark[j].Trim(), out marks[j]);
-        //         }
-        //         participants[i] = new Purple_2.Participant(participantName, surname);
-        //         //int target = type == nameof(Purple_2.JuniorSkiJumping) ? 100 : 150;
-        //         participants[i].Jump(distance, marks, jumper.Standard);//target
-                
-        //         //jumper.Jump(distance, marks);
-        //     }
-        //     jumper.Add(participants);
-        //     // if (type == nameof(Purple_2.JuniorSkiJumping)){
-        //     //     Purple_2.JuniorSkiJumping jumper = new Purple_2.JuniorSkiJumping();
-        //     //     jumper.Add(participants);
-        //     //     T jump = jumper as T;
-        //     //     return jump;
-        //     // }
-        //     // else{
-        //     //     Purple_2.ProSkiJumping jumper = new Purple_2.ProSkiJumping();
-        //     //     jumper.Add(participants);
-        //     //     T jump = jumper as T;
-        //     //     return jump;
-        //     // }
-            
-        //     // Purple_1.Participant nullParticipant = new Purple_1.Participant("Вадим", "Вадим");
-        //     T jump = jumper as T;
-        //     return jump;
-            
-        // }
+            }
+        }
 
         public override void SerializePurple3Skating<T>(T skating, string fileName){
-            throw new NotImplementedException();
+            using (StreamWriter writer = new StreamWriter(fileName)){
+                if (skating is Purple_3.FigureSkating){
+                    writer.WriteLine($"Type:{nameof(Purple_3.FigureSkating)}");
+                }
+                else{
+                    writer.WriteLine($"Type:{nameof(Purple_3.IceSkating)}");
+                }
+                writer.WriteLine($"Moods:{String.Join("|", skating.Moods)}");
+                writer.WriteLine($"ParticipantsCount:{skating.Participants.Length}");
+                Purple_3ParticipantWriter(writer, skating.Participants);
+            }
+        }
+
+        public override T DeserializePurple3Skating<T>(string fileName){
+            Dictionary<string, string> parsedObj = new Dictionary<string, string>();
+            var lines = File.ReadAllLines(fileName);
+            foreach (var line in lines){
+                if (line.Contains(":")){
+                    var parts = line.Split(":");
+                    parsedObj[parts[0].Trim()] = parts[1].Trim();
+                }
+            }
+            var type = parsedObj["Type"];
+            var moods = new double[7];
+            var mood = parsedObj.ContainsKey("Moods") ? parsedObj["Moods"].Split("|") : null;
+            for (int i = 0; i < Math.Min(7, moods.Length); i++){
+                double.TryParse(mood[i], out moods[i]);
+            }
+
+            Purple_3.Skating skater;
+            if (type == nameof(Purple_3.FigureSkating)){
+                skater = new Purple_3.FigureSkating(moods, needModificate: false);
+            }
+            else{
+                skater = new Purple_3.IceSkating(moods, needModificate: false);
+            }
+            
+            int.TryParse(parsedObj["ParticipantsCount"], out int ParticipantsCount);
+            Purple_3.Participant[] participants = new Purple_3.Participant[ParticipantsCount];
+            int currLine = 3;
+            for (int i = 0; i < ParticipantsCount; i++){
+                Dictionary<string, string> parsedParticipant = new Dictionary<string, string>();
+                for (int k = 0; k < 5; k++){
+                    if (lines[currLine].Contains(":")){
+                        var parsedParts = lines[currLine+k].Split(":");
+                        parsedParticipant[parsedParts[0].Trim()] = parsedParts[1].Trim();
+                    }
+                }
+                currLine+=5;
+                string partName = parsedParticipant["Name"];
+                string partSurname = parsedParticipant["Surname"];
+                var marks = new double[7];
+                var mark = parsedParticipant.ContainsKey("Marks") ? parsedParticipant["Marks"].Split("|") : null;
+                for (int j = 0; j < mark.Length; j++){
+                    double.TryParse(mark[j], out marks[j]);
+                }
+                var places = new double[7];
+                var place = parsedParticipant.ContainsKey("Places") ? parsedParticipant["Places"].Split("|") : null;
+                for (int j = 0; j < place.Length; j++){
+                    double.TryParse(place[j], out places[j]);
+                }
+                int.TryParse(parsedParticipant["Score"], out int partScore);
+                participants[i] = new Purple_3.Participant(partName, partSurname);
+                foreach (var partMark in marks){
+                    participants[i].Evaluate(partMark);
+                }
+                
+                skater.Add(participants[i]);
+                skater.Evaluate(marks);
+            }
+            //Purple_3.Participant.SetPlaces(participants);
+            
+            T skat = skater as T;
+            return skat;
         }
 
 
         public override void SerializePurple4Group(Purple_4.Group participant, string fileName){
-            throw new NotImplementedException();
-        }
-        public override void SerializePurple5Report(Purple_5.Report group, string fileName){
-            throw new NotImplementedException();
+            using (StreamWriter writer = new StreamWriter(fileName)){
+                writer.WriteLine($"MainType:{nameof(Purple_4.Group)}");
+                writer.WriteLine($"Name:{participant.Name}");
+                writer.WriteLine($"ParticipantsCount:{participant.Sportsmen.Length}");
+                foreach (var sportsman in participant.Sportsmen){
+                    if (sportsman is Purple_4.SkiMan){
+                        writer.WriteLine($"Type:{nameof(Purple_4.SkiMan)}");
+                    }
+                    else if (sportsman is Purple_4.SkiWoman){
+                        writer.WriteLine($"Type:{nameof(Purple_4.SkiWoman)}");
+                    }
+                    else{
+                        writer.WriteLine($"Type:{nameof(Purple_4.Sportsman)}");
+                    }
+                    writer.WriteLine($"SportsmanName:{sportsman.Name}");
+                    writer.WriteLine($"SportsmanSurname:{sportsman.Surname}");
+                    writer.WriteLine($"Time:{sportsman.Time}");
+                }
+            }
         }
 
-
-        public override T DeserializePurple3Skating<T>(string fileName){
-            throw new NotImplementedException();
-        }
         public override Purple_4.Group DeserializePurple4Group(string fileName){
-            throw new NotImplementedException();
+            Dictionary<string, string> parsedObj = new Dictionary<string, string>();
+            var lines = File.ReadAllLines(fileName);
+            foreach (var line in lines){
+                if (line.Contains(":")){
+                    var parts = line.Split(':');
+                    parsedObj[parts[0].Trim()] = parts[1].Trim();
+                }
+            }
+            var MainType = parsedObj["MainType"];
+            var Name = parsedObj["Name"];
+            int.TryParse(parsedObj["ParticipantsCount"], out int ParticipantsCount);
+            Purple_4.Sportsman[] sportsmen = new Purple_4.Sportsman[ParticipantsCount];
+            int currLine = 3;
+            for(int i = 0; i < ParticipantsCount; i++){
+                Dictionary<string, string> parsedParticipant = new Dictionary<string, string>();
+                for(int k = 0; k < 4; k++){
+                    if (lines[currLine+k].Contains(":")){
+                        var parsedPart = lines[currLine+k].Split(":");
+                        parsedParticipant[parsedPart[0].Trim()] = parsedPart[1].Trim();
+                    }
+                }
+                currLine+=4;
+                var PartType = parsedParticipant["Type"];
+                var PartName = parsedParticipant["SportsmanName"];
+                var partSurname = parsedParticipant["SportsmanSurname"];
+                double.TryParse(parsedParticipant["Time"], out double partTime);
+                Purple_4.Sportsman sportsman;
+                if (PartType == nameof(Purple_4.SkiMan)){
+                    sportsman = new Purple_4.SkiMan(PartName, partSurname);
+                }
+                else if (PartType == nameof(Purple_4.SkiWoman)){
+                    sportsman = new Purple_4.SkiWoman(PartName, partSurname);
+                }
+                else{
+                    sportsman = new Purple_4.Sportsman(PartName, partSurname);
+                }
+                sportsman.Run(partTime); 
+                sportsmen[i] = sportsman;
+            }
+        Purple_4.Group group = new Purple_4.Group(Name);
+        group.Add(sportsmen);
+
+        return group;
         }
+     
+
+        public override void SerializePurple5Report(Purple_5.Report group, string fileName){
+            using (StreamWriter writer = new StreamWriter(fileName)){
+                writer.WriteLine($"MainType:{nameof(Purple_5.Report)}");
+                writer.WriteLine($"ResearchesCount:{group.Researches.Length}");
+                foreach (var research in group.Researches){
+                    writer.WriteLine($"ResearchName:{research.Name}");
+                    writer.WriteLine($"ResponseCount:{research.Responses.Length}");
+                    foreach (var response in research.Responses){
+                        writer.WriteLine($"Animal:{response.Animal}");
+                        writer.WriteLine($"CharacterTrait:{response.CharacterTrait}");
+                        writer.WriteLine($"Concept:{response.Concept}");
+                    }
+                }
+            }
+        }
+
         public override Purple_5.Report DeserializePurple5Report(string fileName){
-            throw new NotImplementedException();
+            Dictionary<string, string> parsedObj = new Dictionary<string, string>();
+            var lines = File.ReadAllLines(fileName);
+            foreach (var line in lines){
+                if (line.Contains(":")){
+                    var parts = line.Split(':');
+                    parsedObj[parts[0].Trim()] = parts[1].Trim();
+                }
+            }
+            var type = parsedObj["MainType"];
+            int.TryParse(parsedObj["ResearchesCount"], out int ResearchesCount);
+            Purple_5.Research[] researches = new Purple_5.Research[ResearchesCount];
+            int currLine = 2;
+            for(int i = 0; i < ResearchesCount; i++){
+                Dictionary<string, string> parsedResearch = new Dictionary<string, string>();
+                for (int j = 0; j < 2; j++){
+                    if (lines[currLine+j].Contains(":")){
+                        var parsedParts = lines[currLine+j].Split(":");
+                        parsedResearch[parsedParts[0].Trim()] = parsedParts[1].Trim();
+                    }
+                }
+                currLine+=2;
+                var ResearchName = parsedResearch["ResearchName"];
+                researches[i] = new Purple_5.Research(ResearchName);
+                int.TryParse(parsedResearch["ResponseCount"], out int ResponseCount);
+                //string[,] allResponses = new string[ResponseCount, 3]; //строка - одни из резпонзов, в каждой колонке ответ на соотв вопрос
+                for(int k = 0; k < ResponseCount; k++){
+                    Dictionary<string, string> responses = new Dictionary<string, string>();
+                    string[] stringResponses = new string[3];
+                    for (int z = 0; z < 3; z++){
+                        if (lines[currLine+z].Contains(":")){
+                            var parts = lines[currLine+z].Split(":");
+                            responses[parts[0].Trim()] = parts[1].Trim();
+                        }
+                    }
+                    currLine+=3;
+                    stringResponses[0] = responses["Animal"];
+                    stringResponses[1] = responses["CharacterTrait"];
+                    stringResponses[2] = responses["Concept"];
+                    researches[i].Add(stringResponses);
+                }
+                // currLine+=ResearchesCount*3;
+            }
+            var report = new Purple_5.Report();
+            report.AddResearch(researches);
+            return report;
         }
+    
+    
     }
 }
 
