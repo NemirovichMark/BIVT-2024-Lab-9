@@ -17,7 +17,7 @@ namespace Lab_9
             var serilizer = new XmlSerializer(typeof(T));
             serilizer.Serialize(writer, obj); // writer targeted on file => writitin in file
         }
-        private T Deserilizer<T>(StreamReader content){ //return the var with type T from readed File (content)
+        private T Deserilizer<T>(StreamReader content){ // return the var with type T from readed File (content)
             var serializer = new XmlSerializer(typeof(T));
             var xml = serializer.Deserialize(content); // возвращает тип object
             T obj = (T)xml; //явное указание типа T
