@@ -33,7 +33,7 @@ namespace Lab_9
                 }
             }
             writer.WriteLine($"Marks: {String.Join(" ", partMarks)}");
-            writer.WriteLine($"TotalScore: {participant.TotalScore}");
+            // writer.WriteLine($"TotalScore: {participant.TotalScore}");
 
             // Console.WriteLine($"Name: {participant.Name}");
             // Console.WriteLine($"Surname: {participant.Surname}");
@@ -147,7 +147,7 @@ namespace Lab_9
             writer.WriteLine($"Name: {participant.Name}");
             writer.WriteLine($"Surname: {participant.Surname}");
             writer.WriteLine($"Marks: {String.Join(" ", participant.Marks)}");
-            writer.WriteLine($"Places: {String.Join(" ", participant.Places)}");
+            // writer.WriteLine($"Places: {String.Join(" ", participant.Places)}");
 
             // Console.WriteLine($"Type: {nameof(Purple_3.Participant)}");
             // Console.WriteLine($"Name: {participant.Name}");
@@ -351,8 +351,8 @@ namespace Lab_9
                         string[] inputCoefs = buf1.Split(':')[1].Trim().Split();
                         string buf = reader.ReadLine();
                         string[] inputMarks = buf.Split(':')[1].Trim().Split();
-                        double totalScore;
-                        double.TryParse(reader.ReadLine().Trim(), out totalScore);
+                        // double totalScore;
+                        // double.TryParse(reader.ReadLine().Trim(), out totalScore);
 
                         double[] coefs = new double[inputCoefs.Length];
 
@@ -517,7 +517,7 @@ namespace Lab_9
                         
                         Double.TryParse(inPutMarks[j].Trim(), out partMarks[j]);
                     }
-                    string[] places = reader.ReadLine().Split(':')[1].Trim().Split();
+                    // string[] places = reader.ReadLine().Split(':')[1].Trim().Split();
 
                     participants[i] = new Purple_3.Participant(partName, partSurname);
                     
