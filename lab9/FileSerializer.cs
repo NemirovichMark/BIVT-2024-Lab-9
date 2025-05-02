@@ -19,9 +19,9 @@ namespace Lab_9
         }
 
         public void SelectFile(string name){
-            _filePath = Path.Combine(_folderPath, $"{name}.{Extension}");
+            _filePath = Path.Combine(FolderPath, $"{name}.{Extension}");
 
-            Directory.CreateDirectory(_folderPath); //create dir if not exist
+            Directory.CreateDirectory(FolderPath); //create dir if not exist
 
             if (!File.Exists(_filePath)){
                 using (File.Create(_filePath)){}; //auto-closer

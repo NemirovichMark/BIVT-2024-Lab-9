@@ -331,6 +331,15 @@ namespace Lab_9
             
         }
 
+
+        // public override void SerializePurple2SkiJumping<T>(T jumping, string fileName){
+        //     throw new NotImplementedException();
+        // } 
+
+        // public override T DeserializePurple2SkiJumping<T>(string fileName){
+        //     throw new NotImplementedException();
+        // }
+
         private void Purple_3ParticipantWriter(StreamWriter writer, Purple_3.Participant[] participants){
             foreach (var participant in participants){
                 writer.WriteLine($"Name:{participant.Name}");
@@ -533,7 +542,7 @@ namespace Lab_9
                 //string[,] allResponses = new string[ResponseCount, 3]; //строка - одни из резпонзов, в каждой колонке ответ на соотв вопрос
                 for(int k = 0; k < ResponseCount; k++){
                     Dictionary<string, string> responses = new Dictionary<string, string>();
-                    string[] stringResponses = new string[3];
+                    string[] stringResponses = new string[3]; //формируем список строк для записи ответов
                     for (int z = 0; z < 3; z++){
                         if (lines[currLine+z].Contains(":")){
                             var parts = lines[currLine+z].Split(":");
