@@ -228,7 +228,11 @@ public class PurpleTXTSerializer : PurpleSerializer
         {
             var pName = d[$"P_{i}_Name"];
             var pSurname = d[$"P_{i}_Surname"];
+            var pMarks = StringToArray(d[$"P_{i}_Marks"], double.Parse);
+            
             var newP = new Purple_3.Participant(pName, pSurname);
+            foreach(var mark in pMarks) newP.Evaluate(mark);
+            
             skating.Add(newP);
         }
         return skating as T;
@@ -286,9 +290,9 @@ public class PurpleTXTSerializer : PurpleSerializer
             for (int j = 0; j < reps.Length; j++)
             {
                 var rp = reps[j];
-                dict[$"R_{i}_A{j}"] = rp.Animal;
-                dict[$"R_{i}_T{j}"] = rp.CharacterTrait;
-                dict[$"R_{i}_C{j}"] = rp.Concept;
+                dict[$"R_{i}_A{j}"] = (rp.Animal == null) ? "null" : rp.Animal;
+                dict[$"R_{i}_T{j}"] = (rp.CharacterTrait == null) ? "null" : rp.CharacterTrait;
+                dict[$"R_{i}_C{j}"] = (rp.Concept == null) ? "null" : rp.Concept;
             }
         }
         WriteDict(dict);
@@ -307,9 +311,9 @@ public class PurpleTXTSerializer : PurpleSerializer
             int cnt = int.Parse(dict[$"R_{i}_RespCount"]);
             for (int j = 0; j < cnt; j++)
             {
-                var animal = dict[$"R_{i}_A{j}"];
-                var trait = dict[$"R_{i}_T{j}"];
-                var concept = dict[$"R_{i}_C{j}"];
+                var animal = dict[$"R_{i}_A{j}"] == "null" ? null : dict[$"R_{i}_A{j}"];
+                var trait = dict[$"R_{i}_T{j}"] == "null" ? null : dict[$"R_{i}_T{j}"];
+                var concept = dict[$"R_{i}_C{j}"] == "null" ? null : dict[$"R_{i}_C{j}"];
                 research.Add(new[] { animal, trait, concept });
             }
             report.AddResearch(research);

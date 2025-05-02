@@ -147,6 +147,7 @@ public class PurpleJSONSerializer : PurpleSerializer {
         if (skating == null) return;
         SelectFile(fileName);
         string json = JsonConvert.SerializeObject(skating, Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects });
+        // Console.WriteLine(json);
         File.WriteAllText(FilePath, json);
     }
     
@@ -214,7 +215,6 @@ public class PurpleJSONSerializer : PurpleSerializer {
         string json = File.ReadAllText(FilePath);
         var obj = JObject.Parse(json);
         
-        
         var participants = ((JArray)obj["Participants"]).ToObject<Purple2_ParticipantDTO[]>();
         
         Purple_2.SkiJumping jumping = (string)obj["$type"] == "Lab_7.Purple_2+JuniorSkiJumping, Lab_7" ? new Purple_2.JuniorSkiJumping() : new Purple_2.ProSkiJumping();
@@ -230,10 +230,16 @@ public class PurpleJSONSerializer : PurpleSerializer {
     public override T DeserializePurple3Skating<T>(string fileName) {
         SelectFile(fileName);
         string json = File.ReadAllText(FilePath);
+        // Console.WriteLine(json);
         var obj = JObject.Parse(json);
         Purple_3.Participant[] participants = ((JArray)obj["Participants"])
             .ToObject<Purple3_ParticipantDTO[]>()
-            .Select(dto => new Purple_3.Participant(dto.Name, dto.Surname))
+            .Select(dto =>
+            {
+                var p = new Purple_3.Participant(dto.Name, dto.Surname);
+                foreach(var mark in dto.Marks) p.Evaluate(mark);
+                return p;
+            })
             .ToArray();
         
         switch ((string)obj["$type"])
@@ -277,15 +283,16 @@ public class PurpleJSONSerializer : PurpleSerializer {
         
         var researches = ((JArray)obj["Researches"])
             .ToObject<ResearchDTO[]>()
-            .Select(dto => new Purple_5.Research(dto.Name))
+            .Select(dto =>
+            {
+                var research = new Purple_5.Research(dto.Name);
+                foreach(var resp in dto.Responses) research.Add([resp.Animal, resp.CharacterTrait, resp.Concept]);
+                return research;
+            })
             .ToArray();
         
-        foreach (var r in researches)
-        {
-            var research = new Purple_5.Research(r.Name);
-            foreach (var resp in r.Responses) research.Add([resp.Animal, resp.CharacterTrait, resp.Concept]); 
-            report.AddResearch(research);
-        }
+        foreach (var r in researches) report.AddResearch(r);
+        
         return report;
     }
 }

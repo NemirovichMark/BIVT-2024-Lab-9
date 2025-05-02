@@ -260,6 +260,7 @@ public class PurpleXMLSerializer : PurpleSerializer
                 Surname = jumping.Participants[i].Surname,
                 Result = jumping.Participants[i].Result,
                 Marks = jumping.Participants[i].Marks,
+                Distance = jumping.Participants[i].Distance,
             };
         }
         
@@ -324,7 +325,9 @@ public class PurpleXMLSerializer : PurpleSerializer
 
         foreach (var pd in dto.Participants)
         {
-            skating.Add(new Purple_3.Participant(pd.Name, pd.Surname));
+            var p = new Purple_3.Participant(pd.Name, pd.Surname);
+            foreach(var mark in pd.Marks) p.Evaluate(mark);
+            skating.Add(p);
         }
         return skating as T;
     }
@@ -378,11 +381,11 @@ public class PurpleXMLSerializer : PurpleSerializer
 
             for (int j = 0; j < responses.Length; j++)
             {
-                responses[i] = new ResponseDTO()
+                responses[j] = new ResponseDTO()
                 {
-                    Animal = group.Researches[i].Responses[i].Animal,
-                    CharacterTrait = group.Researches[i].Responses[i].CharacterTrait,
-                    Concept = group.Researches[i].Responses[i].Concept,
+                    Animal = group.Researches[i].Responses[j].Animal,
+                    CharacterTrait = group.Researches[i].Responses[j].CharacterTrait,
+                    Concept = group.Researches[i].Responses[j].Concept,
                 };
             }
             
@@ -408,7 +411,7 @@ public class PurpleXMLSerializer : PurpleSerializer
         foreach (var r in dto.Researches)
         {
             var research = new Purple_5.Research(r.Name);
-            foreach (var resp in r.Responses) research.Add([resp.Animal, resp.CharacterTrait, resp.Concept]); 
+            foreach (var resp in r.Responses) research.Add([resp.Animal, resp.CharacterTrait, resp.Concept]);
             report.AddResearch(research);
         }
         return report;
