@@ -526,7 +526,7 @@ namespace Lab_9
             var type = parsedObj["MainType"];
             int.TryParse(parsedObj["ResearchesCount"], out int ResearchesCount);
             Purple_5.Research[] researches = new Purple_5.Research[ResearchesCount];
-            int currLine = 2;
+            int currLine = 2; //наша рабочая строка
             for(int i = 0; i < ResearchesCount; i++){
                 Dictionary<string, string> parsedResearch = new Dictionary<string, string>();
                 for (int j = 0; j < 2; j++){
@@ -550,9 +550,9 @@ namespace Lab_9
                         }
                     }
                     currLine+=3;
-                    stringResponses[0] = responses["Animal"];
-                    stringResponses[1] = responses["CharacterTrait"];
-                    stringResponses[2] = responses["Concept"];
+                    stringResponses[0] = responses["Animal"].Length != 0 ? responses["Animal"] : null;
+                    stringResponses[1] = responses["CharacterTrait"].Length != 0 ? responses["CharacterTrait"] : null;
+                    stringResponses[2] = responses["Concept"].Length != 0 ? responses["Concept"] : null;
                     researches[i].Add(stringResponses);
                 }
                 // currLine+=ResearchesCount*3;
