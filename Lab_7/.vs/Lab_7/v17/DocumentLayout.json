@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Andy\\source\\repos\\Lab_7\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D9890714-DBCB-4226-99CF-076CA356A63D}|Lab_7\\Lab_7.csproj|c:\\users\\andy\\source\\repos\\lab_7\\lab_7\\purple_1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9890714-DBCB-4226-99CF-076CA356A63D}|Lab_7\\Lab_7.csproj|solutionrelative:lab_7\\purple_1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Purple_1.cs",
+              "DocumentMoniker": "C:\\Users\\Andy\\source\\repos\\Lab_7\\Lab_7\\Purple_1.cs",
+              "RelativeDocumentMoniker": "Lab_7\\Purple_1.cs",
+              "ToolTip": "C:\\Users\\Andy\\source\\repos\\Lab_7\\Lab_7\\Purple_1.cs",
+              "RelativeToolTip": "Lab_7\\Purple_1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-28T19:23:04.435Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
