@@ -1,0 +1,2 @@
+C:\Users\sanik\source\repos\Lab_9\Lab_9\obj\Debug\Lab_9.exe
+C:\Users\sanik\source\repos\Lab_9\Lab_9\obj\Debug\Lab_9.pdb
