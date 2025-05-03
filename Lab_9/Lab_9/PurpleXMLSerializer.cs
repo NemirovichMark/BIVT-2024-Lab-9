@@ -1,4 +1,4 @@
-﻿using Lab_7;
+using Lab_7;
 using System.Xml.Serialization;
 
 namespace Lab_9
@@ -308,7 +308,7 @@ namespace Lab_9
         {
             if (FilePath == null || FolderPath == null) return;
 
-            string filePath = Path.Combine(FolderPath, $"{FilePath}.{Extension}");
+            string filePath = Path.Combine(FolderPath, FilePath);
 
             XmlSerializer serializer = new XmlSerializer(typeof(T));
             using (StreamWriter writer = new StreamWriter(filePath))
@@ -321,7 +321,7 @@ namespace Lab_9
         {
             if (FilePath == null || FolderPath == null) return default;
 
-            string filePath = Path.Combine(FolderPath, $"{FilePath}.{Extension}");
+            string filePath = Path.Combine(FolderPath, FilePath);
             if (!File.Exists(filePath))
             {
                 return default;
