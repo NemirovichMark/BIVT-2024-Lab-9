@@ -550,9 +550,12 @@ namespace Lab_9
                         }
                     }
                     currLine+=3;
-                    stringResponses[0] = responses["Animal"].Length != 0 ? responses["Animal"] : null;
-                    stringResponses[1] = responses["CharacterTrait"].Length != 0 ? responses["CharacterTrait"] : null;
-                    stringResponses[2] = responses["Concept"].Length != 0 ? responses["Concept"] : null;
+                    // stringResponses[0] = responses["Animal"].Trim().Length != 0 ? responses["Animal"] : null;
+                    // stringResponses[1] = responses["CharacterTrait"].Trim().Length != 0 ? responses["CharacterTrait"] : null;
+                    // stringResponses[2] = responses["Concept"].Trim().Length != 0 ? responses["Concept"] : null;
+                    stringResponses[0] = String.IsNullOrEmpty(responses["Animal"]) ? null : responses["Animal"];
+                    stringResponses[1] = String.IsNullOrEmpty(responses["CharacterTrait"]) ? null : responses["CharacterTrait"];
+                    stringResponses[2] = String.IsNullOrEmpty(responses["Concept"]) ? null : responses["Concept"];
                     researches[i].Add(stringResponses);
                 }
                 // currLine+=ResearchesCount*3;

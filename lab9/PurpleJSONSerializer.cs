@@ -385,9 +385,9 @@ namespace Lab_9
                 string[] stringResponses = new string[3];
                 for (int j = 0; j < responses.Length; j++){
                     //responses[j] = new Purple_5.Response(tmpReport.Researches[i].Responses[j].Animal, tmpReport.Researches[i].Responses[j].CharacterTrait, tmpReport.Researches[i].Responses[j].Concept);
-                    stringResponses[0] = tmpReport.Researches[i].Responses[j].Animal.Length != 0 ? tmpReport.Researches[i].Responses[j].Animal : null;
-                    stringResponses[1] = tmpReport.Researches[i].Responses[j].CharacterTrait.Length != 0 ? tmpReport.Researches[i].Responses[j].CharacterTrait : null;
-                    stringResponses[2] = tmpReport.Researches[i].Responses[j].Concept.Length != 0 ? tmpReport.Researches[i].Responses[j].Concept : null;
+                    stringResponses[0] = String.IsNullOrEmpty(tmpReport.Researches[i].Responses[j].Animal) ? null : tmpReport.Researches[i].Responses[j].Animal;
+                    stringResponses[1] = String.IsNullOrEmpty(tmpReport.Researches[i].Responses[j].CharacterTrait) ? null: tmpReport.Researches[i].Responses[j].CharacterTrait;
+                    stringResponses[2] = String.IsNullOrEmpty(tmpReport.Researches[i].Responses[j].Concept) ? null : tmpReport.Researches[i].Responses[j].Concept;
                     researches[i].Add(stringResponses);
                 }
             }
