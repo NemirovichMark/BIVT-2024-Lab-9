@@ -1,0 +1,19 @@
+{
+  "$type": "Lab_7.Blue_3+Participant, Lab_7",
+  "Name": "Petya",
+  "Surname": "Nikolayevich",
+  "Penalties": [
+    6,
+    3,
+    1,
+    4,
+    4,
+    6,
+    8,
+    1,
+    4,
+    9
+  ],
+  "Total": 46,
+  "IsExpelled": false
+}
