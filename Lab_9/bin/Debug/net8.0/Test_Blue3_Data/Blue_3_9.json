@@ -1,0 +1,19 @@
+{
+  "$type": "Lab_7.Blue_3+HockeyPlayer, Lab_7",
+  "IsExpelled": true,
+  "Name": "Danil",
+  "Surname": "Romanovich",
+  "Penalties": [
+    6,
+    8,
+    4,
+    7,
+    2,
+    8,
+    9,
+    9,
+    3,
+    4
+  ],
+  "Total": 60
+}
