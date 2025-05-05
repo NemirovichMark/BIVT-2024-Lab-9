@@ -424,8 +424,8 @@ namespace Lab_9
                 for (int j = 0; j < group.Researches[i].Responses.Length; j++){
                     responses[j] = new tmp_Purple5Response{
                         Animal = group.Researches[i].Responses[j].Animal,
-                        CharacterTrait = group.Researches[i].Responses[j].Animal,
-                        Concept = group.Researches[i].Responses[j].Animal,
+                        CharacterTrait = group.Researches[i].Responses[j].CharacterTrait,
+                        Concept = group.Researches[i].Responses[j].Concept,
                     };
                 }
                 researches[i] = new tmp_Purple5Research{
