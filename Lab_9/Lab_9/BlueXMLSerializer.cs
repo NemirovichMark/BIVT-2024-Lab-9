@@ -153,7 +153,7 @@ namespace Lab_9
             {
                 if(sportsmanDTO.Name == null) continue;
                 var sportsman = new Blue_5.Sportsman(sportsmanDTO.Name, sportsmanDTO.Surname);
-                sportsman.SetPlace(sportsman.Place);
+                sportsman.SetPlace(sportsmanDTO.Place);
                 team.Add(sportsman);
             }
 

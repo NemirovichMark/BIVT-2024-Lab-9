@@ -319,7 +319,6 @@ namespace Lab_9
                 Name = name;
                 Sportsmen = sportsmen;
             }
-            
         }
         protected Blue_5.Team GetTeam(Blue_5_TeamDTO other)
         {

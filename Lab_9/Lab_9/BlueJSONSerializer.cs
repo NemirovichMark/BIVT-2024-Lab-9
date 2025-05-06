@@ -137,7 +137,6 @@ namespace Lab_9
             SelectFile(fileName);
             string text = File.ReadAllText(FilePath);
             if (String.IsNullOrEmpty(text)) return null;
-
             var teamDTO = JsonSerializer.Deserialize<Blue_5_TeamDTO>(text);
             if (teamDTO == null) return null;
 
@@ -146,7 +145,7 @@ namespace Lab_9
             {
                 if (sportsmanDTO.Name == null) continue;
                 var sportsman = new Blue_5.Sportsman(sportsmanDTO.Name, sportsmanDTO.Surname);
-                sportsman.SetPlace(sportsman.Place);
+                sportsman.SetPlace(sportsmanDTO.Place);
                 team.Add(sportsman);
             }
 
