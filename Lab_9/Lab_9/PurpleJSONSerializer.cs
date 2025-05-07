@@ -13,7 +13,7 @@ namespace Lab_9
         {
             if (FilePath == null || FolderPath == null) return;
 
-            string filePath = Path.Combine(FolderPath, $"{FilePath}.{Extension}");
+            string filePath = Path.Combine(FolderPath, FilePath);
 
             string serializedData = JsonConvert.SerializeObject(obj);
 
@@ -29,7 +29,7 @@ namespace Lab_9
         {
             if (FilePath == null || FolderPath == null) return null;
 
-            string filePath = Path.Combine(FolderPath, $"{FilePath}.{Extension}");
+            string filePath = Path.Combine(FolderPath, FilePath);
             if (!File.Exists(filePath))
             {
                 return null;
