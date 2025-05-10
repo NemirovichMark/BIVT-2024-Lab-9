@@ -1,4 +1,4 @@
-﻿using Lab_7;
+using Lab_7;
 using static Lab_7.Green_4;
 using System.Linq;
 using System.Globalization;
@@ -95,13 +95,19 @@ namespace Lab_9
                     var st = new Green_2.Student(name,surname);
                     var marks = reader.ReadLine()?.Split(':')[1].Trim();
 
-                    if (!string.IsNullOrEmpty(marks))
-                    {
-                        foreach (var m in marks.Split(',').Select(int.Parse))
-                        {
-                            if (m != 0) st.Exam(m);
-                        }
-                    }
+                    // Разбираем все слоты, включая нули
+                    var slots = marks
+                        .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(int.Parse)
+                        .ToArray();
+
+                    // И восстанавливаем точные слоты
+                    foreach (var m in slots)
+                        st.Exam(m);
+
+                    Console.WriteLine(name + "\t");
+                    Console.WriteLine(string.Join(" " , st.Marks));
+
                     return st;
                 }
                 else
