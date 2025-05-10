@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 
@@ -40,15 +40,17 @@ namespace Lab_7
         public class Student : Human
         {
             private static int _countExelent;
-            private readonly int[] _marks;
+            private int[] _marks;
             private int _examsTakenCount;
             private bool _isCountedAsExelent;
+            private int _writePosition;
 
             public Student(string name, string surname) : base (name, surname)
             {
                 _marks = new int[4]; // инициализаця нулями
                 _examsTakenCount = 0;
                 _isCountedAsExelent = false;
+                _writePosition = 0;
             }
 
             public static int ExcellentAmount => _countExelent;
@@ -93,12 +95,16 @@ namespace Lab_7
 
             public void Exam(int mark)
             {
-                if (mark < 2 || mark > 5) return;
+                // теперь принимаем нули (только реальные)
+                if (mark < 0 || mark > 5) return;
 
-                if (_examsTakenCount < _marks.Length)
+                if (_writePosition < _marks.Length)
                 {
-                    _marks[_examsTakenCount] = mark;
-                    _examsTakenCount++;
+                    //пишем mark, даже если он 0
+                    _marks[_writePosition++] = mark;
+                    //считаем в Avg/IsExcellent только ненулевые
+                    if (mark > 0)
+                        _examsTakenCount++;
                 }
             }
 
