@@ -1,0 +1,136 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/valeriy/Desktop/Лабораторные работы/Программирование 2 сем/BIVT-2024-Lab-9/Lab_9/Lab_9.csproj": {}
+  },
+  "projects": {
+    "/Users/valeriy/Desktop/Лабораторные работы/Программирование 2 сем/BIVT-2024-Lab-9/Lab_7/Lab_7.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/valeriy/Desktop/Лабораторные работы/Программирование 2 сем/BIVT-2024-Lab-9/Lab_7/Lab_7.csproj",
+        "projectName": "Lab_7",
+        "projectPath": "/Users/valeriy/Desktop/Лабораторные работы/Программирование 2 сем/BIVT-2024-Lab-9/Lab_7/Lab_7.csproj",
+        "packagesPath": "/Users/valeriy/.nuget/packages/",
+        "outputPath": "/Users/valeriy/Desktop/Лабораторные работы/Программирование 2 сем/BIVT-2024-Lab-9/Lab_7/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/valeriy/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/valeriy/Desktop/Лабораторные работы/Программирование 2 сем/BIVT-2024-Lab-9/Lab_9/Lab_9.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/valeriy/Desktop/Лабораторные работы/Программирование 2 сем/BIVT-2024-Lab-9/Lab_9/Lab_9.csproj",
+        "projectName": "Lab_9",
+        "projectPath": "/Users/valeriy/Desktop/Лабораторные работы/Программирование 2 сем/BIVT-2024-Lab-9/Lab_9/Lab_9.csproj",
+        "packagesPath": "/Users/valeriy/.nuget/packages/",
+        "outputPath": "/Users/valeriy/Desktop/Лабораторные работы/Программирование 2 сем/BIVT-2024-Lab-9/Lab_9/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/valeriy/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/valeriy/Desktop/Лабораторные работы/Программирование 2 сем/BIVT-2024-Lab-9/Lab_7/Lab_7.csproj": {
+                "projectPath": "/Users/valeriy/Desktop/Лабораторные работы/Программирование 2 сем/BIVT-2024-Lab-9/Lab_7/Lab_7.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
