@@ -163,8 +163,11 @@ public class BlueJSONSerializer : BlueSerializer
         {
             Blue_2.Participant participant = new Blue_2.Participant((string)part.Name, (string)part.Surname);
             int[][] jumps = part.Marks.ToObject<int[][]>(); // JArray в зубчатый массив
-            foreach (var j in part.Marks)
-                participant.Jump(j);
+            for (int i = 0; i<2; i++)
+            {
+                if (jumps[i].Length == 5)
+                    participant.Jump(jumps[i]);
+            }
             jump.Add(participant);
         }
         return jump;
