@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sirGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>Ut</Name>
+  <ManTeams>
+    <sirTeam>
+      <Type>ManTeam</Type>
+      <Name>CSKA1</Name>
+      <Scores>
+        <int>5</int>
+      </Scores>
+    </sirTeam>
+    <sirTeam>
+      <Type>ManTeam</Type>
+      <Name>Zenit1</Name>
+      <Scores />
+    </sirTeam>
+    <sirTeam>
+      <Type>ManTeam</Type>
+      <Name>Ural1</Name>
+      <Scores />
+    </sirTeam>
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+  </ManTeams>
+  <WomanTeams>
+    <sirTeam>
+      <Type>WomanTeam</Type>
+      <Name>ASKA1</Name>
+      <Scores />
+    </sirTeam>
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+    <sirTeam xsi:nil="true" />
+  </WomanTeams>
+</sirGroup>
