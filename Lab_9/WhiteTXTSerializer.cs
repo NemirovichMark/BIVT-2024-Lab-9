@@ -58,10 +58,10 @@ namespace Lab_9 {
                 if (human is White_4.Participant participant) {
                     double[] newArray = new double[participant.Scores.Length];
                     if (participant.Scores.Length == 0) {
-                        writer.WriteLine($"Scores: {String.Join(",", newArray)}");
+                        writer.WriteLine($"Scores: {String.Join(" ", newArray)}");
                     } else {
                         Array.Copy(participant.Scores, newArray, participant.Scores.Length);
-                        writer.WriteLine($"Scores: {String.Join(",", newArray)}");
+                        writer.WriteLine($"Scores: {String.Join(" ", newArray)}");
                     }
                 }
             }
@@ -161,7 +161,7 @@ namespace Lab_9 {
             }
 
             if (reader.ContainsKey("Scores")) {
-                foreach (string score in reader["Scores"].Split(',')) {
+                foreach (string score in reader["Scores"].Split(' ')) {
                     if (!String.IsNullOrEmpty(score)) {
                         ((White_4.Participant)deserialized).PlayMatch(Double.Parse(score));
                     }
