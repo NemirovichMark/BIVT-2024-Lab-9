@@ -247,12 +247,14 @@ namespace Lab_9
                 if (Type == null) return null;
                 if (Type.Contains("SkiMan"))
                 {
-                    Purple_4.SkiMan man = new Purple_4.SkiMan(NameSportsman, Surname, Time);
+                    Purple_4.SkiMan man = new Purple_4.SkiMan(NameSportsman, Surname);
+                    man.Run(Time);
                     group.Add(man);
                 }
                 else if (Type.Contains("SkiWoman"))
                 {
-                    Purple_4.SkiWoman woman = new Purple_4.SkiWoman(NameSportsman, Surname, Time);
+                    Purple_4.SkiWoman woman = new Purple_4.SkiWoman(NameSportsman, Surname);
+                    woman.Run(Time);
                     group.Add(woman);
                 }
                 else

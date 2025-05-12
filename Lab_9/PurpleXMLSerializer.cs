@@ -496,12 +496,14 @@ namespace Lab_9
 
                 if (sportsman.Type.Contains("SkiMan"))
                 {
-                    var man = new Purple_4.SkiMan(NameSportsman, Surname, Time);
+                    var man = new Purple_4.SkiMan(NameSportsman, Surname);
+                    man.Run(Time);
                     return man;
                 }
                 else if (sportsman.Type.Contains("SkiWoman"))
                 {
-                    var woman = new Purple_4.SkiWoman(NameSportsman, Surname, Time);
+                    var woman = new Purple_4.SkiWoman(NameSportsman, Surname);
+                    woman.Run(Time);
                     return woman;
                 }
                 else
