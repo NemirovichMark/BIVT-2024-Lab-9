@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "hi2+IREHKHw=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\malko\\source\\repos\\Lab_9\\Lab_9\\Lab_9.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\malko\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
