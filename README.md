@@ -1,12 +1,71 @@
-# BIVT-2024-Lab-9
-1. Сделать форк репозитория Вашего преподавателя.
-2. Создать консольное приложение с пространством имен (названием): "Lab_9".
-3. Добавить в решение ссылку на свое предудыщее решение с названием "Lab_7".
-4. Выполнить задания общего модуля в решении "Lab_9".
-5. Доработать решение "Lab_7" согласно заданию для Вашей лиги.
-6. Выполнить задания Вашей лиги в решении "Lab_9".
-8. Загрузить Ваше решение в свой репозиторий.
-9. Сделать Pull Request в ветку с Вашей фамилией.
-10. (При наличии) Исправить номера в соответствии с замечаниями преподавателя.
-11. Загрузить принятую работу в задание на Moodle.
-12. Защитить лабораторную на занятии (желательно ближайшем).
+# ![Logo](https://raw.githubusercontent.com/JamesNK/Newtonsoft.Json/master/Doc/icons/logo.jpg) Json.NET
+
+[![NuGet version (Newtonsoft.Json)](https://img.shields.io/nuget/v/Newtonsoft.Json.svg?style=flat-square)](https://www.nuget.org/packages/Newtonsoft.Json/)
+[![Build status](https://dev.azure.com/jamesnk/Public/_apis/build/status/JamesNK.Newtonsoft.Json?branchName=master)](https://dev.azure.com/jamesnk/Public/_build/latest?definitionId=8)
+
+Json.NET is a popular high-performance JSON framework for .NET
+
+## Serialize JSON
+
+```csharp
+Product product = new Product();
+product.Name = "Apple";
+product.Expiry = new DateTime(2008, 12, 28);
+product.Sizes = new string[] { "Small" };
+
+string json = JsonConvert.SerializeObject(product);
+// {
+//   "Name": "Apple",
+//   "Expiry": "2008-12-28T00:00:00",
+//   "Sizes": [
+//     "Small"
+//   ]
+// }
+```
+
+## Deserialize JSON
+
+```csharp
+string json = @"{
+  'Name': 'Bad Boys',
+  'ReleaseDate': '1995-4-7T00:00:00',
+  'Genres': [
+    'Action',
+    'Comedy'
+  ]
+}";
+
+Movie m = JsonConvert.DeserializeObject<Movie>(json);
+
+string name = m.Name;
+// Bad Boys
+```
+
+## LINQ to JSON
+
+```csharp
+JArray array = new JArray();
+array.Add("Manual text");
+array.Add(new DateTime(2000, 5, 23));
+
+JObject o = new JObject();
+o["MyArray"] = array;
+
+string json = o.ToString();
+// {
+//   "MyArray": [
+//     "Manual text",
+//     "2000-05-23T00:00:00"
+//   ]
+// }
+```
+
+## Links
+
+- [Homepage](https://www.newtonsoft.com/json)
+- [Documentation](https://www.newtonsoft.com/json/help)
+- [NuGet Package](https://www.nuget.org/packages/Newtonsoft.Json)
+- [Release Notes](https://github.com/JamesNK/Newtonsoft.Json/releases)
+- [Contributing Guidelines](https://github.com/JamesNK/Newtonsoft.Json/blob/master/CONTRIBUTING.md)
+- [License](https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md)
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/json.net)
