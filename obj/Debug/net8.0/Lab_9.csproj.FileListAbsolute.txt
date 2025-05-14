@@ -1,0 +1,9 @@
+C:\Users\Я\source\repos\Lab_9\Lab_9\obj\Debug\net8.0\Lab_9.csproj.AssemblyReference.cache
+C:\Users\Я\source\repos\Lab_9\Lab_9\obj\Debug\net8.0\Lab_9.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Я\source\repos\Lab_9\Lab_9\obj\Debug\net8.0\Lab_9.AssemblyInfoInputs.cache
+C:\Users\Я\source\repos\Lab_9\Lab_9\obj\Debug\net8.0\Lab_9.AssemblyInfo.cs
+C:\Users\Я\source\repos\Lab_9\Lab_9\obj\Debug\net8.0\Lab_9.csproj.CoreCompileInputs.cache
+C:\Users\Я\source\repos\Lab_9\Lab_9\obj\Debug\net8.0\Lab_9.gentestingplatformentrypointinputcache.cache
+C:\Users\Я\source\repos\Lab_9\Lab_9\obj\Debug\net8.0\Lab_9.genautoregisteredextensionsinputcache.cache
+C:\Users\Я\source\repos\Lab_9\Lab_9\obj\Debug\net8.0\AutoRegisteredExtensions.cs
+C:\Users\Я\source\repos\Lab_9\Lab_9\obj\Debug\net8.0\TestPlatformEntryPoint.cs
