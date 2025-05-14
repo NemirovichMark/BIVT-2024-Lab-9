@@ -1,0 +1,3 @@
+Type: Human
+Name: Kolya
+Surname: Vadimovich

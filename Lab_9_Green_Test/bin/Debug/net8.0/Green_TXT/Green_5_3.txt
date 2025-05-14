@@ -1,0 +1,13 @@
+Type: Group
+Name: Meteor
+
+Student:
+Name: Vasya
+Surname: Petrovich
+Marks: [2,3,2,4,5]
+
+Student:
+Name: Petya
+Surname: Nikolayevich
+Marks: [4,3,4,3,2]
+

@@ -1,0 +1,7 @@
+Type: Student
+Name: Vasya
+Surname: Petrovich
+ID: 1
+IsExpelled: False
+AvgMark: 4
+Marks: [3,5,4]

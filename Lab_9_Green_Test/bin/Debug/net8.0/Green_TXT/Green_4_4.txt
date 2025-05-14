@@ -1,0 +1,21 @@
+Type: HighJump
+Name: High jump
+
+Participant:
+Name: Vasya
+Surname: Petrovich
+BestJump: 9,37
+Jumps: [0.54,9.37,5.47]
+
+Participant:
+Name: Petya
+Surname: Nikolayevich
+BestJump: 9,68
+Jumps: [0.17,7.67,9.68]
+
+Participant:
+Name: Kolya
+Surname: Vadimovich
+BestJump: 7,13
+Jumps: [3.47,3.47,7.13]
+

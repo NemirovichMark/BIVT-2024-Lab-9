@@ -1,0 +1,9 @@
+Type: HighJump
+Name: High jump
+
+Participant:
+Name: Vasya
+Surname: Petrovich
+BestJump: 9,37
+Jumps: [0.54,9.37,5.47]
+

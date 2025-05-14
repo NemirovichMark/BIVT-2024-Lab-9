@@ -1,0 +1,7 @@
+Type: Student
+Name: Egor
+Surname: Vasiliyevich
+ID: 8
+IsExpelled: True
+AvgMark: 5
+Marks: [5,0,0]

@@ -1,0 +1,111 @@
+{
+  "Type": "SpecialGroup",
+  "Name": "Bulls",
+  "AvgMark": 0.64375,
+  "Students": [
+    {
+      "Type": "Student",
+      "Name": "Vasya",
+      "Surname": "Petrovich",
+      "Marks": [
+        3,
+        5,
+        3,
+        2,
+        5
+      ],
+      "AvgMark": 3.6
+    },
+    {
+      "Type": "Student",
+      "Name": "Petya",
+      "Surname": "Nikolayevich",
+      "Marks": [
+        2,
+        4,
+        5,
+        2,
+        4
+      ],
+      "AvgMark": 3.4
+    },
+    {
+      "Type": "Student",
+      "Name": "Kolya",
+      "Surname": "Vadimovich",
+      "Marks": [
+        2,
+        5,
+        2,
+        3,
+        5
+      ],
+      "AvgMark": 3.4
+    },
+    {
+      "Type": "Student",
+      "Name": "Vadim",
+      "Surname": "Maratovich",
+      "Marks": [
+        5,
+        3,
+        5,
+        2,
+        4
+      ],
+      "AvgMark": 3.8
+    },
+    {
+      "Type": "Student",
+      "Name": "Marat",
+      "Surname": "Danilovich",
+      "Marks": [
+        3,
+        4,
+        3,
+        5,
+        4
+      ],
+      "AvgMark": 3.8
+    },
+    {
+      "Type": "Student",
+      "Name": "Danil",
+      "Surname": "Romanovich",
+      "Marks": [
+        3,
+        5,
+        3,
+        4,
+        4
+      ],
+      "AvgMark": 3.8
+    },
+    {
+      "Type": "Student",
+      "Name": "Roma",
+      "Surname": "Egorovich",
+      "Marks": [
+        2,
+        2,
+        4,
+        2,
+        4
+      ],
+      "AvgMark": 2.8
+    },
+    {
+      "Type": "Student",
+      "Name": "Egor",
+      "Surname": "Vasiliyevich",
+      "Marks": [
+        3,
+        4,
+        5,
+        4,
+        4
+      ],
+      "AvgMark": 4.0
+    }
+  ]
+}

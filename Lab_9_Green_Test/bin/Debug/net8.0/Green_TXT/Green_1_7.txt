@@ -1,0 +1,6 @@
+Type: Participant500M
+Surname: Petrovich
+Group: CSKA
+Trainer: Roman
+Result: 0,89
+HasPassed: True

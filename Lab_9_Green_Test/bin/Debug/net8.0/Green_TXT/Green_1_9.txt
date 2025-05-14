@@ -1,0 +1,6 @@
+Type: Participant500M
+Surname: Egorovich
+Group: Gorniy
+Trainer: Sergey
+Result: 2,52
+HasPassed: True

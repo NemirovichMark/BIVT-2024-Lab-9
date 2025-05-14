@@ -1,0 +1,6 @@
+Type: Student
+Name: Dasha
+Surname: Vadimovna
+AvgMark: 3
+IsExcellent: False
+Marks: [4,3,3,2]

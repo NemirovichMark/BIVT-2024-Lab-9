@@ -1,0 +1,7 @@
+Type: Student
+Name: Dasha
+Surname: Vadimovna
+ID: 10
+IsExpelled: True
+AvgMark: 0
+Marks: [0,0,0]

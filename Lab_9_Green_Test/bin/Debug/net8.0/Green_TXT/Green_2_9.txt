@@ -1,0 +1,6 @@
+Type: Student
+Name: Masha
+Surname: Nikolayevna
+AvgMark: 3,75
+IsExcellent: False
+Marks: [4,4,5,2]

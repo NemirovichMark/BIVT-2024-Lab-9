@@ -1,0 +1,6 @@
+Type: Student
+Name: Egor
+Surname: Vasiliyevich
+AvgMark: 3,5
+IsExcellent: False
+Marks: [2,2,5,5]
