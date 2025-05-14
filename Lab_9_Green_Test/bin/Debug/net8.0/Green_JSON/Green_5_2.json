@@ -1,0 +1,20 @@
+{
+  "Type": "Group",
+  "Name": "Sparta",
+  "AvgMark": 3.6,
+  "Students": [
+    {
+      "Type": "Student",
+      "Name": "Vasya",
+      "Surname": "Petrovich",
+      "Marks": [
+        3,
+        5,
+        3,
+        2,
+        5
+      ],
+      "AvgMark": 3.6
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+Type: Student
+Name: Roma
+Surname: Egorovich
+AvgMark: 3,75
+IsExcellent: False
+Marks: [5,4,2,4]

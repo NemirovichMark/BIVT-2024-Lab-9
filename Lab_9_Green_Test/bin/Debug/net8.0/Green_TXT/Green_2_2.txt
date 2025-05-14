@@ -1,0 +1,3 @@
+Type: Human
+Name: Petya
+Surname: Nikolayevich

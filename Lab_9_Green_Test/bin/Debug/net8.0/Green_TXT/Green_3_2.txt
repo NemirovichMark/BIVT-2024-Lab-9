@@ -1,0 +1,7 @@
+Type: Student
+Name: Petya
+Surname: Nikolayevich
+ID: 2
+IsExpelled: True
+AvgMark: 3
+Marks: [4,2,0]

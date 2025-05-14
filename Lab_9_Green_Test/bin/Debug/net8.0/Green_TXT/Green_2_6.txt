@@ -1,0 +1,6 @@
+Type: Student
+Name: Danil
+Surname: Romanovich
+AvgMark: 4,25
+IsExcellent: False
+Marks: [5,5,3,4]

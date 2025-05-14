@@ -1,0 +1,136 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/qquerell/programming/uni/BIVT-2024-Lab-9/Lab_9/Lab_9.csproj": {}
+  },
+  "projects": {
+    "/home/qquerell/programming/uni/BIVT-2024-Lab-7/BIVT-2024-Lab-7.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/qquerell/programming/uni/BIVT-2024-Lab-7/BIVT-2024-Lab-7.csproj",
+        "projectName": "BIVT-2024-Lab-7",
+        "projectPath": "/home/qquerell/programming/uni/BIVT-2024-Lab-7/BIVT-2024-Lab-7.csproj",
+        "packagesPath": "/home/qquerell/.nuget/packages/",
+        "outputPath": "/home/qquerell/programming/uni/BIVT-2024-Lab-7/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/qquerell/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.10, 8.0.10]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.110/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/qquerell/programming/uni/BIVT-2024-Lab-9/Lab_9/Lab_9.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/qquerell/programming/uni/BIVT-2024-Lab-9/Lab_9/Lab_9.csproj",
+        "projectName": "Lab_9",
+        "projectPath": "/home/qquerell/programming/uni/BIVT-2024-Lab-9/Lab_9/Lab_9.csproj",
+        "packagesPath": "/home/qquerell/.nuget/packages/",
+        "outputPath": "/home/qquerell/programming/uni/BIVT-2024-Lab-9/Lab_9/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/qquerell/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/qquerell/programming/uni/BIVT-2024-Lab-7/BIVT-2024-Lab-7.csproj": {
+                "projectPath": "/home/qquerell/programming/uni/BIVT-2024-Lab-7/BIVT-2024-Lab-7.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.10, 8.0.10]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.110/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

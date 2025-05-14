@@ -1,0 +1,33 @@
+{
+  "Type": "Group",
+  "Name": "Meteor",
+  "AvgMark": 3.5,
+  "Students": [
+    {
+      "Type": "Student",
+      "Name": "Vasya",
+      "Surname": "Petrovich",
+      "Marks": [
+        3,
+        5,
+        3,
+        2,
+        5
+      ],
+      "AvgMark": 3.6
+    },
+    {
+      "Type": "Student",
+      "Name": "Petya",
+      "Surname": "Nikolayevich",
+      "Marks": [
+        2,
+        4,
+        5,
+        2,
+        4
+      ],
+      "AvgMark": 3.4
+    }
+  ]
+}

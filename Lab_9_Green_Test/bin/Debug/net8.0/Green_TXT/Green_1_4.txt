@@ -1,0 +1,6 @@
+Type: Participant100M
+Surname: Vasiliyevich
+Group: Gorniy
+Trainer: Sergey
+Result: 9,11
+HasPassed: True

@@ -1,0 +1,12 @@
+{
+  "Type": "Student",
+  "Name": "Vadim",
+  "Surname": "Maratovich",
+  "ID": 14,
+  "Marks": [
+    5,
+    3,
+    4
+  ],
+  "IsExpelled": false
+}

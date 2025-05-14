@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9\\Lab_9_Green_Test\\Lab_9_Green_Test.csproj": {}
+    "/home/qquerell/programming/uni/BIVT-2024-Lab-9/Lab_9_Green_Test/Lab_9_Green_Test.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9\\Lab_9_Green_Test\\Lab_9_Green_Test.csproj": {
+    "/home/qquerell/programming/uni/BIVT-2024-Lab-7/BIVT-2024-Lab-7.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9\\Lab_9_Green_Test\\Lab_9_Green_Test.csproj",
-        "projectName": "Lab_9_Green_Test",
-        "projectPath": "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9\\Lab_9_Green_Test\\Lab_9_Green_Test.csproj",
-        "packagesPath": "C:\\Users\\Markosias\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9\\Lab_9_Green_Test\\obj\\",
+        "projectUniqueName": "/home/qquerell/programming/uni/BIVT-2024-Lab-7/BIVT-2024-Lab-7.csproj",
+        "projectName": "BIVT-2024-Lab-7",
+        "projectPath": "/home/qquerell/programming/uni/BIVT-2024-Lab-7/BIVT-2024-Lab-7.csproj",
+        "packagesPath": "/home/qquerell/.nuget/packages/",
+        "outputPath": "/home/qquerell/programming/uni/BIVT-2024-Lab-7/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Markosias\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/qquerell/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,13 +32,142 @@
           "warnAsError": [
             "NU1605"
           ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.10, 8.0.10]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.110/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/qquerell/programming/uni/BIVT-2024-Lab-9/Lab_9/Lab_9.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/qquerell/programming/uni/BIVT-2024-Lab-9/Lab_9/Lab_9.csproj",
+        "projectName": "Lab_9",
+        "projectPath": "/home/qquerell/programming/uni/BIVT-2024-Lab-9/Lab_9/Lab_9.csproj",
+        "packagesPath": "/home/qquerell/.nuget/packages/",
+        "outputPath": "/home/qquerell/programming/uni/BIVT-2024-Lab-9/Lab_9/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/qquerell/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
         },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/qquerell/programming/uni/BIVT-2024-Lab-7/BIVT-2024-Lab-7.csproj": {
+                "projectPath": "/home/qquerell/programming/uni/BIVT-2024-Lab-7/BIVT-2024-Lab-7.csproj"
+              }
+            }
+          }
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.10, 8.0.10]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.110/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/qquerell/programming/uni/BIVT-2024-Lab-9/Lab_9_Green_Test/Lab_9_Green_Test.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/qquerell/programming/uni/BIVT-2024-Lab-9/Lab_9_Green_Test/Lab_9_Green_Test.csproj",
+        "projectName": "Lab_9_Green_Test",
+        "projectPath": "/home/qquerell/programming/uni/BIVT-2024-Lab-9/Lab_9_Green_Test/Lab_9_Green_Test.csproj",
+        "packagesPath": "/home/qquerell/.nuget/packages/",
+        "outputPath": "/home/qquerell/programming/uni/BIVT-2024-Lab-9/Lab_9_Green_Test/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/qquerell/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/qquerell/programming/uni/BIVT-2024-Lab-7/BIVT-2024-Lab-7.csproj": {
+                "projectPath": "/home/qquerell/programming/uni/BIVT-2024-Lab-7/BIVT-2024-Lab-7.csproj"
+              },
+              "/home/qquerell/programming/uni/BIVT-2024-Lab-9/Lab_9/Lab_9.csproj": {
+                "projectPath": "/home/qquerell/programming/uni/BIVT-2024-Lab-9/Lab_9/Lab_9.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -78,12 +201,18 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.10, 8.0.10]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.110/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

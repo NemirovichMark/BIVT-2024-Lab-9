@@ -1,0 +1,39 @@
+Type: LongJump
+Name: Long jump
+
+Participant:
+Name: Vasya
+Surname: Petrovich
+BestJump: 9,37
+Jumps: [0.54,9.37,5.47]
+
+Participant:
+Name: Petya
+Surname: Nikolayevich
+BestJump: 9,68
+Jumps: [0.17,7.67,9.68]
+
+Participant:
+Name: Kolya
+Surname: Vadimovich
+BestJump: 7,13
+Jumps: [3.47,3.47,7.13]
+
+Participant:
+Name: Vadim
+Surname: Maratovich
+BestJump: 5,81
+Jumps: [0.32,5.81,4.42]
+
+Participant:
+Name: Marat
+Surname: Danilovich
+BestJump: 9,24
+Jumps: [9.24,8.22,1.77]
+
+Participant:
+Name: Danil
+Surname: Romanovich
+BestJump: 7,6
+Jumps: [2.41,7.6,2.46]
+

@@ -1,0 +1,48 @@
+Type: SpecialGroup
+Name: Chikago
+
+Student:
+Name: Vasya
+Surname: Petrovich
+Marks: [2,3,2,4,5]
+
+Student:
+Name: Petya
+Surname: Nikolayevich
+Marks: [4,3,4,3,2]
+
+Student:
+Name: Kolya
+Surname: Vadimovich
+Marks: [4,4,5,3,2]
+
+Student:
+Name: Vadim
+Surname: Maratovich
+Marks: [4,4,2,5,4]
+
+Student:
+Name: Marat
+Surname: Danilovich
+Marks: [3,3,4,4,2]
+
+Student:
+Name: Danil
+Surname: Romanovich
+Marks: [4,5,5,4,2]
+
+Student:
+Name: Roma
+Surname: Egorovich
+Marks: [2,3,4,4,2]
+
+Student:
+Name: Egor
+Surname: Vasiliyevich
+Marks: [5,5,2,4,2]
+
+Student:
+Name: Masha
+Surname: Nikolayevna
+Marks: [3,5,3,4,4]
+

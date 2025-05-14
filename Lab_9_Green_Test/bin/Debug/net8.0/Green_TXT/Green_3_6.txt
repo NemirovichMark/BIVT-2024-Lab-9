@@ -1,0 +1,7 @@
+Type: Student
+Name: Danil
+Surname: Romanovich
+ID: 6
+IsExpelled: True
+AvgMark: 0
+Marks: [0,0,0]

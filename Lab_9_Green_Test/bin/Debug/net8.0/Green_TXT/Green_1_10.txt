@@ -1,0 +1,6 @@
+Type: Participant500M
+Surname: Vasiliyevich
+Group: Gorniy
+Trainer: Sergey
+Result: 1,87
+HasPassed: True

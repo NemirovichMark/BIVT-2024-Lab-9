@@ -1,0 +1,6 @@
+Type: Participant100M
+Surname: Nikolayevna
+Group: Dinamo
+Trainer: Sergey
+Result: 2,88
+HasPassed: True

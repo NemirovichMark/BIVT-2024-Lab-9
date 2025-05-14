@@ -1,0 +1,7 @@
+Type: Student
+Name: Marat
+Surname: Danilovich
+ID: 5
+IsExpelled: True
+AvgMark: 3
+Marks: [4,2,0]

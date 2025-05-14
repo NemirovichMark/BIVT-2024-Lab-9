@@ -1,0 +1,6 @@
+Type: Participant500M
+Surname: Vadimovna
+Group: Dinamo
+Trainer: Peter
+Result: 9,76
+HasPassed: True

@@ -1,0 +1,6 @@
+Type: Participant100M
+Surname: Nikolayevich
+Group: CSKA
+Trainer: Roman
+Result: 8,13
+HasPassed: True

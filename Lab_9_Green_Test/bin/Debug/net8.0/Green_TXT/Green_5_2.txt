@@ -1,0 +1,8 @@
+Type: Group
+Name: Sparta
+
+Student:
+Name: Vasya
+Surname: Petrovich
+Marks: [2,3,2,4,5]
+

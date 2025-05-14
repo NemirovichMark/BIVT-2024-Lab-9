@@ -1,0 +1,3 @@
+Type: Human
+Name: Vadim
+Surname: Maratovich
