@@ -287,26 +287,6 @@ namespace Lab_9_Purple_Test
         }
         private Purple_2.SkiJumping[] Create_Purple2_Array()
         {
-            var participants = new Purple_2.Participant[10]
-            {
-                new Purple_2.Participant("Vasya", "Petrovich"),
-                new Purple_2.Participant("Petya", "Nikolayevich"),
-                new Purple_2.Participant("Kolya", "Vadimovich"),
-                new Purple_2.Participant("Vadim", "Maratovich"),
-                new Purple_2.Participant("Marat", "Danilovich"),
-                new Purple_2.Participant("Danil", "Romanovich"),
-                new Purple_2.Participant("Roma", "Egorovich"),
-                new Purple_2.Participant("Egor", "Vasiliyevich"),
-                new Purple_2.Participant("Masha", "Nikolayevna"),
-                new Purple_2.Participant("Dasha", "Vadimovna")
-            };
-            int[] jumps = new int[5];
-            foreach (var s in participants)
-            {
-                for (int i = 0; i < jumps.Length; i++)
-                    jumps[i] = _rand.Next(10);
-                s.Jump(_rand.Next(100) + 50, jumps, 100);
-            }
             var competitions = new Purple_2.SkiJumping[10]
             {
                 new Purple_2.JuniorSkiJumping(),
@@ -322,25 +302,33 @@ namespace Lab_9_Purple_Test
             };
             for (int i = 0; i < competitions.Length; i++)
             {
-                competitions[i].Add(participants.Take(i).ToArray());
+                var participants = new Purple_2.Participant[10]
+                {
+                new Purple_2.Participant("Vasya", "Petrovich"),
+                new Purple_2.Participant("Petya", "Nikolayevich"),
+                new Purple_2.Participant("Kolya", "Vadimovich"),
+                new Purple_2.Participant("Vadim", "Maratovich"),
+                new Purple_2.Participant("Marat", "Danilovich"),
+                new Purple_2.Participant("Danil", "Romanovich"),
+                new Purple_2.Participant("Roma", "Egorovich"),
+                new Purple_2.Participant("Egor", "Vasiliyevich"),
+                new Purple_2.Participant("Masha", "Nikolayevna"),
+                new Purple_2.Participant("Dasha", "Vadimovna")
+                };
+                var p = participants.Take(i).ToArray();
+                int[] jumps = new int[5];
+                foreach (var item in p)
+                {
+                    for (int j = 0; j < jumps.Length; j++)
+                        jumps[j] = _rand.Next(20);
+                    competitions[i].Add(item);
+                    competitions[i].Jump(_rand.Next(50, 200), jumps);
+                }
             }
             return competitions;
         }
         private Purple_3.Skating[] Create_Purple3_Array()
         {
-            var participants = new Purple_3.Participant[10]
-            {
-                new Purple_3.Participant("Vasya", "Petrovich"),
-                new Purple_3.Participant("Petya", "Nikolayevich"),
-                new Purple_3.Participant("Kolya", "Vadimovich"),
-                new Purple_3.Participant("Vadim", "Maratovich"),
-                new Purple_3.Participant("Roma", "Egorovich"),
-                new Purple_3.Participant("Egor", "Vasiliyevich"),
-                new Purple_3.Participant("Masha", "Nikolayevna"),
-                new Purple_3.Participant("Marat", "Danilovich"),
-                new Purple_3.Participant("Danil", "Romanovich"),
-                new Purple_3.Participant("Dasha", "Vadimovna")
-            };
             var competitions = new Purple_3.Skating[10]
             {
                 new Purple_3.IceSkating(new double[7] {_rand.NextDouble(),_rand.NextDouble(),_rand.NextDouble(),
@@ -366,7 +354,26 @@ namespace Lab_9_Purple_Test
             };
             for (int i = 0; i < competitions.Length; i++)
             {
-                competitions[i].Add(participants.Take(i).ToArray());
+                for (global::System.Int32 j = 0; j < i; j++)
+                {
+                    var participants = new Purple_3.Participant[10]
+                    {
+                new Purple_3.Participant("Vasya", "Petrovich"),
+                new Purple_3.Participant("Petya", "Nikolayevich"),
+                new Purple_3.Participant("Kolya", "Vadimovich"),
+                new Purple_3.Participant("Vadim", "Maratovich"),
+                new Purple_3.Participant("Roma", "Egorovich"),
+                new Purple_3.Participant("Egor", "Vasiliyevich"),
+                new Purple_3.Participant("Masha", "Nikolayevna"),
+                new Purple_3.Participant("Marat", "Danilovich"),
+                new Purple_3.Participant("Danil", "Romanovich"),
+                new Purple_3.Participant("Dasha", "Vadimovna")
+                    };
+                    var p = participants.Take(j + 1).ToArray();
+                    for (int e = 0; e < 7; e++)
+                        p[j].Evaluate(_rand.NextDouble() * 10 + 2.5);
+                    competitions[i].Add(p[j]);
+                }
             }
             return competitions;
         }
@@ -438,9 +445,10 @@ namespace Lab_9_Purple_Test
                 rep.MakeResearch();
                 rep.MakeResearch();
                 rep.MakeResearch();
-                foreach (var res in rep.Researches)
+                for (int i = 0; i < rep.Researches.Length; i++)
                 {
-                    res.Add(new string[] {
+                    for (int j = 0; j < 5; j++)
+                        rep.Researches[i].Add(new string[] {
                         _animals[_rand.Next(0, _animals.Length)],
                         _characterTrait[_rand.Next(0, _characterTrait.Length)],
                         _concept[_rand.Next(0, _concept.Length)] });

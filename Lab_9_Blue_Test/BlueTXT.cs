@@ -212,6 +212,9 @@ namespace Lab_9_Blue_Test
                 for (int i = 0; i < jumps.Length; i++)
                     jumps[i] = _rand.Next(10);
                 s.Jump(jumps);
+                for (int i = 0; i < jumps.Length; i++)
+                    jumps[i] = _rand.Next(10);
+                s.Jump(jumps);
             }
             var competitions = new Blue_2.WaterJump[10]
             {
