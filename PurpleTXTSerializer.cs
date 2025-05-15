@@ -6,8 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using static Lab_7.Purple_1;
-using static Lab_7.Purple_5;
 
 namespace Lab_9
 {
@@ -171,6 +169,17 @@ namespace Lab_9
         public override void SerializePurple5Report(Purple_5.Report report, string fileName)
         {
             SelectFile(fileName);
+            File.WriteAllText(FilePath, "");
+
+            Console.WriteLine("S");
+            foreach (var r in report.Researches)
+            {
+                foreach (var rr in r.Responses)
+                {
+                    Console.WriteLine($"{rr.Animal} {rr.CharacterTrait} {rr.Concept}");
+                }
+            }
+
             using (StreamWriter writer = File.AppendText(FilePath))
             {
                 writer.WriteLine($"ResearchCount: {report.Researches.Length}");
@@ -205,8 +214,8 @@ namespace Lab_9
             {
                 int JCount = int.Parse(s[1].Substring(8));
                 int PCount = int.Parse(s[2].Substring(8));
-                Purple_1.Judge[] JJ = new Judge[JCount];
-                Purple_1.Participant[] PP = new Participant[PCount];
+                Purple_1.Judge[] JJ = new Purple_1.Judge[JCount];
+                Purple_1.Participant[] PP = new Purple_1.Participant[PCount];
                 int k = 3;
                 for (int i = 0; i < JCount; i++)
                 {
@@ -379,21 +388,43 @@ namespace Lab_9
             if (s == null) return null;
 
             Purple_5.Report R = new Purple_5.Report();
-            int ResearchCount = int.Parse(s[0].Substring("ResearchCount: ".Length));
+            int ResearchCount = 0;
+            if (s[0].Substring("ResearchCount: ".Length) != "")
+            {
+                ResearchCount = int.Parse(s[0].Substring("ResearchCount: ".Length));
+            }
             for (int i = 0, k = 1; i < ResearchCount; i++)
             {
                 string ResearchName = s[k].Substring(6); k++;
                 Purple_5.Research research = new Purple_5.Research(ResearchName);
-                int ResponseCount = int.Parse(s[k].Substring("ResponseCount: ".Length)); k++;
+                int ResponseCount = 0;
+                if (s[k].Substring("ResponseCount: ".Length) != "")
+                {
+                    ResponseCount = int.Parse(s[k].Substring("ResponseCount: ".Length));
+                }
+                k++;
                 for (int j = 0; j < ResponseCount; j++)
                 {
                     string ResponseAnimal = s[k].Substring("Animal: ".Length); k++;
                     string ResponseCharacterTrait = s[k].Substring("CharacterTrait: ".Length); k++;
                     string ResponseConcept = s[k].Substring("Concept: ".Length); k++;
+                    if (ResponseAnimal == "") ResponseAnimal = null;
+                    if (ResponseCharacterTrait == "") ResponseCharacterTrait = null;
+                    if (ResponseConcept == "") ResponseConcept = null;
                     research.Add(new[] { ResponseAnimal, ResponseCharacterTrait, ResponseConcept });
                 }
                 R.AddResearch(research);
             }
+
+            Console.WriteLine("D");
+            foreach (var r in R.Researches)
+            {
+                foreach (var rr in r.Responses)
+                {
+                    Console.WriteLine($"{rr.Animal} {rr.CharacterTrait} {rr.Concept}");
+                }
+            }
+
             return R;
         }
     }
