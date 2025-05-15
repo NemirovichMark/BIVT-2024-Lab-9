@@ -1,0 +1,11 @@
+C:\Users\Masha\source\repos\Lab_9\Lab_9\bin\Debug\Lab_9.exe.config
+C:\Users\Masha\source\repos\Lab_9\Lab_9\bin\Debug\Lab_9.exe
+C:\Users\Masha\source\repos\Lab_9\Lab_9\bin\Debug\Lab_9.pdb
+C:\Users\Masha\source\repos\Lab_9\Lab_9\bin\Debug\Lab_7.exe
+C:\Users\Masha\source\repos\Lab_9\Lab_9\bin\Debug\Lab_7.pdb
+C:\Users\Masha\source\repos\Lab_9\Lab_9\bin\Debug\Lab_7.exe.config
+C:\Users\Masha\source\repos\Lab_9\Lab_9\obj\Debug\Lab_9.csproj.AssemblyReference.cache
+C:\Users\Masha\source\repos\Lab_9\Lab_9\obj\Debug\Lab_9.csproj.CoreCompileInputs.cache
+C:\Users\Masha\source\repos\Lab_9\Lab_9\obj\Debug\Lab_9.csproj.Up2Date
+C:\Users\Masha\source\repos\Lab_9\Lab_9\obj\Debug\Lab_9.exe
+C:\Users\Masha\source\repos\Lab_9\Lab_9\obj\Debug\Lab_9.pdb
