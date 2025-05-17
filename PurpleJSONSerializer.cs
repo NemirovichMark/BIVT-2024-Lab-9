@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +10,7 @@ using Lab_7;
 using Newtonsoft.Json.Linq;
 using System.Xml.Linq;
 using static Lab_7.Purple_1;
-using static Lab_7.Purple_3;
-using static Lab_7.Purple_2;
+
 namespace Lab_9
 {
     public class PurpleJSONSerializer : PurpleSerializer
@@ -24,15 +23,15 @@ namespace Lab_9
 
             var jsonObj = JObject.FromObject(obj);
             string Type;
-            if (obj is Purple_1.Participant p)
+            if (obj is Participant p)
             {
                 Type = "Participant";
             }
-            else if (obj is Purple_1.Judge J)
+            else if (obj is Judge J)
             {
                 Type = "Judge";
             }
-            else if (obj is Purple_1.Competition comp)
+            else if (obj is Competition comp)
             {
                 Type = "Competition";
             }
@@ -47,13 +46,13 @@ namespace Lab_9
 
 
         }
-        private Purple_1.Participant deserializeParticipant(JObject jsonObj)
+        private Participant deserializeParticipant(JObject jsonObj)
         {
             string name = (string)jsonObj["Name"];
             string surname = (string)jsonObj["Surname"];
             double[] coefs = jsonObj["Coefs"].ToObject<double[]>();
             int[,] marks = jsonObj["Marks"].ToObject<int[,]>();
-            Purple_1.Participant participant = new Purple_1.Participant(name, surname);
+            Participant participant = new Participant(name, surname);
             participant.SetCriterias(coefs);
             for (int i = 0; i < 4; i++)
             {
@@ -67,23 +66,23 @@ namespace Lab_9
             return participant;
 
         }
-        private Purple_1.Judge deserializeJudge(JObject jsonObj)
+        private Judge deserializeJudge(JObject jsonObj)
         {
             string name = (string)(jsonObj["Name"]);
             int[] marks = jsonObj["Marks"].ToObject<int[]>();
-            var Judge = new Purple_1.Judge(name, marks);
+            var Judge = new Judge(name, marks);
             return Judge;
         }
-        private Purple_1.Competition deserializeCompetition(JObject jsonObj)
+        private Competition deserializeCompetition(JObject jsonObj)
         {
             var jsonObj_Judges = jsonObj["Judges"].ToObject<JObject[]>();
-            Purple_1.Judge[] judges = new Purple_1.Judge[jsonObj_Judges.Length];
+            Judge[] judges = new Judge[jsonObj_Judges.Length];
             for (int i = 0;i < judges.Length; i++)
             {
                 judges[i] = deserializeJudge(jsonObj_Judges[i]);
             }
             var jsonObj_Participants = jsonObj["Participants"].ToObject<JObject[]>();
-            Purple_1.Participant[] participants = new Purple_1.Participant[jsonObj_Judges.Length];
+            Participant[] participants = new Participant[jsonObj_Participants.Length];
             for (int i = 0; i < participants.Length; i++)
             {
                 participants[i] = deserializeParticipant(jsonObj_Participants[i]);
@@ -98,17 +97,17 @@ namespace Lab_9
             SelectFile(fileName);
             var jsonObj = JObject.Parse(File.ReadAllText(FilePath));
 
-            var type = jsonObj["Type"];
+            string type = (string)jsonObj["Type"];
 
-            if (type.Contains("Participant"))
+            if (type == ("Participant"))
             {
                 return deserializeParticipant(jsonObj) as T;
             }
-            else if (type.Contains("Judge"))
+            else if (type==("Judge"))
             {
                 return deserializeJudge(jsonObj) as T;
             }
-            else if (type.Contains("Competition"))
+            else if (type == ("Competition"))
             {
                 return deserializeCompetition(jsonObj) as T;
             }
@@ -138,9 +137,9 @@ namespace Lab_9
             SelectFile(fileName);
             var jsonObj = JObject.Parse(File.ReadAllText(FilePath));
             string type = (string)jsonObj["Type"];
-            int standard = jsonObj.ToObject<int>();
+            //int standard = jsonObj.ToObject<int>();
             Purple_2.SkiJumping p;
-            if (type.Contains("Junior"))
+            if (type == ("Junior"))
                 p = new Purple_2.JuniorSkiJumping();
             else
                 p = new Purple_2.ProSkiJumping();
@@ -148,7 +147,7 @@ namespace Lab_9
             var participants = new Purple_2.Participant[jsonObj_Participants.Length];
             for (int i = 0;i<jsonObj_Participants.Length;i++)
             {
-                participants[i] = deserealizeParticipants_2(jsonObj_Participants[i], standard);
+                participants[i] = deserealizeParticipants_2(jsonObj_Participants[i], p.Standard);
             }
             p.Add(participants);
             return p as T;
@@ -182,10 +181,10 @@ namespace Lab_9
             SelectFile(fileName);
             var jsonObj = JObject.Parse(File.ReadAllText(FilePath));
             string Type = (string)jsonObj["Type"];
-            double[] Moods = jsonObj.ToObject<double[]>();
+            double[] Moods = jsonObj["Moods"].ToObject<double[]>();
 
             Purple_3.Skating skating;
-            if (Type.Contains("FigureSkating"))
+            if (Type == ("FigureSkating"))
             {
                 skating = new Purple_3.FigureSkating(Moods, false);
             }
@@ -194,7 +193,7 @@ namespace Lab_9
                 skating = new Purple_3.IceSkating(Moods, false);
             }
             
-            var jsonObj_participants = jsonObj.ToObject<JObject[]>();
+            var jsonObj_participants = jsonObj["Participants"].ToObject<JObject[]>();
             var p = new Purple_3.Participant[jsonObj_participants.Length];
             for (int i = 0; i < jsonObj_participants.Length; i++)
             {
@@ -227,7 +226,7 @@ namespace Lab_9
         {
             SelectFile(fileName);
             var jsonObj = JObject.FromObject(participant);
-            File.WriteAllText(fileName, jsonObj.ToString());
+            File.WriteAllText(FilePath, jsonObj.ToString());
         }
         public override Purple_4.Group DeserializePurple4Group(string fileName)
         {
@@ -259,7 +258,7 @@ namespace Lab_9
         {
             SelectFile(fileName);
             var jsonObj = JObject.FromObject(group);
-            File.WriteAllText(fileName, jsonObj.ToString());
+            File.WriteAllText(FilePath, jsonObj.ToString());
         }
 
         public override Purple_5.Report DeserializePurple5Report(string fileName)
@@ -276,9 +275,9 @@ namespace Lab_9
         }
         private string[] deserializeResponses(JObject jsonObj)
         {
-            string animal = (string)jsonObj[$"Animal"] == "" ? null : (string)jsonObj[$"Animal"];
-            string characterTrait = (string)jsonObj[$"characterTrait"] == "" ? null : (string)jsonObj[$"characterTrait"];
-            string concept = (string)jsonObj[$"Concept"] == "" ? null : (string)jsonObj[$"Concept"];
+            string animal = (string)jsonObj["Animal"] == "" ? null : (string)jsonObj["Animal"];
+            string characterTrait = (string)jsonObj["CharacterTrait"] == "" ? null : (string)jsonObj["CharacterTrait"];
+            string concept = (string)jsonObj["Concept"] == "" ? null : (string)jsonObj["Concept"];
             string[] r = new string[3] { animal, characterTrait, concept };
             return r;
         }
