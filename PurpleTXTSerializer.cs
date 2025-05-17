@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -21,16 +21,18 @@ namespace Lab_9
             StringBuilder sb = new StringBuilder();
             if (obj is Participant participant)
             {
-                sb.AppendLine($"Name:{participant.Name}");
-                sb.AppendLine($"Surname:{participant.Surname}");
-                sb.AppendLine($"Coefs:{String.Join(" ", participant.Coefs)}");
-                sb.AppendLine($"Marks:{String.Join(" ", participant.Marks.Cast<int>())}");
-                sb.AppendLine($"TotalScore:{participant.TotalScore}");
+                int i = 0;
+                sb.AppendLine($"NameP{i}:{participant.Name}");
+                sb.AppendLine($"SurnameP{i}:{participant.Surname}");
+                sb.AppendLine($"CoefsP{i}:{String.Join(" ", participant.Coefs)}");
+                sb.AppendLine($"MarksP{i}:{String.Join(" ", participant.Marks.Cast<int>())}");
+                sb.AppendLine($"TotalScoreP{i}:{participant.TotalScore}");
             }
             else if (obj is Judge judge)
             {
-                sb.AppendLine($"Name:{judge.Name}");
-                sb.AppendLine($"Marks:{String.Join(" ", judge.Marks)}");
+                int i = 0;
+                sb.AppendLine($"NameJ{i}:{judge.Name}");
+                sb.AppendLine($"MarksJ{i}:{String.Join(" ", judge.Marks)}");
             }
             else if (obj is Competition competition)
             {
@@ -40,7 +42,7 @@ namespace Lab_9
                 for (int i = 0; i < competition.Judges.Length; i++)
                 {
                     var judgei = competition.Judges[i];
-                    sb.AppendLine($"NameJ{i}: {judgei.Name}");
+                    sb.AppendLine($"NameJ{i}:{judgei.Name}");
                     sb.AppendLine($"MarksJ{i}:{String.Join(" ", judgei.Marks)}");
                     sb.AppendLine("___");
 
@@ -55,7 +57,7 @@ namespace Lab_9
                     sb.AppendLine($"NameP{i}:{participanti.Name}");
                     sb.AppendLine($"SurnameP{i}:{participanti.Surname}");
                     sb.AppendLine($"CoefsP{i}:{String.Join(" ", participanti.Coefs)}");
-                    sb.AppendLine($"MarksP{i}:{String.Join(" ", participanti.Marks)}");
+                    sb.AppendLine($"MarksP{i}:{String.Join(" ", participanti.Marks.Cast<int>())}");
                     sb.AppendLine($"TotalScoreP{i}:{participanti.TotalScore}");
                     sb.AppendLine("___");
                 }
@@ -345,7 +347,7 @@ namespace Lab_9
                 sb.AppendLine($"Surname{i}:{participant.Sportsmen[i].Surname}");
                 sb.AppendLine($"Time{i}:{participant.Sportsmen[i].Time}");
             }
-            File.WriteAllText(fileName, sb.ToString());
+            File.WriteAllText(FilePath, sb.ToString());
         }
 
 
@@ -359,7 +361,7 @@ namespace Lab_9
                 if (line.Contains(":"))
                 {
                     var pair = line.Split(":");
-                    dict[pair[0].Trim()] = pair[1];
+                    dict[pair[0].Trim()] = pair[1].Trim();
                 }
             }
             string nameGroup = dict["nameGroup"];
@@ -379,7 +381,7 @@ namespace Lab_9
         {
             string Name = Dict[$"Name{index}"];
             string Surname = Dict[$"Surname{index}"];
-            int Time = int.Parse(Dict[$"Time{index}"]);
+            double Time = double.Parse(Dict[$"Time{index}"]);
             Purple_4.Sportsman s = new Purple_4.Sportsman(Name, Surname);
             s.Run(Time);
             return s;
@@ -395,8 +397,10 @@ namespace Lab_9
             sb.AppendLine($"researchesCount:{count}");
             for (int i = 0;i < count;i++)
             {
-                addResearch(sb, i, group.Researches[i]);
+                addResearchh(sb, i, group.Researches[i]);
             }
+            File.WriteAllText(FilePath, sb.ToString());
+
             
             
         }
@@ -406,7 +410,7 @@ namespace Lab_9
             sb.AppendLine($"characterTrait_{index1}_{index2}:{response.CharacterTrait}");
             sb.AppendLine($"Concept_{index1}_{index2}:{response.Concept}");
         }
-        private void addResearch(StringBuilder sb, int index1, Purple_5.Research research)
+        private void addResearchh(StringBuilder sb, int index1, Purple_5.Research research)
         {
             sb.AppendLine($"nameResearch{index1}:{research.Name}");
             sb.AppendLine($"responsesCount{index1}:{research.Responses.Length}");
@@ -426,8 +430,8 @@ namespace Lab_9
         }
         private Purple_5.Research deserializeResearches(Dictionary<string, string> dict, int index1)
         {
-            string nameResearch = dict["nameResearch"];
-            int count = int.Parse(dict["responsesCount"]);
+            string nameResearch = dict[$"nameResearch{index1}"];
+            int count = int.Parse(dict[$"responsesCount{index1}"]);
             var research = new Purple_5.Research(nameResearch);
 
             for (int i = 0;i < count; i++)
@@ -447,7 +451,7 @@ namespace Lab_9
                 if (line.Contains(":"))
                 {
                     var pair = line.Split(':');
-                    dict[pair[0].Trim()] = pair[1];
+                    dict[pair[0].Trim()] = pair[1].Trim();
                 }
 
             }
