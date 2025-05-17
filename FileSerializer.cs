@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,16 +23,16 @@ namespace Lab_9
             {
                 Directory.CreateDirectory(path);
             }
-            _folderPath = path;
+            _folderPath = Path.GetFullPath(path);
         }
 
         public void SelectFile(string name)
         {
             string fileName = $"{name}.{Extension}";
-            string fullPath = Path.Combine(_folderPath, name);
+            string fullPath = Path.Combine(_folderPath, fileName);
             if (!File.Exists(fullPath))
             {
-                File.Create(fullPath);
+                File.Create(fullPath).Dispose();
             }
             _filePath = fullPath;
         }
