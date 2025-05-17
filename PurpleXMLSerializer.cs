@@ -1,4 +1,4 @@
-﻿using Lab_7;
+using Lab_7;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -60,7 +60,7 @@ namespace Lab_9
                     Coefs = participant.Coefs,
                     Marks = participant.Marks.Cast<int>().ToArray(),
                 };
-                var serializer = new XmlSerializer(typeof(T));
+                var serializer = new XmlSerializer(typeof(Participant_Purple1_DTO));
                 using (var writer = XmlWriter.Create(FilePath))
                 {
                     serializer.Serialize(writer, d);
@@ -73,7 +73,7 @@ namespace Lab_9
                     Name = judge.Name,
                     Marks = judge.Marks,
                 };
-                var serializer = new XmlSerializer(typeof(T));
+                var serializer = new XmlSerializer(typeof(Judge_Purple1_DTO));
                 using (var writer = XmlWriter.Create(FilePath)) { serializer.Serialize(writer, d); };
             }
             else if (obj is Purple_1.Competition competition) 
@@ -97,7 +97,7 @@ namespace Lab_9
                     }
                     ).ToArray(),
                 };
-                var serializer = new XmlSerializer(typeof(T));
+                var serializer = new XmlSerializer(typeof(Competition_Purple1_DTO));
                 using (var writer = XmlWriter.Create(FilePath)) { serializer.Serialize(writer, d); };
             }
         }
@@ -208,7 +208,7 @@ namespace Lab_9
                         Marks = x.Marks
                     }).ToArray()
                 };
-                var serializer = new XmlSerializer(typeof(T));
+                var serializer = new XmlSerializer(typeof(skiJumping_Purple2_DTO));
                 using (var writer = XmlWriter.Create(FilePath))
                 {
                     serializer.Serialize(writer, d);
@@ -265,7 +265,7 @@ namespace Lab_9
             SelectFile(fileName);
             if (skating is Purple_3.Skating obj)
             {
-                var d = new Skating_Purple3_DTO
+                var d = new Skating_Purple3_DTO()
                 {
                     Moods = obj.Moods,
                     Type = obj.GetType().Name,
@@ -279,7 +279,7 @@ namespace Lab_9
                     }
                     ).ToArray()
                 };
-                var serializer = new XmlSerializer(typeof(T));
+                var serializer = new XmlSerializer(typeof(Skating_Purple3_DTO));
                 using (var writer = XmlWriter.Create(FilePath))
                 {
                     serializer.Serialize(writer, d);
@@ -364,7 +364,7 @@ namespace Lab_9
                         Time = s.Time
                     }).ToArray(),
                 };
-                var serializer = new XmlSerializer(typeof(Purple_4.Group));
+                var serializer = new XmlSerializer(typeof(Group_Purple4_DTO));
                 using (var writer = XmlWriter.Create(FilePath))
                 {
                     serializer.Serialize(writer, d);
@@ -444,7 +444,7 @@ namespace Lab_9
             {
                 Researches = Researches
             };
-            var serializer = new XmlSerializer(typeof(Purple_5.Report));
+            var serializer = new XmlSerializer(typeof(Report_Purple5_DTO));
             using (var writer = XmlWriter.Create(FilePath))
             {
                 serializer.Serialize(writer, report);
