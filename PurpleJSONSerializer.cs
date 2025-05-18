@@ -209,7 +209,7 @@ namespace Lab_9
         {
             string Name = (string)jsonObj["Name"];
             string Surname = (string)jsonObj["Surname"];
-            int[] Marks = jsonObj["Marks"].ToObject<int[]>();
+            double[] Marks = jsonObj["Marks"].ToObject<double[]>();
             var participant = new Purple_3.Participant(Name, Surname);
             for (int i = 0; i < Marks.Length; i++)
             {
