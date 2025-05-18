@@ -1,0 +1,3 @@
+Type=SpecialGroup
+Name=Special1
+Count=0

@@ -1,0 +1,5 @@
+Type=Participant100M
+Surname=Ivanov
+Group=G1
+Trainer=Coach
+Result=11,5

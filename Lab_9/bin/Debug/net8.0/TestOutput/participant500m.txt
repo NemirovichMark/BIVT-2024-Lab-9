@@ -1,0 +1,5 @@
+Type=Participant500M
+Surname=Petrov
+Group=G2
+Trainer=Coach2
+Result=85
