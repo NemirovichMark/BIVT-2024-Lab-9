@@ -84,7 +84,6 @@ namespace Lab_9
             SelectFile(fileName);
             string text = File.ReadAllText(FilePath);
             var json = JObject.Parse(text);
-            Console.WriteLine(json.ToString());
             Blue_2.WaterJump waterjump;
             if (json["Type"].ToString() == "Lab_7.Blue_2+WaterJump3m")
             {
