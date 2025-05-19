@@ -25,9 +25,13 @@ namespace Lab_9
         public void SelectFile(string name)
         {
             if ((string.IsNullOrWhiteSpace(name)) || (string.IsNullOrWhiteSpace(FolderPath))) return;
-            name = name + "." + Extension;
-            if (!File.Exists(FolderPath + name)) File.Create(name);
-            FilePath = FolderPath + name;
+            name = FolderPath + "\\" + name + "." + Extension;
+            if (!File.Exists(name))
+            {
+                FileStream file = File.Create(name);
+                file.Close();
+            }
+            FilePath = name;
         }
     }
 }

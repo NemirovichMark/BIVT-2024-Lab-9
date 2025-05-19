@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using static Lab_7.Blue_2;
 
 namespace Lab_9
 {
@@ -27,6 +28,7 @@ namespace Lab_9
             SelectFile(fileName);
             StreamWriter writer = new StreamWriter(FilePath);
             writer.Write(lain);
+            writer.Close();
         }
 
         public override void SerializeBlue2WaterJump(Blue_2.WaterJump participant, string fileName)
@@ -55,10 +57,8 @@ namespace Lab_9
             }
             SelectFile(fileName);
             StreamWriter writer = new StreamWriter(FilePath);
-            for (int i = 0; i < lain.Length; i++)
-            {
-                writer.WriteLine(lain[i]);
-            }
+            for (int i = 0; i < lain.Length; i++) writer.WriteLine(lain[i]);
+            writer.Close();
         }
 
         override public void SerializeBlue3Participant<T>(T student, string fileName)
@@ -84,42 +84,37 @@ namespace Lab_9
             SelectFile(fileName);
             StreamWriter writer = new StreamWriter(FilePath);
             writer.Write(lain);
+            writer.Close();
         }
 
         override public void SerializeBlue4Group(Blue_4.Group participant, string fileName)
         {
             if ((participant == null) || (string.IsNullOrWhiteSpace(fileName))) return;
-            string[] lain = new string[25];
-            lain[0] = $"{participant.Name}";
-            for (int i = 0; i < 12; i++)
+            string[] lain = [$"{participant.Name}"];
+            for (int i = 0; i < participant.ManTeams.Length; i++)
             {
-                lain[i + 1] = $"{participant.ManTeams[i].Name}";
-                for (int j = 0; j < participant.ManTeams[i].Scores.Length; j++)
-                {
-                    lain[i + 1] += $" {participant.ManTeams[i].Scores[j]}";
-                }
+                if (participant.ManTeams[i] == null) break;
+                Array.Resize(ref lain, lain.Length + 1);
+                lain[lain.Length - 1] = $"{participant.ManTeams[i].Name + " M"}";
+                for (int j = 0; j < participant.ManTeams[i].Scores.Length; j++) lain[lain.Length - 1] += $" {participant.ManTeams[i].Scores[j]}";
             }
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < participant.WomanTeams.Length; i++)
             {
-                lain[i + 13] = $"{participant.WomanTeams[i].Name}";
-                for (int j = 0; j < participant.WomanTeams[i].Scores.Length; j++)
-                {
-                    lain[i + 13] += $" {participant.WomanTeams[i].Scores[j]}";
-                }
+                if (participant.WomanTeams[i] == null) break;
+                Array.Resize(ref lain, lain.Length + 1);
+                lain[lain.Length - 1] = $"{participant.WomanTeams[i].Name + " W"}";
+                for (int j = 0; j < participant.WomanTeams[i].Scores.Length; j++) lain[lain.Length - 1] += $" {participant.WomanTeams[i].Scores[j]}";
             }
             SelectFile(fileName);
             StreamWriter writer = new StreamWriter(FilePath);
-            for (int i = 0; i < lain.Length; i++)
-            {
-                writer.WriteLine(lain[i]);
-            }
+            for (int i = 0; i < lain.Length; i++) writer.WriteLine(lain[i]);
+            writer.Close();
         }
 
         override public void SerializeBlue5Team<T>(T group, string fileName)
         {
             if ((group == null) || (string.IsNullOrWhiteSpace(fileName))) return;
-            string[] lain = new string[7];
-            lain[0] = $"{group.Name}";
+            string[] lain = [$"{group.Name}"];
             if (group is Blue_5.ManTeam)
             {
                 lain[0] += " M";
@@ -128,13 +123,16 @@ namespace Lab_9
             {
                 lain[0] += " W";
             }
-            for (int i = 0; i < 6; i++) lain[i + 1] = $"{group.Sportsmen[i].Name} {group.Sportsmen[i].Surname} {group.Sportsmen[i].Place}";
+            for (int i = 0; i < group.Sportsmen.Length; i++)
+            {
+                if (group.Sportsmen[i] == null) break;
+                Array.Resize(ref lain, lain.Length + 1);
+                lain[lain.Length - 1] = $"{group.Sportsmen[i].Name} {group.Sportsmen[i].Surname} {group.Sportsmen[i].Place}";
+            }
             SelectFile(fileName);
             StreamWriter writer = new StreamWriter(FilePath);
-            for (int i = 0; i < lain.Length; i++)
-            {
-                writer.WriteLine(lain[i]);
-            }
+            for (int i = 0; i < lain.Length; i++) writer.WriteLine(lain[i]);
+            writer.Close();
         }
 
         override public Blue_1.Response DeserializeBlue1Response(string fileName)
@@ -143,12 +141,14 @@ namespace Lab_9
             SelectFile(fileName);
             StreamReader reader = new StreamReader(FilePath);
             string lain = reader.ReadToEnd();
+            reader.Close();
             string[] lains = lain.Split(' ');
             Blue_1.Response response;
             if (lains.Length == 2)
             {
                 response = new Blue_1.Response(lains[0], int.Parse(lains[1]));
-            } else
+            }
+            else
             {
                 response = new Blue_1.HumanResponse(lains[0], lains[1], int.Parse(lains[2]));
             }
@@ -176,18 +176,13 @@ namespace Lab_9
                 lains = lain.Split(' ');
                 Blue_2.Participant participant = new Blue_2.Participant(lains[0], lains[1]);
                 int[] result = new int[5];
-                for (int i = 2; i < 7; i++)
-                {
-                    result[i - 2] = int.Parse(lains[i]);
-                }
+                for (int i = 2; i < 7; i++) result[i - 2] = int.Parse(lains[i]);
                 participant.Jump(result);
-                for (int i = 7; i < 12; i++)
-                {
-                    result[i - 7] = int.Parse(lains[i]);
-                }
+                for (int i = 7; i < 12; i++) result[i - 7] = int.Parse(lains[i]);
                 participant.Jump(result);
                 waterJump.Add(participant);
             }
+            reader.Close();
             return waterJump;
         }
 
@@ -211,10 +206,8 @@ namespace Lab_9
             {
                 participant = new Blue_3.Participant(lains[0], lains[1]);
             }
-            for (int i = 3; i < lains.Length; i++)
-            {
-                participant.PlayMatch(int.Parse(lains[i]));
-            }
+            for (int i = 3; i < lains.Length; i++) participant.PlayMatch(int.Parse(lains[i]));
+            reader.Close();
             return (T)participant;
         }
 
@@ -226,28 +219,23 @@ namespace Lab_9
             string lain = reader.ReadLine();
             string[] lains;
             Blue_4.Group group = new Blue_4.Group(lain);
-            for (int i = 0; i < 12; i++)
+            while ((lain = reader.ReadLine()) != null)
             {
-                lain = reader.ReadLine();
                 lains = lain.Split(' ');
-                Blue_4.ManTeam team = new Blue_4.ManTeam(lains[0]);
-                for (int j = 1; j < lains.Length; j++)
+                Blue_4.Team team;
+                if (lains[1] == "M")
                 {
-                    team.PlayMatch(int.Parse(lains[j]));
+                    team = new Blue_4.ManTeam(lains[0]);
+                    for (int j = 2; j < lains.Length; j++) team.PlayMatch(int.Parse(lains[j]));
+                }
+                else
+                {
+                    team = new Blue_4.WomanTeam(lains[0]);
+                    for (int j = 2; j < lains.Length; j++) team.PlayMatch(int.Parse(lains[j]));
                 }
                 group.Add(team);
             }
-            for (int i = 0; i < 12; i++)
-            {
-                lain = reader.ReadLine();
-                lains = lain.Split(' ');
-                Blue_4.WomanTeam team = new Blue_4.WomanTeam(lains[0]);
-                for (int j = 1; j < lains.Length; j++)
-                {
-                    team.PlayMatch(int.Parse(lains[j]));
-                }
-                group.Add(team);
-            }
+            reader.Close();
             return group;
         }
 
@@ -267,14 +255,14 @@ namespace Lab_9
             {
                 team = new Blue_5.WomanTeam(lains[0]);
             }
-            for (int i = 0; i < 6; i++)
+            while ((lain = reader.ReadLine()) != null)
             {
-                lain = reader.ReadLine();
                 lains = lain.Split(' ');
                 Blue_5.Sportsman sportsman = new Blue_5.Sportsman(lains[0], lains[1]);
                 sportsman.SetPlace(int.Parse(lains[2]));
                 team.Add(sportsman);
             }
+            reader.Close();
             return (T)team;
         }
     }

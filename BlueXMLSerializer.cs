@@ -34,14 +34,25 @@ namespace Lab_9
         {
             public string Name { get; set; }
             public string Surname { get; set; }
-            public int[,] Marks { get; set; }
+            public int[][] Marks { get; set; }
             public Blue_2_ParticipantDTO() { }
 
             public Blue_2_ParticipantDTO(Blue_2.Participant participant)
             {
                 Name = participant.Name;
                 Surname = participant.Surname;
-                Marks = participant.Marks;
+                if (participant.Marks != null)
+                {
+                    Marks = new int[participant.Marks.GetLength(0)][];
+                    for (int i = 0; i < participant.Marks.GetLength(0); i++)
+                    {
+                        Marks[i] = new int[participant.Marks.GetLength(1)];
+                        for (int j = 0; j < participant.Marks.GetLength(1); j++)
+                        {
+                            Marks[i][j] = participant.Marks[i, j];
+                        }
+                    }
+                }
             }
         }
 
@@ -108,9 +119,17 @@ namespace Lab_9
             {
                 Name = group.Name;
                 ManTeams = new Blue_4_TeamDTO[group.ManTeams.Length];
-                for (int i = 0; i < group.ManTeams.Length; i++) ManTeams[i] = new Blue_4_TeamDTO(group.ManTeams[i]);
+                for (int i = 0; i < group.ManTeams.Length; i++)
+                {
+                    if (group.ManTeams[i] == null) break;
+                    ManTeams[i] = new Blue_4_TeamDTO(group.ManTeams[i]);
+                }
                 WomanTeams = new Blue_4_TeamDTO[group.WomanTeams.Length];
-                for (int i = 0; i < group.WomanTeams.Length; i++) WomanTeams[i] = new Blue_4_TeamDTO(group.WomanTeams[i]);
+                for (int i = 0; i < group.WomanTeams.Length; i++)
+                {
+                    if (group.WomanTeams[i] == null) break;
+                    WomanTeams[i] = new Blue_4_TeamDTO(group.WomanTeams[i]);
+                }
 
             }
         }
@@ -141,8 +160,13 @@ namespace Lab_9
             {
                 if (team is Blue_5.ManTeam) Type = 'M';
                 if (team is Blue_5.WomanTeam) Type = 'W';
+                Name = team.Name;
                 Sportsmen = new Blue_5_SportsmanDTO[team.Sportsmen.Length];
-                for (int i = 0; i < team.Sportsmen.Length; i++) Sportsmen[i] = new Blue_5_SportsmanDTO(team.Sportsmen[i]);
+                for (int i = 0; i < team.Sportsmen.Length; i++)
+                {
+                    if (team.Sportsmen[i] == null) break;
+                    Sportsmen[i] = new Blue_5_SportsmanDTO(team.Sportsmen[i]);
+                }
             }
         }
 
@@ -191,7 +215,6 @@ namespace Lab_9
             serializer.Serialize(writer, teamDTO);
             writer.Close();
         }
-
         override public Blue_1.Response DeserializeBlue1Response(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName)) return null;
@@ -207,6 +230,7 @@ namespace Lab_9
             {
                 response = new Blue_1.HumanResponse(dto.Name, dto.Surname, dto.Votes);
             }
+            reader.Close();
             return response;
         }
         override public Blue_2.WaterJump DeserializeBlue2WaterJump(string fileName)
@@ -230,16 +254,17 @@ namespace Lab_9
                 int[] jump = new int[5];
                 for (int j = 0; j < 5; j++)
                 {
-                    jump[j] = dto.Participants[i].Marks[0, j];
+                    jump[j] = dto.Participants[i].Marks[0][j];
                 }
                 participant.Jump(jump);
                 for (int j = 0; j < 5; j++)
                 {
-                    jump[j] = dto.Participants[i].Marks[1, j];
+                    jump[j] = dto.Participants[i].Marks[1][j];
                 }
                 participant.Jump(jump);
                 waterJump.Add(participant);
             }
+            reader.Close();
             return waterJump;
         }
         override public T DeserializeBlue3Participant<T>(string fileName)
@@ -262,6 +287,7 @@ namespace Lab_9
                 participant = new Blue_3.Participant(dto.Name, dto.Surname);
             }
             for (int i = 0; i < dto.Penalties.Length; i++) participant.PlayMatch(dto.Penalties[i]);
+            reader.Close();
             return (T)participant;
         }
         override public Blue_4.Group DeserializeBlue4Group(string fileName)
@@ -273,6 +299,7 @@ namespace Lab_9
             Blue_4.Group group = new Blue_4.Group(dto.Name);
             for (int i = 0; i < dto.ManTeams.Length; i++)
             {
+                if (dto.ManTeams[i] == null) break;
                 Blue_4.Team team = new Blue_4.ManTeam(dto.ManTeams[i].Name);
                 for (int j = 0; j < dto.ManTeams[i].Scores.Length; j++)
                 {
@@ -282,6 +309,7 @@ namespace Lab_9
             }
             for (int i = 0; i < dto.WomanTeams.Length; i++)
             {
+                if (dto.WomanTeams[i] == null) break;
                 Blue_4.Team team = new Blue_4.WomanTeam(dto.WomanTeams[i].Name);
                 for (int j = 0; j < dto.WomanTeams[i].Scores.Length; j++)
                 {
@@ -289,6 +317,7 @@ namespace Lab_9
                 }
                 group.Add(team);
             }
+            reader.Close();
             return group;
         }
         override public T DeserializeBlue5Team<T>(string fileName)
@@ -306,12 +335,14 @@ namespace Lab_9
             {
                 team = new Blue_5.WomanTeam(dto.Name);
             }
-            for (int i = 0; i < team.Sportsmen.Length; i++)
+            for (int i = 0; i < dto.Sportsmen.Length; i++)
             {
+                if (dto.Sportsmen[i] == null) break;
                 Blue_5.Sportsman sportsman = new Blue_5.Sportsman(dto.Sportsmen[i].Name, dto.Sportsmen[i].Surname);
                 sportsman.SetPlace(dto.Sportsmen[i].Place);
                 team.Add(sportsman);
             }
+            reader.Close();
             return (T)team;
         }
     }
