@@ -6,6 +6,8 @@ using Lab_7;
 using static Lab_7.Green_4;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
+using System.Globalization;
+using System.Reflection;
 
 namespace Lab_9
 {
@@ -32,7 +34,7 @@ namespace Lab_9
         }
         public override Green_1.Participant DeserializeGreen1Participant(string fileName)
         {
-            string json = File.ReadAllText(Path.Combine(FolderPath, $"{fileName}.{Extension}"));
+            var json = File.ReadAllText(Path.Combine(FolderPath, $"{fileName}.{Extension}"));
             var data = JsonConvert.DeserializeObject<dynamic>(json);
 
             Green_1.Participant participant = data.Discipline == "100M"
@@ -68,7 +70,7 @@ namespace Lab_9
         }
         public override Green_2.Human DeserializeGreen2Human(string fileName) 
         {
-            string json = File.ReadAllText(Path.Combine(FolderPath, $"{fileName}.{Extension}"));
+            var json = File.ReadAllText(Path.Combine(FolderPath, $"{fileName}.{Extension}"));
             var data = JObject.Parse(json);
 
             if (data["Marks"] != null)
@@ -98,7 +100,7 @@ namespace Lab_9
         }
         public override Green_3.Student DeserializeGreen3Student(string fileName)
         {
-            string json = File.ReadAllText(Path.Combine(FolderPath, $"{fileName}.{Extension}"));
+            var json = File.ReadAllText(Path.Combine(FolderPath, $"{fileName}.{Extension}"));
             var data = JObject.Parse(json);
 
             var student = new Green_3.Student(
@@ -135,28 +137,33 @@ namespace Lab_9
 
         public override Green_4.Discipline DeserializeGreen4Discipline(string fileName)
         {
-            string json = File.ReadAllText(Path.Combine(FolderPath, $"{fileName}.{Extension}"));
-            var data = JObject.Parse(json);
+            string filePath = Path.Combine(FolderPath, $"{fileName}.{Extension}");
+            var json = File.ReadAllText(filePath);
+            var jobj = JObject.Parse(json);
 
-            Green_4.Discipline discipline = data["Type"].ToString() == "LongJump"
-                ? new LongJump()
-                : new HighJump();
-
-            discipline.Name = data["Name"].ToString();
-            foreach (var participant in data["Participants"])
+            string type = jobj["Type"]!.Value<string>();
+            Green_4.Discipline d = type switch
             {
-                var p = new Participant(
-                    (string)participant["Name"],
-                    (string)participant["Surname"]);
+                nameof(Green_4.LongJump) => new Green_4.LongJump(),
+                nameof(Green_4.HighJump) => new Green_4.HighJump(),
+                _ => throw new InvalidOperationException($"Unknown type {type}")
+            };
 
-                foreach (var jump in participant["Jumps"])
+            foreach (var pj in jobj["Participants"]!.Children<JObject>())
+            {
+                string nm = pj["Name"]!.Value<string>();
+                string sr = pj["Surname"]!.Value<string>();
+                var part = new Green_4.Participant(nm, sr);
+
+                foreach (var jump in pj["Jumps"]!.Values<double>())
                 {
-                    p.Jump((double)jump);
+                    part.Jump(jump);
                 }
 
-                discipline.Add(p);
+                d.Add(part);
             }
-            return discipline;
+
+            return d;
         }
 
         //Green_5
@@ -187,7 +194,7 @@ namespace Lab_9
 
         public override T DeserializeGreen5Group<T>(string fileName)
         {
-            string json = File.ReadAllText(Path.Combine(FolderPath, $"{fileName}.{Extension}"));
+            var json = File.ReadAllText(Path.Combine(FolderPath, $"{fileName}.{Extension}"));
             var data = JObject.Parse(json);
 
             Green_5.Group group = data["Type"].ToString() switch
