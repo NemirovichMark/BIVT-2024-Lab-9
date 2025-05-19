@@ -141,19 +141,16 @@ namespace Lab_9
 
             using (StreamWriter writer = new StreamWriter(FilePath))
             {
-                writer.WriteLine(skating.GetType().Name); // FigureSkating or IceSkating
-                var Moods = string.Join(" ", skating.Moods);
-                writer.WriteLine(Moods);
+                writer.WriteLine(skating.GetType().Name);
+                writer.WriteLine(string.Join(" ", skating.Moods.Select(m => m.ToString(CultureInfo.InvariantCulture))));
                 writer.WriteLine(skating.Participants.Length);
 
-
-                var p1 = skating.Participants.Length;
-                for (int i = 0; i < p1; i++)
+                foreach (var participant in skating.Participants)
                 {
-                    var human = skating.Participants[i];
-                    writer.WriteLine($"{human.Name} " +
-                    $"{human.Surname} " +
-                    $"{string.Join(" ", human.Marks)}");
+                    writer.WriteLine(
+                        $"{participant.Name} " +
+                        $"{participant.Surname} " +
+                        $"{string.Join(" ", participant.Marks.Select(m => m.ToString(CultureInfo.InvariantCulture)))}");
                 }
             }
         }
@@ -181,31 +178,25 @@ namespace Lab_9
         {
             SelectFile(fileName);
 
-            using (StreamWriter writer = new StreamWriter(FilePath))
+            StringBuilder text_for_txt = new StringBuilder();
+
+            int amount_of_researches = report.Researches.Length;
+            text_for_txt.AppendLine($"ResearchesCount:{amount_of_researches}");
+
+            for (int i = 0; i < amount_of_researches; i++)
             {
-                writer.WriteLine(report.Researches.Length);
-                for (int i = 0; i < report.Researches.Length; i++)
+                text_for_txt.AppendLine($"Research{i}:{report.Researches[i].Name}");
+                text_for_txt.AppendLine($"Responses{i}:{report.Researches[i].Responses.Length}");
+
+                for (int j = 0; j < report.Researches[i].Responses.Length; j++)
                 {
-                    var res = report.Researches[i];
-
-                    writer.WriteLine(res.Name);
-
-                    if (res.Responses == null)
-                    {
-                        continue;
-                    }
-                    writer.WriteLine(res.Responses.Length);
-
-                    foreach (var resp in res.Responses)
-                    {
-                        writer.WriteLine($"{resp.Animal} " +
-                            $"{resp.CharacterTrait} " +
-                            $"{resp.Concept}");
-                    }
-
-
+                    text_for_txt.AppendLine($"Animal{i}{j}:{report.Researches[i].Responses[j].Animal}");
+                    text_for_txt.AppendLine($"characterTrait{i}{j}:{report.Researches[i].Responses[j].CharacterTrait}");
+                    text_for_txt.AppendLine($"Concept{i}{j}:{report.Researches[i].Responses[j].Concept}");
                 }
             }
+
+            File.WriteAllText(FilePath, text_for_txt.ToString());
         }
 
         public override T DeserializePurple1<T>(string fileName)
@@ -369,11 +360,12 @@ namespace Lab_9
             SelectFile(fileName);
 
             var SELtext_DEL = File.ReadAllLines(FilePath);
+                
+            double[] Moods = SELtext_DEL[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(s => double.Parse(s, CultureInfo.InvariantCulture)).ToArray();
 
-            double[] Moods = SELtext_DEL[1].Split(' ').Select(double.Parse).ToArray();
-
+                
             Purple_3.Skating skating;
-
             if (SELtext_DEL[0] == "FigureSkating")
             {
                 skating = new Purple_3.FigureSkating(Moods, false);
@@ -383,28 +375,27 @@ namespace Lab_9
                 skating = new Purple_3.IceSkating(Moods, false);
             }
 
-            for (int i = 0; i < int.Parse(SELtext_DEL[2]); i++)
+            int participantsCount = int.Parse(SELtext_DEL[2]);
+
+            for (int i = 0; i < participantsCount && i + 3 < SELtext_DEL.Length; i++)
             {
-                var info = SELtext_DEL[i + 3].Split(' ');
-                var participant = new Purple_3.Participant(info[0], info[1]);
-                string[] mark_mass = info[2].Split(' ');
-                double[] Marks = new double[mark_mass.Length];
-
-                for (int l = 0; l < mark_mass.Length; l++)
-                {
-                    Marks[l] = double.Parse(mark_mass[l]);
-                }
-
-                foreach (var m in Marks)
-                {
-                    participant.Evaluate(m);
-                }
-
+               var info = SELtext_DEL[i + 3].Split(' ');
+               if (info.Length < 3) { continue; }
+               var participant = new Purple_3.Participant(info[0], info[1]);
+                
+            for (int j = 2; j < info.Length; j++)
+            {
+               if (double.TryParse(info[j],CultureInfo.InvariantCulture,out double mark))
+               {
+                        participant.Evaluate(mark);
+               }
+             }
                 skating.Add(participant);
             }
+                return (T)(object)skating;
+            }
 
-            return (T)(Object)skating;
-        }
+        
 
         public override Purple_4.Group DeserializePurple4Group(string fileName)
         {
@@ -428,67 +419,45 @@ namespace Lab_9
 
         public override Purple_5.Report DeserializePurple5Report(string fileName)
         {
-
             SelectFile(fileName);
 
-            var rep = new Purple_5.Report();
+            var text = File.ReadAllLines(FilePath);
+            Dictionary<string, string> dictionary  = new Dictionary<string, string>();
 
-            using (StreamReader reader = new StreamReader(FilePath))
+            foreach (var l in text)
             {
-                string? line = reader.ReadLine();
-                int res_kolvo = int.Parse(line != null ? line : "0");
-
-                for (int i = 0; i < res_kolvo; i++)
+                if (l.Contains(":"))
                 {
-                    var info_in_line = reader.ReadLine().Split(' ');
+                    var topic_ans = l.Split(':');
+                    dictionary[topic_ans[0].Trim()] = topic_ans[1].Trim();
+                }
+            }
 
-                    var checking = info_in_line.Length > 1 ? info_in_line[1] : "0";
-                    var res_amount = int.Parse(checking);
+            int ResearchesCount = int.Parse(dictionary["ResearchesCount"]);
+            Purple_5.Report report_answer = new Purple_5.Report();
 
-                    var research = new Purple_5.Research(info_in_line[0]);
+            for (int i = 0; i < ResearchesCount; i++)
+            {
+                string Research = dictionary[$"Research{i}"];
+                int amount_of_responses = int.Parse(dictionary[$"Responses{i}"]);
 
-                    for (int j = 0; j < res_amount; j++)
-                    {
-                        var response = reader.ReadLine().Split(' ');
+                Purple_5.Research research = new Purple_5.Research(Research);
 
-                        string? animal;
-                        if (string.IsNullOrEmpty(response[0])) {
-                            animal = null;
-                        }
-                        else
-                        {
-                            animal = response[0];
-                        }
-                        string? characterTrait;
-                        if (string.IsNullOrEmpty(response[1]))
-                        {
-                            characterTrait = null;
-                        }
-                        else
-                        {
-                            characterTrait = response[1];
-                        }
-                        string? concept;
-                        if (string.IsNullOrEmpty(response[2]))
-                        {
-                            concept = null;
-                        }
-                        else
-                        {
-                            concept = response[2];
-                        }
-                        if (animal != null || characterTrait != null || concept != null)
-                        {
-                            research.Add(new string[] { animal, characterTrait, concept });
-                        }
-
-                        rep.AddResearch(research);
-                    }
+                for (int j = 0; j < amount_of_responses; j++)
+                {
+                    string? animal = dictionary[$"Animal{i}{j}"] == "" ? null : dictionary[$"Animal{i}{j}"];
+                    string? characterTrait = dictionary[$"characterTrait{i}{j}"] == "" ? null : dictionary[$"characterTrait{i}{j}"];
+                    string? concept = dictionary[$"Concept{i}{j}"] == "" ? null : dictionary[$"Concept{i}{j}"];
+                    research.Add(new string[3] { animal, characterTrait, concept });
                 }
 
-                return rep;
+                report_answer.AddResearch(research);
             }
+
+            return report_answer;
+        }
+      
         }
     }
-}
+
 

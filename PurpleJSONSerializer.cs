@@ -21,7 +21,7 @@ namespace Lab_9
             try
             {
                 var jObject = JObject.FromObject(obj);
-                jObject["Type"] = obj.GetType().FullName;
+                jObject["Type"] = obj.GetType().Name;
 
                 var jsstring = jObject.ToString();
 
@@ -63,7 +63,7 @@ namespace Lab_9
         public override T DeserializePurple1<T>(string fileName) //where T : class
         {
 
-            SelectFile(FilePath);
+            SelectFile(fileName);
 
             var Information = File.ReadAllText(FilePath);
             var js_info = JObject.Parse(Information);
@@ -89,25 +89,25 @@ namespace Lab_9
                     return Participant as T;
                 case "Judge":
                     var Judge = new Purple_1.Judge(js_info["Name"].ToString(), js_info["Marks"].ToObject<int[]>());
-                    //  var marks_judge = js_info["Marks"].ToObject<int[]>();
-                    return Judge as T;
+                    
+                    return  Judge as T;
 
                 case "Competition":
 
                     var Competition = new Purple_1.Competition(
                            js_info["Judges"].ToObject<JObject[]>().Select(inf =>
-                               new Purple_1.Judge(js_info["Name"].ToString(), js_info["Marks"].ToObject<int[]>())
+                               new Purple_1.Judge(inf["Name"].ToString(), inf["Marks"].ToObject<int[]>())
                                ).ToArray()
                            );
                     Competition.Add(
                         js_info["Participants"].ToObject<JObject[]>().Select(inf =>
                         {
                             var Participant_1 = new Purple_1.Participant(
-                                    js_info["Name"].ToString(),
-                                    js_info["Surname"].ToString()
+                                    inf["Name"].ToString(),
+                                    inf["Surname"].ToString()
                                 );
-                            Participant_1.SetCriterias(js_info["Coefs"].ToObject<double[]>());
-                            foreach (var mark in js_info["Marks"].ToObject<int[][]>())
+                            Participant_1.SetCriterias(inf["Coefs"].ToObject<double[]>());
+                            foreach (var mark in inf["Marks"].ToObject<int[][]>())
                             {
                                 Participant_1.Jump(mark);
                             }
@@ -142,16 +142,15 @@ namespace Lab_9
                     return null;
             }
 
-
             jump.Add(js_info["Participants"].ToObject<JObject[]>().Select(participant =>
             {
-                Purple_2.Participant person = new Purple_2.Participant(js_info["Name"].ToString(), js_info["Surname"].ToString());
+                Purple_2.Participant person = new Purple_2.Participant(participant["Name"].ToString(), participant["Surname"].ToString());
 
-                person.Jump(js_info["Distance"].ToObject<int>(), js_info["Marks"].ToObject<int[]>(), js_info["Standard"].ToObject<int>());
+                person.Jump(participant["Distance"].ToObject<int>(), participant["Marks"].ToObject<int[]>(), js_info["Standard"].ToObject<int>());
                 return person;
             }).ToArray());
 
-            return jump as T;
+            return (T) jump ;
 
         }
 
@@ -176,11 +175,11 @@ namespace Lab_9
                 default: return null;
             }
 
-            skating.Add(info["Participant"].ToObject<JObject[]>().Select(PARTICIPANT =>
+            skating.Add(info["Participants"].ToObject<JObject[]>().Select(PARTICIPANT =>
             {
 
-                var person = new Purple_3.Participant(info["Name"].ToString(), info["Surname"].ToString());
-                var marks = info["Marks"].ToObject<double[]>();
+                var person = new Purple_3.Participant(PARTICIPANT["Name"].ToString(), PARTICIPANT["Surname"].ToString());
+                var marks = PARTICIPANT["Marks"].ToObject<double[]>();
 
                 foreach (var mark in marks)
                 {
@@ -192,7 +191,7 @@ namespace Lab_9
 
             ).ToArray());
             Purple_3.Participant.SetPlaces(skating.Participants);
-            return skating as T;
+            return (T) skating;
         }
 
         public override Purple_4.Group DeserializePurple4Group(string fileName)
@@ -206,8 +205,8 @@ namespace Lab_9
 
             group.Add(info["Sportsmen"].ToObject<JObject[]>().Select(sport =>
             {
-                var sportsman = new Purple_4.Sportsman(info["Name"].ToString(), info["Surname"].ToString());
-                sportsman.Run(info["Time"].ToObject<double>());
+                var sportsman = new Purple_4.Sportsman(sport["Name"].ToString(), sport["Surname"].ToString());
+                sportsman.Run(sport["Time"].ToObject<double>());
                 return sportsman;
             }).ToArray());
             return group;
@@ -223,9 +222,9 @@ namespace Lab_9
 
             answer.AddResearch(info_5["Researches"].ToObject<JObject[]>().Select(res =>
             {
-                var ress = new Purple_5.Research(info_5["Name"].ToString());
+                var ress = new Purple_5.Research(res["Name"].ToString());
 
-                var responses = info_5["Responses"].ToObject<JObject[]>();
+                var responses = res["Responses"].ToObject<JObject[]>();
 
                 foreach (var one_resp in responses)
                 {

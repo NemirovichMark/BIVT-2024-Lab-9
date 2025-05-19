@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BIVT-2024-Lab-9\Lab_9_Purple_Test\Lab_9_Purple_Test.csproj" />
     <ProjectReference Include="..\..\Lab_7\Lab_7\Lab_7.csproj" />
   </ItemGroup>
 
