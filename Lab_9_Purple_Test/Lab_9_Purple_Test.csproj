@@ -16,4 +16,9 @@
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Lab_9.csproj" />
+    <ProjectReference Include="..\..\BIVT-2024-Lab-7\BIVT-2024-Lab-7.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -7,9 +7,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lab_7">
-      <HintPath>../BIVT-2024-Lab-7/bin/Debug/net8.0/BIVT-2024-Lab-7.dll</HintPath>
-    </Reference>
+    <!-- <Reference Include="Lab_7"> -->
+    <!--   <HintPath>../BIVT-2024-Lab-7/bin/Debug/net8.0/BIVT-2024-Lab-7.dll</HintPath> -->
+    <!-- </Reference> -->
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BIVT-2024-Lab-7\BIVT-2024-Lab-7.csproj" />
   </ItemGroup>
 
 </Project>
