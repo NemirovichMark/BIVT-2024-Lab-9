@@ -6,7 +6,20 @@ namespace Lab_9
     {
         public override T DeserializePurple1<T>(string fileName)
         {
-            throw new NotImplementedException();
+            SelectFile(fileName);
+            string[] lines = File.ReadAllLines(FilePath);
+            if (lines[0] == $"type={nameof(Purple_1.Participant)}")
+            {
+                Purple_1_Participant_DAO dao = new Purple_1_Participant_DAO(lines);
+                Purple_1.Participant p = new Purple_1.Participant(dao.Name, dao.Surname);
+                p.SetCriterias(dao.Coefs);
+                for (int i = 0; i < 7; i++)
+                {
+                    p.Jump(new int[] { dao.Marks[i, 0], dao.Marks[i, 1], dao.Marks[i, 2], dao.Marks[i, 3] });
+                }
+
+                return (T)(Object)p;
+            }
         }
 
         public override T DeserializePurple2SkiJumping<T>(string fileName)
@@ -31,7 +44,14 @@ namespace Lab_9
 
         public override void SerializePurple1<T>(T obj, string fileName)
         {
-            throw new NotImplementedException();
+            if (obj is Purple_1.Participant p)
+            {
+                Purple_1_Participant_DAO dao = new Purple_1_Participant_DAO(p.Name, p.Surname, p.Coefs, p.Marks);
+                string[] lines = dao.SerializeToTXT();
+
+                SelectFile(fileName);
+                File.WriteAllLines(FilePath, lines);
+            }
         }
 
         public override void SerializePurple2SkiJumping<T>(T jumping, string fileName)
