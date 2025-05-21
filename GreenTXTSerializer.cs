@@ -2,6 +2,7 @@
 using static Lab_7.Green_4;
 using System.Linq;
 using System.Globalization;
+using static Lab_7.Green_1;
 
 namespace Lab_9
 {
@@ -12,31 +13,51 @@ namespace Lab_9
         //Green_1
         public override void SerializeGreen1Participant(Green_1.Participant participant, string fileName)
         {
-            if (participant == null || string.IsNullOrEmpty(fileName))
-            {
-                return;
-            }
+            string filePath = Path.Combine(FolderPath, fileName + "." + Extension);
 
-            string fullpath = Path.Combine(FolderPath, $"{fileName}.{Extension}");
-            using (StreamWriter writer = new StreamWriter(fullpath))
+            using (StreamWriter writer = new StreamWriter(filePath))
             {
-                writer.WriteLine($"Surname:{participant.Surname}");
-                writer.WriteLine($"Group:{participant.Group}");
-                writer.WriteLine($"Trainer:{participant.Trainer}");
-                writer.WriteLine($"Result:{participant.Result}");
-                writer.WriteLine($"Discipline:{(participant is Green_1.Participant100M ? "100M" : "500M")}");
+                writer.WriteLine($"Surname: {participant.Surname}");
+                writer.WriteLine($"Group: {participant.Group}");
+                writer.WriteLine($"Trainer: {participant.Trainer}");
+                writer.WriteLine($"Result: {participant.Result}");
+
+                if (participant is Green_1.Participant100M)
+                {
+                    writer.WriteLine("Discipline: 100M");
+                }
+
+                if (participant is Green_1.Participant500M)
+                {
+                    writer.WriteLine("Discipline: 500M");
+                }
             }
         }
         public override Green_1.Participant DeserializeGreen1Participant(string fileName)
         {
-            var lines = File.ReadAllLines(Path.Combine(FolderPath, $"{fileName}.{Extension}"));
-            var data = lines.Select(l => l.Split(':')[1].Trim()).ToArray();
-
+            string fullPath = Path.Combine(FolderPath, $"{fileName}.{Extension}");
+            string[] lines = File.ReadAllLines(fullPath);
+            
+            string[] data = new string[5];
+            for (int i = 0; i < 5; i++)
+            {
+                string[] parts = lines[i].Split(':');
+                data[i] = parts[1].Trim();
+            }
             Green_1.Participant participant = data[4] == "100M"
                 ? new Green_1.Participant100M(data[0], data[1], data[2])
                 : new Green_1.Participant500M(data[0], data[1], data[2]);
 
-            participant.Run(double.Parse(data[3], CultureInfo.InvariantCulture));
+            string result_str = data[3]
+                .Replace(',', '.')
+                .Replace(" ", "");
+
+            if (!double.TryParse(result_str, NumberStyles.Any, CultureInfo.InvariantCulture, out double result))
+            {
+                return null;
+            }
+
+            participant.Run(result);
             return participant;
         }
 
@@ -105,62 +126,80 @@ namespace Lab_9
         //Green_4
         public override void SerializeGreen4Discipline(Green_4.Discipline discipline, string fileName)
         {
-            string fullPath = Path.Combine(FolderPath, $"{fileName}.{Extension}");
-            using (StreamWriter writer = new StreamWriter(fullPath))
-            {
-                writer.WriteLine($"Name:{discipline.Name}");
-                writer.WriteLine($"Type:{(discipline is LongJump ? "LongJump" : "HighJump")}");
-                writer.WriteLine($"ParticipantCount:{discipline.Participants.Length}");
+            string filePath = Path.Combine(FolderPath, fileName + "." + Extension);
+            using var writer = new StreamWriter(filePath);
 
-                foreach (var participant in discipline.Participants)
+            writer.WriteLine($"Name: {discipline.Name}");
+            writer.WriteLine(
+                $"Discipline: {(discipline is Green_4.LongJump ? "LongJump" : "HighJump")}"
+            );
+
+            var participants = discipline.Participants;
+            writer.WriteLine($"Count: {participants.Length}");
+            writer.WriteLine("Participants:");
+
+            for (int i = 0; i < participants.Length; i++)
+            {
+                var participant = participants[i];
+                var jumps = new string[participant.Jumps.Length];
+
+                for (int j = 0; j < participant.Jumps.Length; j++)
                 {
-                    writer.WriteLine($"{participant.Name}|{participant.Surname}|{string.Join(",", participant.Jumps)}");
+                    jumps[j] = participant.Jumps[j].ToString(CultureInfo.InvariantCulture);
                 }
+
+                writer.WriteLine($"{participant.Name}|{participant.Surname}|{string.Join(",", jumps)}");
             }
         }
         public override Green_4.Discipline DeserializeGreen4Discipline(string fileName)
         {
-            string filePath = Path.Combine(FolderPath, fileName + "." + Extension);
-            using var reader = new StreamReader(filePath);
+            string fullPath = Path.Combine(FolderPath, $"{fileName}.{Extension}");
+            using var str_reader = new StreamReader(fullPath);
 
-            var nameLine = reader.ReadLine()!;
-            var typeLine = reader.ReadLine()!;
-            string name = nameLine.Split(':', 2)[1].Trim();
-            string type = typeLine.Split(':', 2)[1].Trim();
+            var nameLine = str_reader.ReadLine()!;
+            var typeLine = str_reader.ReadLine()!;
 
-            Green_4.Discipline disc = type switch
+            string name_line = nameLine.Split(':', 2)[1].Trim();
+            string type_line = typeLine.Split(':', 2)[1].Trim();
+
+            Green_4.Discipline discipline = type_line switch
             {
                 "LongJump" => new Green_4.LongJump(),
                 "HighJump" => new Green_4.HighJump(),
-                _ => throw new InvalidOperationException($"Unknown type '{type}'")
+                _ => throw new InvalidOperationException()
             };
 
-            var countLine = reader.ReadLine()!;
-            int count = int.Parse(countLine.Split(':', 2)[1].Trim());
-            var header = reader.ReadLine()!;
-            if (header != "Participants:")
-                throw new InvalidOperationException("Expected Participants:");
+            string _line = str_reader.ReadLine()!;
+            string reader = str_reader.ReadLine()!;
 
-            for (int i = 0; i < count; i++)
+            if (reader != "Participants:")
             {
-                var line = reader.ReadLine()!;
-                var parts = line.Split('|');
-                string nm = parts[0];
-                string sr = parts[1];
+                throw new InvalidOperationException();
+            }
 
-                var jumps = parts[2]
+            for (int i = 0; i < int.Parse(_line.Split(':', 2)[1].Trim()); i++)
+            {
+                string line = str_reader.ReadLine()!;
+                string[] parts = line.Split('|');
+
+                string _name = parts[0];
+                string _surname = parts[1];
+
+                double[] jumps = parts[2]
                     .Split(',', StringSplitOptions.RemoveEmptyEntries)
                     .Select(x => double.Parse(x, CultureInfo.InvariantCulture))
                     .ToArray();
 
-                var p = new Green_4.Participant(nm, sr);
-                foreach (var j in jumps)
-                    p.Jump(j);
+                var participant = new Green_4.Participant(_name, _surname);
+                foreach (double t in jumps)
+                {
+                    participant.Jump(t);
+                }
 
-                disc.Add(p);
+                discipline.Add(participant);
             }
 
-            return disc;
+            return discipline;
         }
 
         //Green_5
