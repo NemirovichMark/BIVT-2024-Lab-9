@@ -51,7 +51,26 @@ namespace Lab_9
 
         public override T DeserializePurple2SkiJumping<T>(string fileName)
         {
-            throw new NotImplementedException();
+            SelectFile(fileName);
+            string[] lines = File.ReadAllLines(FilePath);
+            Purple_2_Ski_Jumping_DAO dao = new Purple_2_Ski_Jumping_DAO(lines);
+            Purple_2.SkiJumping sj = default;
+            if (dao.Distance == 100 && dao.Name == "100m")
+            {
+                sj = new Purple_2.JuniorSkiJumping();
+                sj.Add(dao.Participants.Select(p => new Purple_2.Participant(p.Name, p.Surname)).ToArray());
+            }
+            else if (dao.Distance == 150 && dao.Name == "150m")
+            {
+                sj = new Purple_2.ProSkiJumping();
+            }
+            else
+            {
+                return default;
+            }
+
+            sj.Add(dao.Participants.Select(p => new Purple_2.Participant(p.Name, p.Surname)).ToArray());
+            return (T)sj;
         }
 
         public override T DeserializePurple3Skating<T>(string fileName)
@@ -98,7 +117,13 @@ namespace Lab_9
 
         public override void SerializePurple2SkiJumping<T>(T jumping, string fileName)
         {
-            throw new NotImplementedException();
+            SelectFile(fileName);
+            Purple_2_Ski_Jumping_DAO dao = new Purple_2_Ski_Jumping_DAO(
+                jumping.Name,
+                jumping.Standard,
+                jumping.Participants.Select(p => new Purple_2_Participant_DAO(p.Name, p.Surname)).ToArray()
+                );
+            File.WriteAllLines(FilePath, dao.SerializeToTXT());
         }
 
         public override void SerializePurple3Skating<T>(T skating, string fileName)
