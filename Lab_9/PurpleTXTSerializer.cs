@@ -79,6 +79,21 @@ namespace Lab_9
                 SelectFile(fileName);
                 File.WriteAllLines(FilePath, lines);
             }
+            if (obj is Purple_1.Judge j)
+            {
+                Purple_1_Judge_DAO dao = new Purple_1_Judge_DAO(j.Name, j.Marks);
+                SelectFile(fileName);
+                File.WriteAllLines(FilePath, dao.SerializeToTXT());
+            }
+            if (obj is Purple_1.Competition c)
+            {
+                Purple_1_Competition_DAO dao = new Purple_1_Competition_DAO(
+                    c.Participants.Select(p => new Purple_1_Participant_DAO(p.Name, p.Surname, p.Coefs, p.Marks)).ToArray(),
+                    c.Judges.Select(j => new Purple_1_Judge_DAO(j.Name, j.Marks)).ToArray()
+                    );
+                SelectFile(fileName);
+                File.WriteAllLines(FilePath, dao.SerializeToTXT());
+            }
         }
 
         public override void SerializePurple2SkiJumping<T>(T jumping, string fileName)
