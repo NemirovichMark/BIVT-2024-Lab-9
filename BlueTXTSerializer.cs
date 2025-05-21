@@ -133,8 +133,6 @@ namespace Lab_9
         //Blue_3
         public override void SerializeBlue3Participant<T>(T student, string fileName)
         {
-            Console.WriteLine("CCCC");
-            Console.WriteLine(student.Name, student.Surname, string.Join(" ", student.Penalties));
             if (student == null || String.IsNullOrEmpty(fileName)) return;
             string text;
             if (student.GetType() == typeof(Blue_3.BasketballPlayer))
