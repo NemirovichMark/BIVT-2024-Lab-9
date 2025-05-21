@@ -4,6 +4,7 @@ namespace Lab_9
 {
     public class PurpleTXTSerializer : PurpleSerializer
     {
+        public override string Extension => "txt";
         public override T DeserializePurple1<T>(string fileName)
         {
             SelectFile(fileName);
@@ -20,6 +21,32 @@ namespace Lab_9
 
                 return (T)(Object)p;
             }
+            if (lines[0] == $"type={nameof(Purple_1.Judge)}")
+            {
+
+                Purple_1_Judge_DAO dao = new Purple_1_Judge_DAO(lines);
+                Purple_1.Judge j = new Purple_1.Judge(dao.Name, dao.Marks);
+                return (T)(Object)j;
+            }
+            if (lines[0] == $"type={nameof(Purple_1.Competition)}")
+            {
+                Purple_1_Competition_DAO comp_dao = new Purple_1_Competition_DAO(lines);
+                Purple_1.Judge[] judges = comp_dao.Judges.Select(dao => new Purple_1.Judge(dao.Name, dao.Marks)).ToArray();
+                Purple_1.Participant[] participants = comp_dao.Participants.Select(dao => new Purple_1.Participant(dao.Name, dao.Surname)).ToArray();
+                Purple_1.Competition comp = new Purple_1.Competition(judges);
+                comp.Add(participants);
+                foreach (var p in comp.Participants)
+                {
+                    for (int i = 0; i < 7; i++)
+                    {
+                        comp.Evaluate(p);
+                    }
+                }
+
+                return (T)(Object)comp;
+            }
+
+            return null;
         }
 
         public override T DeserializePurple2SkiJumping<T>(string fileName)
