@@ -145,10 +145,6 @@ namespace Lab_9
             {
                 text = "Hockey";
             }
-            else if (student.GetType() == typeof(Blue_3.VIPPlayer))
-            {
-                text = "VIP";
-            }
             else if (student.GetType() == typeof(Blue_3.Participant))
             {
                 text = "Participant";
@@ -188,7 +184,6 @@ namespace Lab_9
             Blue_3.Participant t;
             if (temp[0] == "Basketball") t = new Blue_3.BasketballPlayer(tempNameSurname[0], tempNameSurname[1]);
             else if (temp[0] == "Hockey") t = new Blue_3.HockeyPlayer(tempNameSurname[0], tempNameSurname[1]);
-            else if (temp[0] == "VIP") t = new Blue_3.VIPPlayer(tempNameSurname[0], tempNameSurname[1]);
             else if (temp[0] == "Participant") t = new Blue_3.Participant(tempNameSurname[0], tempNameSurname[1]);
             else
             {

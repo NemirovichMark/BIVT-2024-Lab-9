@@ -217,7 +217,6 @@ namespace Lab_9
             if (dto.Type == "Participant") result = new Blue_3.Participant(dto.Name, dto.Surname);
             else if (dto.Type == "BasketballPlayer") result = new Blue_3.BasketballPlayer(dto.Name, dto.Surname);
             else if (dto.Type == "HockeyPlayer") result = new Blue_3.HockeyPlayer(dto.Name, dto.Surname);
-            else if (dto.Type == "VIPPlayer") result = new Blue_3.VIPPlayer(dto.Name, dto.Surname);
             else return null;
             for (int i = 0; i < dto.Penalties.Length; i++)
             {
