@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "ZFon7/yNUCI=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Кирилл\\source\\repos\\Lab_9\\Lab_9.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Кирилл\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

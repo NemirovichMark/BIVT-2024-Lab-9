@@ -1,0 +1,2 @@
+Type=LongJump
+Count=0

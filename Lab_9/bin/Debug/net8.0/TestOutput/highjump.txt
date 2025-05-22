@@ -1,0 +1,2 @@
+Type=HighJump
+Count=0
