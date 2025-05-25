@@ -137,90 +137,46 @@ namespace Lab_9
 
         public override void SerializeGreen4Discipline(Green_4.Discipline discipline, string fileName)
         {
-            string filePath = Path.Combine(FolderPath, fileName + "." + Extension);
-            using var writer = new StreamWriter(filePath);
+            Directory.CreateDirectory(FolderPath);
 
-            writer.WriteLine("Name: " + discipline.Name);
+            using var writer = new StreamWriter(Path.Combine(FolderPath, $"{fileName}.{Extension}"));
 
-            writer.WriteLine("Discipline: " + (discipline is Green_4.LongJump ? "LongJump" : "HighJump"));
+            writer.WriteLine($"Name: {discipline.Name}");
+            writer.WriteLine($"Discipline: {(discipline is Green_4.LongJump ? "LongJump" : "HighJump")}");
+            writer.WriteLine($"Count: {discipline.Participants.Length}");
+            writer.WriteLine("Participants:");
 
-            var participants = discipline.Participants;
-
-            writer.WriteLine($"{"Count"} {participants.Length}");
-
-            writer.WriteLine("Participants" + ":");
-
-            for (int i = 0; i < participants.Length; i++)
+            foreach (var p in discipline.Participants)
             {
-                var sorev = participants[i];
-                var prijki = new string[sorev.Jumps.Length];
-
-                for (int j = 0; j < sorev.Jumps.Length; j++)
-                {
-                    prijki[j] = sorev.Jumps[j].ToString(CultureInfo.InvariantCulture);
-                }
-
-                writer.WriteLine(sorev.Name + "|" + sorev.Surname + "|" + string.Join(",", prijki));
+                string jumps = string.Join(",", p.Jumps.Select(j => j.ToString(CultureInfo.InvariantCulture)));
+                writer.WriteLine($"{p.Name}|{p.Surname}|{jumps}");
             }
         }
         public override Green_4.Discipline DeserializeGreen4Discipline(string fileName)
         {
-            string filePath = Path.Combine(FolderPath, fileName + "." + Extension);
-            using var str_reader = new StreamReader(filePath);
+            using var reader = new StreamReader(Path.Combine(FolderPath, $"{fileName}.{Extension}"));
 
-            var type = str_reader.ReadLine()!;
+            var name = reader.ReadLine()!.Split(':')[1].Trim();
+            var type = reader.ReadLine()!.Split(':')[1].Trim();
+            Green_4.Discipline disc = type == "LongJump"
+    ? new Green_4.LongJump()
+    : new Green_4.HighJump();
 
-            var name = str_reader.ReadLine()!;
+            reader.ReadLine(); // Count
+            reader.ReadLine(); // Participants:
 
-            string type_stk = type.Split(':', 2)[1].Trim();
-
-            string name_stk = name.Split(':', 2)[1].Trim();
-
-
-            Green_4.Discipline discipline;
-            switch (type_stk)
+            while (!reader.EndOfStream)
             {
-                case "LongJump":
-                    discipline = new Green_4.LongJump();
-                    break;
-                case "HighJump":
-                    discipline = new Green_4.HighJump();
-                    break;
-                default:
-                    discipline = null;
-                    break;
+                var parts = reader.ReadLine()!.Split('|');
+                var p = new Green_4.Participant(parts[0], parts[1]);
+
+                foreach (var j in parts[2].Split(','))
+                    p.Jump(double.Parse(j, CultureInfo.InvariantCulture));
+
+                disc.Add(p);
             }
 
-            string reader = str_reader.ReadLine()!;
-            string _line = str_reader.ReadLine()!;
-            
-
-            for (int i = 0; i < int.Parse(_line.Split(':', 2)[1].Trim()); i++)
-            {
-                string stk = str_reader.ReadLine()!;
-
-                string[] chas = stk.Split('|');
-
-                string _name = chas[0];
-
-                string _surname = chas[1];
-
-                string[] parts = chas[2].Split(',', StringSplitOptions.RemoveEmptyEntries);
-                double[] prijki = new double[parts.Length];
-                for (int j = 0; j < parts.Length; j++)
-                {
-                    prijki[j] = double.Parse(parts[j], CultureInfo.InvariantCulture);
-                }
-                var sorev = new Green_4.Participant(_name, _surname);
-                for (int j = 0; j < prijki.Length; j++)
-                {
-                    sorev.Jump(prijki[j]);
-                }
-
-                discipline.Add(sorev);
-            }
-
-            return discipline;
+            return disc;
         }
 
         public override void SerializeGreen5Group<T>(T group, string fileName)
