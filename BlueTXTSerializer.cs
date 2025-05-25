@@ -127,7 +127,7 @@ namespace Lab_9
                 return res;
             }
         }
-        /
+        
         public override void SerializeBlue3Participant<T>(T student, string fileName)
         {
             if (student == null || string.IsNullOrEmpty(fileName)) return;
