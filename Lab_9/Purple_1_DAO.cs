@@ -1,168 +1,130 @@
-using System.Text;
+using System.Text.Json.Serialization;
 using Lab_7;
 namespace Lab_9
 {
     public class Purple_1_Participant_DAO
     {
-        private const int MARKS_COL_COUNT = 4;
-        private const int MARKS_ROW_COUNT = 7;
+        private const int MARKS_COL_COUNT = 7;
+        private const int MARKS_ROW_COUNT = 4;
 
+
+        public Purple_1_Participant_DAO() { }
 
         public Purple_1_Participant_DAO(string name, string surname, double[] coefs, int[,] marks)
         {
             Name = name;
             Surname = surname;
             Coefs = coefs;
-            Marks = marks;
-        }
+            Marks = new int[4][];
 
-        public string Name { get; private set; }
-        public string Surname { get; private set; }
-        public double[] Coefs { get; private set; }
-        public int[,] Marks { get; private set; }
-
-        public Purple_1_Participant_DAO(string[] lines)
-        {
-            string[] props = lines.Select(l => l.Split('='))
-                .Select(l => l[1])
-                .ToArray();
-
-            if (props[0] != nameof(Purple_1.Participant)) return;
-
-            Name = props[1];
-            Surname = props[2];
-            Coefs = props[3].Split(',').Select(v => double.Parse(v)).ToArray();
-
-            int[][] rows = props[4].Split(';').Select(r => r.Split(',')).Select(r => r.Select(e => int.Parse(e)).ToArray()).ToArray();
-            int[,] matrix = new int[MARKS_ROW_COUNT, MARKS_COL_COUNT];
-
-            for (int row = 0; row < MARKS_ROW_COUNT; row++)
+            for (int i = 0; i < 4; i++)
             {
-                for (int col = 0; col < MARKS_COL_COUNT; col++)
+                Marks[i] = new int[7];
+                for (int j = 0; j < 7; j++)
                 {
-                    matrix[row, col] = rows[row][col];
+                    Marks[i][j] = marks[i, j];
                 }
             }
-            Marks = matrix;
         }
 
-        public string[] SerializeToTXT()
+        public Purple_1_Participant_DAO(Purple_1.Participant participant)
         {
-            string[] lines = new string[0];
+            Name = participant.Name;
+            Surname = participant.Surname;
+            Coefs = participant.Coefs;
+            Marks = new int[4][];
 
-            StringBuilder sb = new StringBuilder();
-
-            for (int row = 0; row < MARKS_ROW_COUNT; row++)
+            for (int i = 0; i < 4; i++)
             {
-                for (int col = 0; col < MARKS_COL_COUNT; col++)
+                Marks[i] = new int[7];
+                for (int j = 0; j < 7; j++)
                 {
-                    sb.Append(Marks[row, col]);
-
-                    if (col < MARKS_COL_COUNT - 1) sb.Append(',');
+                    Marks[i][j] = participant.Marks[i, j];
                 }
-                if (row < MARKS_ROW_COUNT - 1) sb.Append(';');
             }
-
-            Helpers.AppendToArray(lines, $"type={nameof(Purple_1.Participant)}");
-            Helpers.AppendToArray(lines, $"name={Name}");
-            Helpers.AppendToArray(lines, $"surname={Surname}");
-            Helpers.AppendToArray(lines, $"coefs={string.Join(',', Coefs)}");
-            Helpers.AppendToArray(lines, $"marks={sb.ToString()}");
-
-            return lines;
         }
+
+        public Purple_1.Participant ToObject(bool doJump = true)
+        {
+            var p = new Purple_1.Participant(Name, Surname);
+            p.SetCriterias(Coefs);
+            if (doJump)
+            {
+                foreach (int[] marks in Marks)
+                {
+                    p.Jump(marks);
+                }
+            }
+            return p;
+        }
+
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public double[] Coefs { get; set; }
+        public int[][] Marks { get; set; }
     }
 
     public class Purple_1_Judge_DAO
     {
+        public Purple_1_Judge_DAO() { }
         public Purple_1_Judge_DAO(string name, int[] marks)
         {
             Name = name;
-            Marks = marks;
+            FavMarks = marks;
         }
 
-        public string Name { get; private set; }
-        public int[] Marks { get; private set; }
-
-        public string[] SerializeToTXT()
+        public Purple_1_Judge_DAO(Purple_1.Judge judge)
         {
-            string[] lines = new string[0];
-
-            Helpers.AppendToArray(lines, $"type={nameof(Purple_1.Judge)}");
-            Helpers.AppendToArray(lines, $"name={Name}");
-            Helpers.AppendToArray(lines, $"marks={string.Join(',', Marks)}");
-
-            return lines;
+            Name = judge.Name;
+            FavMarks = judge.Marks;
         }
 
-        public Purple_1_Judge_DAO(string[] lines)
+        public Purple_1.Judge ToObject()
         {
-            string[] props = lines.Select(l => l.Split('=')[1]).ToArray();
-
-            if (props[0] != nameof(Purple_1.Judge)) return;
-
-            Name = props[1];
-            Marks = props[2].Split(',').Select(v => int.Parse(v)).ToArray();
+            return new Purple_1.Judge(Name, FavMarks);
         }
 
+        public string Name { get; set; }
+        public int[] FavMarks { get; set; }
     }
 
     public class Purple_1_Competition_DAO
     {
+        public Purple_1_Competition_DAO() { }
         public Purple_1_Competition_DAO(Purple_1_Participant_DAO[] participants, Purple_1_Judge_DAO[] judges)
         {
             Participants = participants;
             Judges = judges;
         }
-        public Purple_1_Participant_DAO[] Participants { get; private set; }
-        public Purple_1_Judge_DAO[] Judges { get; private set; }
 
-        public string[] SerializeToTXT()
+        public Purple_1_Competition_DAO(Purple_1.Competition competition)
         {
-            string[] lines = new string[0];
-            Helpers.AppendToArray(lines, $"type={nameof(Purple_1.Judge)}");
-            foreach (var p in Participants)
-            {
-                Helpers.AppendToArray(lines, p.SerializeToTXT());
-            }
-
-            foreach (var j in Judges)
-            {
-                Helpers.AppendToArray(lines, j.SerializeToTXT());
-            }
-            return lines;
+            Participants = competition.Participants.Select(p => new Purple_1_Participant_DAO(p)).ToArray();
+            Judges = competition.Judges.Select(j => new Purple_1_Judge_DAO(j)).ToArray();
         }
 
-        public Purple_1_Competition_DAO(string[] lines)
+        public Purple_1.Competition ToObject()
         {
-            if (!lines[0].EndsWith(nameof(Purple_1.Competition))) return;
-
-            Judges = new Purple_1_Judge_DAO[0];
-            Participants = new Purple_1_Participant_DAO[0];
-
-            string[] curLines = new string[0];
-
-            lines = lines.AsSpan(1).ToArray();
-            foreach (string l in lines)
+            var c = new Purple_1.Competition(Judges.Select(j => j.ToObject()).ToArray());
+            var participants = Participants.Select(p => p.ToObject(false)).ToArray();
+            foreach (var p in participants)
             {
-                if (l.StartsWith("type") && curLines.Length > 0)
+                for (int i = 0; i < 4; i++)
                 {
-                    if (curLines[0].EndsWith(nameof(Purple_1.Participant)))
-                    {
-                        Purple_1_Participant_DAO dao = new Purple_1_Participant_DAO(curLines);
-                        Helpers.AppendToArray(Participants, dao);
-                    }
-                    if (curLines[0].EndsWith(nameof(Purple_1.Judge)))
-                    {
-                        Purple_1_Judge_DAO dao = new Purple_1_Judge_DAO(curLines);
-                        Helpers.AppendToArray(Judges, dao);
-                    }
-
-                    curLines = new string[0];
+                    c.Evaluate(p);
+                    for (int j = 0; j < 7; j++) Console.Write($"{p.Marks[i, j]}, ");
+                    Console.WriteLine();
                 }
-
-                Helpers.AppendToArray(curLines, l);
+                c.Add(p);
+                Console.WriteLine();
             }
+            return c;
         }
+
+        public Purple_1_Participant_DAO[] Participants { get; set; }
+        public Purple_1_Judge_DAO[] Judges { get; set; }
+
+
+
     }
 }

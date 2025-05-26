@@ -12,7 +12,8 @@ namespace Lab_9
             string path = Path.Combine(FolderPath, $"{name}.{Extension}");
             if (!File.Exists(path))
             {
-                File.Create(path);
+                var myFile = File.Create(path);
+                myFile.Close();
             }
             this.FilePath = path;
         }

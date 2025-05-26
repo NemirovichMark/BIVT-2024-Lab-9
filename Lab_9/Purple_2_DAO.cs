@@ -3,53 +3,65 @@ namespace Lab_9
 {
     public class Purple_2_Participant_DAO
     {
-        public string Name { get; private set; }
-        public string Surname { get; private set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public int[] Marks { get; set; }
+        public int Distance { get; set; }
 
-        public Purple_2_Participant_DAO(string name, string surname)
+        public Purple_2_Participant_DAO() { }
+        public Purple_2_Participant_DAO(string name, string surname, int[] marks, int distance)
         {
             Name = name;
             Surname = surname;
+            Marks = marks;
+            Distance = distance;
         }
 
-        public string[] SerializeToTXT()
+        public Purple_2_Participant_DAO(Purple_2.Participant participant)
         {
-            return new string[] { $"{Name}&{Surname}" };
+            Name = participant.Name;
+            Surname = participant.Surname;
+            Marks = participant.Marks;
+            Distance = participant.Distance;
         }
 
-        public Purple_2_Participant_DAO(string[] lines)
+        public Purple_2.Participant ToObject(int target = 0)
         {
-            string[] nameAndSurname = lines[0].Split('&');
-            Name = nameAndSurname[0];
-            Surname = nameAndSurname[1];
+            var p = new Purple_2.Participant(Name, Surname);
+            p.Jump(Distance, Marks, target);
+            return p;
         }
+
     }
     public class Purple_2_Ski_Jumping_DAO
     {
+        public Purple_2_Ski_Jumping_DAO() { }
         public Purple_2_Ski_Jumping_DAO(string name, int distance, Purple_2_Participant_DAO[] participants)
         {
             Name = name;
             Distance = distance;
             Participants = participants;
         }
-        public string Name { get; private set; }
-        public int Distance { get; private set; }
-        public Purple_2_Participant_DAO[] Participants { get; private set; }
+        public string Name { get; set; }
+        public int Distance { get; set; }
+        public Purple_2_Participant_DAO[] Participants { get; set; }
 
-        public string[] SerializeToTXT()
+        public Purple_2.SkiJumping ToObject()
         {
-            return new string[] {
-            $"{Name}",
-            $"{Distance}",
-            $"{string.Join(';', Participants.Select(p => p.SerializeToTXT()[0]))}"
-          };
+            Purple_2.SkiJumping sj;
+            if (Name == "100m")
+            {
+                sj = new Purple_2.JuniorSkiJumping();
+            }
+            else if (Name == "150m")
+            {
+                sj = new Purple_2.ProSkiJumping();
+
+            }
+            else { return default; }
+            sj.Add(Participants.Select(p => p.ToObject(Distance)).ToArray());
+            return sj;
         }
 
-        public Purple_2_Ski_Jumping_DAO(string[] lines)
-        {
-            Name = lines[0];
-            Distance = int.Parse(lines[1]);
-            Participants = lines[2].Split(';').Select(info => new Purple_2_Participant_DAO(new string[] { info })).ToArray();
-        }
     }
 }
