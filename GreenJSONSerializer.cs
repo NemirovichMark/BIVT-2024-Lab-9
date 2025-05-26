@@ -48,10 +48,7 @@ namespace Lab_9 {
             Green_1.Participant deserialized = default(Green_1.Participant);
             string json = File.ReadAllText(FilePath);
             var dto = JsonConvert.DeserializeObject<ResponseDTO>(json);
-            if (dto.Type == "Participant") {
-                deserialized = new Green_1.Participant(dto.Surname, dto.Group, dto.Trainer);
-            }
-            else if (dto.Type == "Participant100M") {
+            if (dto.Type == "Participant100M") {
                 deserialized = new Green_1.Participant100M(dto.Surname, dto.Group, dto.Trainer);
             }
             else if (dto.Type == "Participant500M") {
@@ -210,6 +207,7 @@ namespace Lab_9 {
                 group.Add(student);
             }
             return group;
+            return null;
         }
     }
 }

@@ -49,9 +49,6 @@ namespace Lab_9 {
 
             switch (participantData["Type"])
             {
-                case "Participant":
-                    deserialized = new Green_1.Participant(surname, group, trainer);
-                    break;
                 case "Participant100M":
                     deserialized = new Green_1.Participant100M(surname, group, trainer);
                     break;
@@ -162,6 +159,8 @@ namespace Lab_9 {
             int id = int.Parse(studentData["ID"]);
 
             var student = new Green_3.Student(name, surname, id);
+            // var student = new Green_3.Student(name, surname);
+
 
             int[] marks = studentData["Marks"].Split(',').Where(x => !string.IsNullOrEmpty(x)).Select(int.Parse).ToArray();
             foreach(var m in marks)
