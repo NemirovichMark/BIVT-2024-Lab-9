@@ -21,14 +21,15 @@ namespace Lab_9
             {
                 w.WriteLine(p.Name);
                 w.WriteLine(p.Surname);
-                w.WriteLine(string.Join(",", p.Coefs));
+                w.WriteLine(string.Join(" ", p.Coefs));
+                w.WriteLine(p.Marks.GetLength(0)); 
                 for (int i = 0; i < p.Marks.GetLength(0); i++)
-                    w.WriteLine(string.Join(",", Enumerable.Range(0, p.Marks.GetLength(1)).Select(j => p.Marks[i, j])));
+                    w.WriteLine(string.Join(" ", Enumerable.Range(0, p.Marks.GetLength(1)).Select(j => p.Marks[i, j])));
             }
             else if (obj is Purple_1.Judge j)
             {
                 w.WriteLine(j.Name);
-                w.WriteLine(string.Join(",", j.Marks));
+                w.WriteLine(string.Join(" ", j.Marks));
             }
             else if (obj is Purple_1.Competition c)
             {
@@ -36,16 +37,17 @@ namespace Lab_9
                 foreach (var j2 in c.Judges)
                 {
                     w.WriteLine(j2.Name);
-                    w.WriteLine(string.Join(",", j2.Marks));
+                    w.WriteLine(string.Join(" ", j2.Marks));
                 }
                 w.WriteLine(c.Participants.Length);
                 foreach (var p2 in c.Participants)
                 {
                     w.WriteLine(p2.Name);
                     w.WriteLine(p2.Surname);
-                    w.WriteLine(string.Join(",", p2.Coefs));
+                    w.WriteLine(string.Join(" ", p2.Coefs));
+                    w.WriteLine(p2.Marks.GetLength(0));
                     for (int i = 0; i < p2.Marks.GetLength(0); i++)
-                        w.WriteLine(string.Join(",", Enumerable.Range(0, p2.Marks.GetLength(1)).Select(j => p2.Marks[i, j])));
+                        w.WriteLine(string.Join(" ", Enumerable.Range(0, p2.Marks.GetLength(1)).Select(j => p2.Marks[i, j])));
                 }
             }
         }
@@ -60,12 +62,13 @@ namespace Lab_9
             {
                 var name = lines[idx++];
                 var surname = lines[idx++];
-                var coefs = lines[idx++].Split(',').Select(double.Parse).ToArray();
+                var coefs = lines[idx++].Split(' ').Select(double.Parse).ToArray();
                 var part = new Purple_1.Participant(name, surname);
                 part.SetCriterias(coefs);
-                for (int k = 0; k < coefs.Length; k++)
+                int rows = int.Parse(lines[idx++]);
+                for (int k = 0; k < rows; k++)
                 {
-                    var marks = lines[idx++].Split(',').Select(int.Parse).ToArray();
+                    var marks = lines[idx++].Split(' ').Select(int.Parse).ToArray();
                     part.Jump(marks);
                 }
                 return part as T;
@@ -73,7 +76,7 @@ namespace Lab_9
             if (typeof(T) == typeof(Purple_1.Judge))
             {
                 var name = lines[idx++];
-                var marks = lines[idx++].Split(',').Select(int.Parse).ToArray();
+                var marks = lines[idx++].Split(' ').Select(int.Parse).ToArray();
                 return new Purple_1.Judge(name, marks) as T;
             }
             if (typeof(T) == typeof(Purple_1.Competition))
@@ -83,7 +86,7 @@ namespace Lab_9
                 for (int i = 0; i < judgeCount; i++)
                 {
                     var jName = lines[idx++];
-                    var jMarks = lines[idx++].Split(',').Select(int.Parse).ToArray();
+                    var jMarks = lines[idx++].Split(' ').Select(int.Parse).ToArray();
                     judges[i] = new Purple_1.Judge(jName, jMarks);
                 }
                 var comp = new Purple_1.Competition(judges);
@@ -92,12 +95,13 @@ namespace Lab_9
                 {
                     var pn = lines[idx++];
                     var ps = lines[idx++];
-                    var cf = lines[idx++].Split(',').Select(double.Parse).ToArray();
+                    var cf = lines[idx++].Split(' ').Select(double.Parse).ToArray();
                     var part = new Purple_1.Participant(pn, ps);
                     part.SetCriterias(cf);
-                    for (int k = 0; k < cf.Length; k++)
+                    int partRows = int.Parse(lines[idx++]);
+                    for (int k = 0; k < partRows; k++)
                     {
-                        var m = lines[idx++].Split(',').Select(int.Parse).ToArray();
+                        var m = lines[idx++].Split(' ').Select(int.Parse).ToArray();
                         part.Jump(m);
                     }
                     comp.Add(part);
@@ -121,7 +125,7 @@ namespace Lab_9
                 w.WriteLine(p.Name);
                 w.WriteLine(p.Surname);
                 w.WriteLine(p.Distance);
-                w.WriteLine(string.Join(",", p.Marks));
+                w.WriteLine(string.Join(" ", p.Marks));
             }
         }
 
@@ -141,7 +145,7 @@ namespace Lab_9
                 var nm = lines[idx++];
                 var sr = lines[idx++];
                 var dist = int.Parse(lines[idx++]);
-                var marks = lines[idx++].Split(',').Select(int.Parse).ToArray();
+                var marks = lines[idx++].Split(' ').Select(int.Parse).ToArray();
                 var p = new Purple_2.Participant(nm, sr);
                 p.Jump(dist, marks, jmp.Standard);
                 jmp.Add(p);
@@ -155,14 +159,14 @@ namespace Lab_9
             using var w = new StreamWriter(FilePath);
 
             w.WriteLine(skating.GetType().Name);
-            w.WriteLine(string.Join(",", skating.Moods));
+            w.WriteLine(string.Join(" ", skating.Moods));
             w.WriteLine(skating.Participants.Length);
             foreach (var p in skating.Participants)
             {
                 w.WriteLine(p.Name);
                 w.WriteLine(p.Surname);
-                w.WriteLine(string.Join(",", p.Marks));
-                w.WriteLine(string.Join(",", p.Places));
+                w.WriteLine(string.Join(" ", p.Marks));
+                w.WriteLine(string.Join(" ", p.Places));
             }
         }
 
@@ -173,7 +177,7 @@ namespace Lab_9
             int idx = 0;
 
             var typeName = lines[idx++];
-            var moods = lines[idx++].Split(',').Select(double.Parse).ToArray();
+            var moods = lines[idx++].Split(' ').Select(double.Parse).ToArray();
             Purple_3.Skating sk = typeName == nameof(Purple_3.FigureSkating) ? new Purple_3.FigureSkating(moods, false) : new Purple_3.IceSkating(moods, false); 
 
             int cnt = int.Parse(lines[idx++]);
@@ -181,7 +185,7 @@ namespace Lab_9
             {
                 var nm = lines[idx++];
                 var sr = lines[idx++];
-                var marks = lines[idx++].Split(',').Select(double.Parse).ToArray();
+                var marks = lines[idx++].Split(' ').Select(double.Parse).ToArray();
                 _ = lines[idx++];
                 var p = new Purple_3.Participant(nm, sr);
                 foreach (var m in marks) p.Evaluate(m);
