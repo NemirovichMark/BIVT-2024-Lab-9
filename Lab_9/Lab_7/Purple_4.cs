@@ -60,7 +60,6 @@ namespace Lab_7
             public Sportsman[] Sportsmen => _sportsmen;
 
             //конструктор
-            [JsonConstructor]
             public Group(string name)
             {
                 _name = name;

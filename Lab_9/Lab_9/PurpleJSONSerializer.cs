@@ -111,41 +111,39 @@ namespace Lab_9
             Purple_3.Skating result;
             if (json["Type"].ToString() == "Lab_7.Purple_3+FigureSkating")
             {
-                result = JsonConvert.DeserializeObject<Purple_3.FigureSkating>(content);
+                result = new Purple_3.FigureSkating(json["Moods"].ToObject<double[]>(), false);
             }
             else if (json["Type"].ToString() == "Lab_7.Purple_3+IceSkating")
             {
-                result = JsonConvert.DeserializeObject<Purple_3.IceSkating>(content);
+                result = new Purple_3.IceSkating(json["Moods"].ToObject<double[]>(), false);
             }
             else return null;
-            Purple_3.Participant.SetPlaces(result.Participants);
-            result.Add(json["Participants"].ToObject<JObject[]>().Select(x => part3(x)).ToArray()) ;
+            var party = json["Participants"].ToObject<JObject[]>();
+            for (int i = 0; i < party.Length; i++)
+            {
+                var p = JsonConvert.DeserializeObject<Purple_3.Participant>(party[i].ToString());
+                var marks = party[i]["Marks"].ToObject<double[]>();
+                foreach(var m in marks) p.Evaluate(m);
+                result.Add(p);
+            }
             return result as T;
         }
-        private Purple_3.Participant part3 (JObject json)
-        {
-            var part = new Purple_3.Participant(json["Name"].ToString(), json["Surname"].ToString());
-            var mark = json["Marks"].ToObject<double[]>();
-            foreach (var m in mark) part.Evaluate(m);
-            return part;
-
-        }
+        
         public override Purple_4.Group DeserializePurple4Group(string fileName)
         {
             SelectFile(fileName);
             var content = File.ReadAllText(FilePath);
             var json = JObject.Parse(content);
-            var result = JsonConvert.DeserializeObject<Purple_4.Group>(content);
-            result.Add(json["Sportsmen"].ToObject<JObject[]>().Select(x=>sport(x)).ToArray());
+            var result = new Purple_4.Group(json["Name"].ToString());
+            var party = json["Sportsmen"].ToObject<JObject[]>();
+            for (int i = 0; i < party.Length; i++)
+            {
+                var p = JsonConvert.DeserializeObject<Purple_4.Sportsman>(party[i].ToString());
+                p.Run(double.Parse(party[i]["Time"].ToString()));
+                result.Add(p);
+            }
             return result;
         }
-        private Purple_4.Sportsman sport(JObject json)
-        {
-            var sport = new Purple_4.Sportsman(json["Name"].ToString(), json["Surname"].ToString());
-            sport.Run(json["Time"].ToObject<double>());
-            return sport;
-        }
-
         public override Purple_5.Report DeserializePurple5Report(string fileName)
         {
             SelectFile(fileName);
