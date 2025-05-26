@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj": {}
+    "C:\\Users\\Марк\\Source\\Repos\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj": {
+    "C:\\Users\\Марк\\Source\\Repos\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj",
+        "projectUniqueName": "C:\\Users\\Марк\\Source\\Repos\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj",
         "projectName": "Lab_9_Purple_Test",
-        "projectPath": "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj",
-        "packagesPath": "C:\\Users\\Markosias\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Markosias\\Documents\\BIVT-24\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\obj\\",
+        "projectPath": "C:\\Users\\Марк\\Source\\Repos\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\Lab_9_Purple_Test.csproj",
+        "packagesPath": "C:\\Users\\Марк\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Марк\\Source\\Repos\\BIVT-2024-Lab-9-test\\Lab_9_Purple_Test\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Markosias\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Марк\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -75,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
