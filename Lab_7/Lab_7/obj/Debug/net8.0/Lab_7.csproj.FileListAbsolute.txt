@@ -1,0 +1,14 @@
+C:\Users\theorr\source\repos\Lab_7\Lab_7\obj\Debug\net8.0\Lab_7.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\theorr\source\repos\Lab_7\Lab_7\obj\Debug\net8.0\Lab_7.AssemblyInfoInputs.cache
+C:\Users\theorr\source\repos\Lab_7\Lab_7\obj\Debug\net8.0\Lab_7.AssemblyInfo.cs
+C:\Users\theorr\source\repos\Lab_7\Lab_7\obj\Debug\net8.0\Lab_7.csproj.CoreCompileInputs.cache
+C:\Users\theorr\source\repos\Lab_7\Lab_7\bin\Debug\net8.0\Lab_7.exe
+C:\Users\theorr\source\repos\Lab_7\Lab_7\bin\Debug\net8.0\Lab_7.deps.json
+C:\Users\theorr\source\repos\Lab_7\Lab_7\bin\Debug\net8.0\Lab_7.runtimeconfig.json
+C:\Users\theorr\source\repos\Lab_7\Lab_7\bin\Debug\net8.0\Lab_7.dll
+C:\Users\theorr\source\repos\Lab_7\Lab_7\bin\Debug\net8.0\Lab_7.pdb
+C:\Users\theorr\source\repos\Lab_7\Lab_7\obj\Debug\net8.0\Lab_7.dll
+C:\Users\theorr\source\repos\Lab_7\Lab_7\obj\Debug\net8.0\refint\Lab_7.dll
+C:\Users\theorr\source\repos\Lab_7\Lab_7\obj\Debug\net8.0\Lab_7.pdb
+C:\Users\theorr\source\repos\Lab_7\Lab_7\obj\Debug\net8.0\Lab_7.genruntimeconfig.cache
+C:\Users\theorr\source\repos\Lab_7\Lab_7\obj\Debug\net8.0\ref\Lab_7.dll
