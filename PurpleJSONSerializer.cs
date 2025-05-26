@@ -43,6 +43,7 @@ namespace Lab_9
         private void SerJ<T>(T obj, string fileName) where T : class
         {
             SelectFile(fileName);
+            if (obj == null || FilePath == null) return;
             var json = JObject.FromObject(obj);
             json.Add("Type", obj.GetType().ToString());
             File.WriteAllText(FilePath, json.ToString());
@@ -186,7 +187,10 @@ namespace Lab_9
                 {
                     foreach (var rr in r["Responses"])
                     {
-                        research.Add(new string[] { rr["Animal"].ToString(), rr["CharacterTrait"].ToString(), rr["Concept"].ToString() });
+                        var ans1 = rr["Animal"].ToString() == "" ? null : rr["Animal"].ToString();
+                        var ans2 = rr["CharacterTrait"].ToString() == "" ? null : rr["CharacterTrait"].ToString();
+                        var ans3 = rr["Concept"].ToString() == "" ? null : rr["Concept"].ToString();
+                        research.Add(new string[] { ans1, ans2, ans3 });
                     }
                     report.AddResearch(research);
                 }

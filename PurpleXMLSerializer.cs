@@ -118,6 +118,7 @@ namespace Lab_9
                 Marks = marks;
                 TotalScore = p.TotalScore;
             }
+            public P1_Participant() { }
         }
 
         public class P1_Judge
@@ -130,6 +131,7 @@ namespace Lab_9
                 Name = j.Name;
                 Marks = j.Marks;
             }
+            public P1_Judge() { }
         }
 
         public class P1_Competition
@@ -142,6 +144,7 @@ namespace Lab_9
                 Participants = c.Participants.Select(p => new P1_Participant(p)).ToArray();
                 Judges = c.Judges.Select(j => new P1_Judge(j)).ToArray();
             }
+            public P1_Competition() { }
         }
 
 
@@ -212,6 +215,7 @@ namespace Lab_9
                 Marks = p.Marks;
                 Result = p.Result;
             }
+            public P2_Participant() { }
         }
 
         public class P2_SkiJumping
@@ -228,6 +232,7 @@ namespace Lab_9
                 Standard = s.Standard;
                 Type = s.GetType().Name;
             }
+            public P2_SkiJumping() { }
         }
 
 
@@ -302,6 +307,7 @@ namespace Lab_9
                 Places = p.Places;
                 Score = p.Score;
             }
+            public P3_Participant() { }
         }
 
         public class P3_Skating
@@ -316,6 +322,7 @@ namespace Lab_9
                 Participants = s.Participants.Select(p => new P3_Participant(p)).ToArray();
                 Type = s.GetType().Name;
             }
+            public P3_Skating() { }
         }
 
 
@@ -367,6 +374,7 @@ namespace Lab_9
                 Time = s.Time;
                 Type = s.GetType().Name;
             }
+            public P4_Sportsman() { }
         }
 
         public class P4_Group
@@ -379,6 +387,7 @@ namespace Lab_9
                 Name = g.Name;
                 Sportsmen = g.Sportsmen.Select(s => new P4_Sportsman(s)).ToArray();
             }
+            public P4_Group() { }
         }
 
 
@@ -403,7 +412,13 @@ namespace Lab_9
                 var research = new Purple_5.Research(r.Name);
                 if (r.Responses != null)
                 {
-                    foreach (var rr in r.Responses) research.Add(new string[] { rr.Animal, rr.CharacterTrait, rr.Concept });
+                    foreach (var rr in r.Responses)
+                    {
+                        var ans1 = rr.Animal == "" ? null : rr.Animal;
+                        var ans2 = rr.CharacterTrait == "" ? null : rr.CharacterTrait;
+                        var ans3 = rr.Concept == "" ? null : rr.Concept;
+                        research.Add(new string[] { ans1, ans2, ans3 });
+                    }
                 }
                 rep.AddResearch(research);
             }
@@ -423,6 +438,7 @@ namespace Lab_9
                 CharacterTrait = r.CharacterTrait;
                 Concept = r.Concept;
             }
+            public P5_Response() { }
         }
 
         public class P5_Research
@@ -435,7 +451,7 @@ namespace Lab_9
                 Name = r.Name;
                 Responses = r.Responses.Select(rr => new P5_Response(rr)).ToArray();
             }
-
+            public P5_Research() { }
         }
 
         public class P5_Report
@@ -446,6 +462,7 @@ namespace Lab_9
             {
                 Researches = r.Researches.Select(rr => new P5_Research(rr)).ToArray();
             }
+            public P5_Report() { }
         }
     }
 }

@@ -55,7 +55,7 @@ namespace Lab_9
             string text = "";
             text += "Type: Judge" + Environment.NewLine;
             text += $"Name: {j.Name}" + Environment.NewLine;
-            text += $"Marks: {String.Join(" ", j.Marks)}" + Environment.NewLine;
+            text += $"Marks: {String.Join(" ", j.Marks)}";
             return text;
         }
 
@@ -102,8 +102,8 @@ namespace Lab_9
             p.SetCriterias(coefs_double);
 
             var marks = text[4].Split(':')[1].Trim().Split(' ');
-            var marks_int = new int[4][];
-            for (int i = 0; i < marks.Length; i++) Int32.TryParse(marks[i], out marks_int[i / 7][i & 7]);
+            var marks_int = new int[4][] { new int[7], new int[7], new int[7], new int[7]};
+            for (int i = 0; i < marks.Length; i++) Int32.TryParse(marks[i], out marks_int[i / 7][i % 7]);
             foreach (var m in marks_int) p.Jump(m);
 
             return p;
@@ -157,7 +157,7 @@ namespace Lab_9
                     var marks = text[7 + i * 5].Split(':')[1].Trim().Split(' ');
                     var marks_int = new int[marks.Length];
                     for (int k = 0; k < marks.Length; k++) Int32.TryParse(marks[k], out marks_int[k]);
-                    Int32.TryParse(text[6 + i * 5], out int distance);
+                    Int32.TryParse(text[6 + i * 5].Split(' ')[1], out int distance);
                     p.Jump(distance, marks_int, 100);
                     j.Add(p);
                 }
@@ -253,7 +253,8 @@ namespace Lab_9
             foreach (var s in participant.Sportsmen)
             {
                 if (s is SkiMan) text += "Type: SkiMan" + Environment.NewLine;
-                if (s is SkiWoman) text += "Type: SkiWoman" + Environment.NewLine;
+                else if (s is SkiWoman) text += "Type: SkiWoman" + Environment.NewLine;
+                else text += "Type: Sportsman" + Environment.NewLine;
                 text += $"Name: {s.Name}" + Environment.NewLine;
                 text += $"Surname: {s.Surname}" + Environment.NewLine;
                 text += $"Time: {s.Time}" + Environment.NewLine;
@@ -275,7 +276,8 @@ namespace Lab_9
             {
                 Double.TryParse(text[5 + i * 4].Split(' ')[1], out double time);
                 if (text[2 + i * 4].Split(' ')[1] == "SkiMan") { var s = new Purple_4.SkiMan(text[3 + i * 4].Split(' ')[1], text[4 + i * 4].Split(' ')[1], time); g.Add(s); }
-                if (text[2 + i * 4].Split(' ')[1] == "SkiWoman") { var s = new Purple_4.SkiWoman(text[3 + i * 4].Split(' ')[1], text[4 + i * 4].Split(' ')[1], time); g.Add(s); }
+                else if (text[2 + i * 4].Split(' ')[1] == "SkiWoman") { var s = new Purple_4.SkiWoman(text[3 + i * 4].Split(' ')[1], text[4 + i * 4].Split(' ')[1], time); g.Add(s); }
+                else { var s = new Purple_4.Sportsman(text[3 + i * 4].Split(' ')[1], text[4 + i * 4].Split(' ')[1]); s.Run(time); g.Add(s); }
             }
 
             return g;
@@ -316,7 +318,10 @@ namespace Lab_9
                 Int32.TryParse(text[current++], out int count2);
                 for (int j = 0; j < count2; j++, current += 3)
                 {
-                    var answers = new string[] { text[current].Split(' ')[1], text[current + 1].Split(' ')[1], text[current + 2].Split(' ')[1] };
+                    var ans1 = text[current].Split(' ')[1] == "" ? null : text[current].Split(' ')[1];
+                    var ans2 = text[current + 1].Split(' ')[1] == "" ? null : text[current + 1].Split(' ')[1];
+                    var ans3 = text[current + 2].Split(' ')[1] == "" ? null : text[current + 2].Split(' ')[1];
+                    var answers = new string[] { ans1, ans2, ans3 };
                     research.Add(answers);
                 }
                 g.AddResearch(research);
