@@ -17,6 +17,8 @@ namespace Lab_9
 
         private void DataSerializer<T> (T data, string fileName)
         {
+            SelectFile(fileName);
+
             if (string.IsNullOrEmpty(FolderPath) || string.IsNullOrEmpty(FilePath) || data == null) return;
 
             string serData = JsonConvert.SerializeObject(data);
@@ -221,6 +223,8 @@ namespace Lab_9
 
 
             var name = data["Name"]?.ToString();
+            if (name == null) return null;
+
             var group = new Blue_4.Group(name);
 
             // man teams
@@ -278,6 +282,7 @@ namespace Lab_9
 
 
             var teamName = data["Name"]?.ToObject<string>();
+            if (teamName == null) return null;
 
             T team;
             if (objType == typeof(Blue_5.ManTeam))

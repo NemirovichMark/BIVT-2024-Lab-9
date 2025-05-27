@@ -142,7 +142,7 @@ namespace Lab_9
             string content = File.ReadAllText(fileName);
             var json = JsonConvert.DeserializeObject<dynamic>(content); // dynamic, чтобы удобно обращаться к полям
 
-            if ((string)json.ResponseType == "HumanResponse") // наследник
+            if ((string)json.Type == "HumanResponse") // наследник
             {
                 return new Blue_1.HumanResponse(
                     (string)json.Name,
@@ -168,7 +168,7 @@ namespace Lab_9
 
             Blue_2.WaterJump waterJump; // родитель абстрактный 
 
-            if ((string)json.ParticipantType == "WaterJump3m") // если наследник 3m
+            if ((string)json.Type == "WaterJump3m") // если наследник 3m
                 waterJump = new Blue_2.WaterJump3m((string)json.Name, (int)json.Bank);
 
             else waterJump = new Blue_2.WaterJump5m((string)json.Name, (int)json.Bank); // если наследник 5m
@@ -207,10 +207,10 @@ namespace Lab_9
 
             Blue_3.Participant participant;
 
-            if ((string)json.ParticipantType == "HockeyPlayer")
+            if ((string)json.Type == "HockeyPlayer")
                 participant = new Blue_3.HockeyPlayer((string)json.Name, (string)json.Surname); // наследник хоккеист
 
-            else if ((string)json.ParticipantType == "BasketballPlayer")
+            else if ((string)json.Type == "BasketballPlayer")
                 participant = new Blue_3.BasketballPlayer((string)json.Name, (string)json.Surname); // наследник баскетболист
 
             else
@@ -237,7 +237,7 @@ namespace Lab_9
             Blue_4.Group group = new Blue_4.Group((string)json.Name);
 
             // man team
-            foreach (var man in json.manParticipant)
+            foreach (var man in json.ManParticipant)
             {
                 var manTeam = new Blue_4.ManTeam((string)man.Name);
 
@@ -251,9 +251,9 @@ namespace Lab_9
             }
 
             // woman team
-            foreach (var woman in json.manParticipant)
+            foreach (var woman in json.WomanParticipant)
             {
-                var womanTeam = new Blue_4.ManTeam((string)woman.Name);
+                var womanTeam = new Blue_4.WomanTeam((string)woman.Name);
 
                 int[] scores = woman.Scores.ToObject<int[]>();
                 foreach (int score in scores)
@@ -276,14 +276,16 @@ namespace Lab_9
 
             Blue_5.Team team; // родитель абстрактный
 
-            if ((string)json.TeamType == "ManTeam")
+            if ((string)json.Type == "ManTeam")
                 team = new Blue_5.ManTeam((string)json.Name); // man team
             else 
                 team = new Blue_5.WomanTeam((string)json.Name); // woman team
 
             // сами спортсмены
-            foreach (dynamic DataSportsman in json.sportsman)
+            foreach (var DataSportsman in json.Sportsmen)
             {
+                if (DataSportsman.Name == null || DataSportsman.Surname == null) continue;
+
                 var sportsman = new Blue_5.Sportsman((string)DataSportsman.Name, (string)DataSportsman.Surname);
 
                 sportsman.SetPlace((int)DataSportsman.Place);

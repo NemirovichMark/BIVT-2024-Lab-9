@@ -17,4 +17,6 @@ C:\Users\Дарья\source\repos\Lab_9\Lab_9\obj\Debug\net8.0\Lab_9.pdb
 C:\Users\Дарья\source\repos\Lab_9\Lab_9\obj\Debug\net8.0\Lab_9.genruntimeconfig.cache
 C:\Users\Дарья\source\repos\Lab_9\Lab_9\obj\Debug\net8.0\ref\Lab_9.dll
 C:\Users\Дарья\source\repos\Lab_9\Lab_9\bin\Debug\net8.0\Lab_7.dll
-C:\Users\Дарья\source\repos\Lab_9\Lab_9\bin\Debug\net8.0\Lab_7.dll.config
+C:\Users\Дарья\source\repos\Lab_9\Lab_9\bin\Debug\net8.0\Lab_7.deps.json
+C:\Users\Дарья\source\repos\Lab_9\Lab_9\bin\Debug\net8.0\Lab_7.runtimeconfig.json
+C:\Users\Дарья\source\repos\Lab_9\Lab_9\bin\Debug\net8.0\Lab_7.exe

@@ -25,7 +25,7 @@
       },
       "Lab_7/1.0.0": {
         "runtime": {
-          "Lab_7.exe": {
+          "Lab_7.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
