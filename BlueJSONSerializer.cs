@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Lab_7;
+using Lab_7.Blue_1_Models;
 
 namespace Lab_9
 {
@@ -126,7 +127,7 @@ namespace Lab_9
             {
                 if (Type == nameof(Blue_1.HumanResponse))
                 {
-                    return new Blue_1.HumanResponse(Name, Surname);
+                    return new Blue_1.HumanResponse(Name, Surname, Votes);
                 }
                 return new Blue_1.Response(Name, Votes);
             }
@@ -236,8 +237,7 @@ namespace Lab_9
                     Marks = new int[participant.Marks.GetLength(0)][];
                     for (int i = 0; i < participant.Marks.GetLength(0); i++)
                     {
-                        Marks[i] = new int[participant.Marks.GetLength(1)];
-                        for (int j = 0; j < participant.Marks.GetLength(1); j++)
+                        Marks[i] = new int[participant.Marks.GetLength(1)]; for (int j = 0; j < participant.Marks.GetLength(1); j++)
                         {
                             Marks[i][j] = participant.Marks[i, j];
                         }
@@ -412,6 +412,5 @@ namespace Lab_9
                 return sportsman;
             }
         }
-        #endregion
     }
 }
