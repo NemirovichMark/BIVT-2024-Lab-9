@@ -111,7 +111,7 @@ namespace Lab_9
 
         private Purple_1.Judge DesJudge(string[] text)
         {
-            var marks = text[3].Split(':')[1].Trim().Split(' ');
+            var marks = text[2].Split(':')[1].Trim().Split(' ');
             var marks_int = new int[marks.Length];
             for (int i = 0; i < marks.Length; i++) Int32.TryParse(marks[i], out marks_int[i]);
 
@@ -174,7 +174,7 @@ namespace Lab_9
                     var marks = text[7 + i * 5].Split(':')[1].Trim().Split(' ');
                     var marks_int = new int[marks.Length];
                     for (int k = 0; k < marks.Length; k++) Int32.TryParse(marks[k], out marks_int[k]);
-                    Int32.TryParse(text[6 + i * 5], out int distance);
+                    Int32.TryParse(text[6 + i * 5].Split(' ')[1], out int distance);
                     p.Jump(distance, marks_int, 150);
                     j.Add(p);
                 }

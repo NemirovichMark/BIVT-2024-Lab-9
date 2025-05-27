@@ -16,7 +16,7 @@ namespace Lab_9
 
         public void SelectFolder(string path)
         {
-            Directory.CreateDirectory(path);
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
             FolderPath = path;
         }
         

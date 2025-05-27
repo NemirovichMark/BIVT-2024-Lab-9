@@ -173,7 +173,7 @@ namespace Lab_9
 
             var j = Deser<P2_SkiJumping>();
 
-            if (j.Type == typeof(Purple_2.JuniorSkiJumping).ToString())
+            if (j.Standard == 100)
             {
                 var jump = new Purple_2.JuniorSkiJumping();
                 foreach (var p in j.Participants)
@@ -185,7 +185,7 @@ namespace Lab_9
                 return jump as T;
             }
 
-            else if (j.Type == typeof(Purple_2.ProSkiJumping).ToString())
+            else if (j.Standard == 150)
             {
                 var jump = new Purple_2.ProSkiJumping();
                 foreach (var p in j.Participants)
@@ -196,6 +196,7 @@ namespace Lab_9
                 }
                 return jump as T;
             }
+
             else return null;
         }
 
@@ -261,7 +262,7 @@ namespace Lab_9
 
             var s = Deser<P3_Skating>();
 
-            if (s.Type == typeof(Purple_3.FigureSkating).ToString())
+            if (s.Type == nameof(Purple_3.FigureSkating))
             {
                 var skat = new Purple_3.FigureSkating(s.Moods, false);
                 foreach (var p in skat.Participants)
@@ -275,7 +276,7 @@ namespace Lab_9
                 return skat as T;
             }
 
-            else if (s.Type == typeof(Purple_3.IceSkating).ToString())
+            else if (s.Type == nameof(Purple_3.IceSkating))
             {
                 var skat = new Purple_3.IceSkating(s.Moods, false);
                 foreach (var p in skat.Participants)
@@ -320,7 +321,8 @@ namespace Lab_9
             {
                 Moods = s.Moods;
                 Participants = s.Participants.Select(p => new P3_Participant(p)).ToArray();
-                Type = s.GetType().Name;
+                if (s is Purple_3.FigureSkating) Type = nameof(Purple_3.FigureSkating);
+                else Type = nameof(Purple_3.IceSkating);
             }
             public P3_Skating() { }
         }
@@ -355,6 +357,12 @@ namespace Lab_9
                     var sp = new Purple_4.SkiWoman(s.Name, s.Surname, s.Time);
                     group.Add(sp);
                 }
+                else
+                {
+                    var sp = new Purple_4.Sportsman(s.Name, s.Surname);
+                    sp.Run(s.Time);
+                    group.Add(sp);
+                }
             }
 
             return group;
@@ -372,7 +380,8 @@ namespace Lab_9
                 Name = s.Name;
                 Surname = s.Surname;
                 Time = s.Time;
-                Type = s.GetType().Name;
+                if (s is Purple_4.SkiMan) Type = nameof(Purple_4.SkiMan);
+                else Type = nameof(Purple_4.SkiWoman);
             }
             public P4_Sportsman() { }
         }
