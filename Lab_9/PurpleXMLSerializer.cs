@@ -10,7 +10,6 @@ namespace Lab_9
         {
             SelectFile(fileName);
             var stream = new StreamReader(FilePath);
-            Console.WriteLine("БЛЯТЬ Я ЗАЕБАЛСЯ ТЕБЯ ЧИНИТЬ");
 
             if (typeof(T) == typeof(Purple_1.Participant))
             {
@@ -28,7 +27,6 @@ namespace Lab_9
             }
             if (typeof(T) == typeof(Purple_1.Competition))
             {
-                Console.WriteLine("ХУЕСОС БЛЯТЬ РАБОТАЙ");
                 var serializer = new XmlSerializer(typeof(Purple_1_Competition_DAO));
                 var dao = (Purple_1_Competition_DAO)serializer.Deserialize(stream);
                 stream.Close();
