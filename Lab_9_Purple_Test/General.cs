@@ -23,7 +23,7 @@ namespace Lab_9_Purple_Test
             var forbiddenTypes = new HashSet<Type>
     {
         typeof(FieldInfo), typeof(PropertyInfo), typeof(MethodInfo),
-        typeof(Type), typeof(Assembly), typeof(BindingFlags)
+        typeof(Assembly), typeof(BindingFlags)
     };
 
             // Проверка всех используемых типов в классе
