@@ -18,6 +18,23 @@ namespace Lab_9_White_Test
             Check(fields);
             Check(properties, ps);
             Check(methods, ms);
+
+            // Список запрещенных типов из System.Reflection
+            var forbiddenTypes = new HashSet<Type>
+    {
+        typeof(FieldInfo), typeof(PropertyInfo), typeof(MethodInfo),
+        typeof(Type), typeof(Assembly), typeof(BindingFlags)
+    };
+
+            // Проверка всех используемых типов в классе
+            var usedTypes = GetUsedTypes(
+                type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static),
+                type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static),
+                type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+            );
+
+            var usesReflection = usedTypes.Any(t => forbiddenTypes.Contains(t));
+            Assert.IsFalse(usesReflection, "Class should not use types from System.Reflection");
         }
         private static void Check(FieldInfo[] f)
         {
@@ -77,6 +94,28 @@ namespace Lab_9_White_Test
                 }
                 j++;
             }
+        }
+        private static IEnumerable<Type> GetUsedTypes(FieldInfo[] fields, PropertyInfo[] properties, MethodInfo[] methods)
+        {
+            var mTypes = new List<Type>();
+
+            foreach (var field in fields)
+            {
+                mTypes.Add(field.FieldType);
+            }
+            foreach (var property in properties)
+            {
+                mTypes.Add(property.PropertyType);
+            }
+            foreach (var method in methods)
+            {
+                mTypes.Add(method.ReturnType);
+                foreach (var parameter in method.GetParameters())
+                {
+                    mTypes.Add(parameter.ParameterType);
+                }
+            }
+            return mTypes.Distinct();
         }
     }
 }
