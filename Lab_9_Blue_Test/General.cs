@@ -18,6 +18,23 @@ namespace Lab_9_Blue_Test
             Check(fields);
             Check(properties, ps);
             Check(methods, ms);
+
+            // Список запрещенных типов из System.Reflection
+            var forbiddenTypes = new HashSet<Type>
+    {
+        typeof(FieldInfo), typeof(PropertyInfo), typeof(MethodInfo),
+        typeof(Type), typeof(Assembly), typeof(BindingFlags)
+    };
+
+            // Проверка всех используемых типов в классе
+            var usedTypes = GetUsedTypes(
+                type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static),
+                type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static),
+                type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+            );
+
+            var usesReflection = usedTypes.Any(t => forbiddenTypes.Contains(t));
+            Assert.IsFalse(usesReflection, "Class should not use types from System.Reflection");
         }
         private static void Check(FieldInfo[] f)
         {
@@ -38,7 +55,7 @@ namespace Lab_9_Blue_Test
                 Assert.AreEqual(p[i].Name, ps[i].Item1);
                 if (ps[i].Item2 != null)
                 {
-               //     Assert.AreEqual(p[i].GetMethod?.IsAbstract, ps[i].Item2.Contains("abstract"));
+                    //     Assert.AreEqual(p[i].GetMethod?.IsAbstract, ps[i].Item2.Contains("abstract"));
                     Assert.AreEqual(p[i].GetMethod?.IsStatic, ps[i].Item2?.Contains("static"));
                     Assert.AreEqual(p[i].GetMethod?.IsVirtual, ps[i].Item2?.Intersect(new string[] { "abstract", "virtual" }).Any());
                 }
@@ -81,6 +98,28 @@ namespace Lab_9_Blue_Test
                 }
                 j++;
             }
+        }
+        private static IEnumerable<Type> GetUsedTypes(FieldInfo[] fields, PropertyInfo[] properties, MethodInfo[] methods)
+        {
+            var mTypes = new List<Type>();
+
+            foreach (var field in fields)
+            {
+                mTypes.Add(field.FieldType);
+            }
+            foreach (var property in properties)
+            {
+                mTypes.Add(property.PropertyType);
+            }
+            foreach (var method in methods)
+            {
+                mTypes.Add(method.ReturnType);
+                foreach (var parameter in method.GetParameters())
+                {
+                    mTypes.Add(parameter.ParameterType);
+                }
+            }
+            return mTypes.Distinct();
         }
     }
 }
