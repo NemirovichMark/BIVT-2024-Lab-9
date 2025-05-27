@@ -362,15 +362,20 @@ namespace Lab_9
             {
                 Purple_5.Research research = researchJ.ToObject<Purple_5.Research>();
                 JArray responsesJ = researchJ["Responses"] as JArray;
-                
+
                 foreach (JObject responseJ in responsesJ)
                 {
 
                     string animal = responseJ["Animal"].ToString();
                     string characterTrait = responseJ["CharacterTrait"].ToString();
+                    //System.Console.WriteLine(characterTrait=="");
                     string concept = responseJ["Concept"].ToString();
-                
-                    research.Add(new string[] { animal, characterTrait, concept});
+
+                    research.Add(new string[] { string.IsNullOrEmpty(animal) ? null : animal,
+                            string.IsNullOrEmpty(characterTrait) ? null : characterTrait,
+                            string.IsNullOrEmpty(concept) ? null : concept });
+                    //System.Console.WriteLine(research.Responses[research.Responses.Length-1].CharacterTrait == "");
+
                 }
                 
                 report.AddResearch(research);

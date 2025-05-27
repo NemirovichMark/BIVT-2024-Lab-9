@@ -659,9 +659,10 @@ namespace Lab_9
                     Purple_5.Research research = new Purple_5.Research(reportWrapper.Researches[i].Name);
                     for (int j = 0; j < reportWrapper.Researches[i].Responses.Length;j++)
                     {
-                        research.Add(new string[] {reportWrapper.Researches[i].Responses[j].Animal,
-                        reportWrapper.Researches[i].Responses[j].CharacterTrait,
-                        reportWrapper.Researches[i].Responses[j].Concept});
+                        research.Add(new string[] { string.IsNullOrEmpty(reportWrapper.Researches[i].Responses[j].Animal) ? null : reportWrapper.Researches[i].Responses[j].Animal,
+                            string.IsNullOrEmpty(reportWrapper.Researches[i].Responses[j].CharacterTrait) ? null : reportWrapper.Researches[i].Responses[j].CharacterTrait,
+                            string.IsNullOrEmpty(reportWrapper.Researches[i].Responses[j].Concept) ? null : reportWrapper.Researches[i].Responses[j].Concept });
+                        ///System.Console.WriteLine(research.Responses[research.Responses.Length-1].CharacterTrait == null);
                     }
                     report.AddResearch(research);
                 }

@@ -604,8 +604,13 @@ namespace Lab_9
                         if (pairs[0].Trim() == "Concept")
                         {
                             //Console.WriteLine(fileParsing["Concept"]);
-                            research.Add(new string[] { fileParsing["Animal"], fileParsing["CharacterTrait"], fileParsing["Concept"] });
-                            //Console.WriteLine(research.Responses[research.Responses.Length - 1].Animal);
+
+                            research.Add(new string[] { string.IsNullOrEmpty(fileParsing["Animal"]) ? null : fileParsing["Animal"],
+                            string.IsNullOrEmpty(fileParsing["CharacterTrait"]) ? null : fileParsing["CharacterTrait"],
+                            string.IsNullOrEmpty(fileParsing["Concept"]) ? null : fileParsing["Concept"] });
+                            //System.Console.WriteLine(research.Responses[research.Responses.Length-1].CharacterTrait == null);
+
+                            
                         }
 
                         //если новое началось, старое закинуть в репорт
