@@ -25,7 +25,7 @@ namespace Lab_9_Purple_Test
         {
             if (File.Exists(Path.Combine(path, folderName, fileName)))
             {
-                Directory.Delete(Path.Combine(path, folderName));
+                Directory.Delete(Path.Combine(path, folderName), true);
             }
             manager.SelectFolder(Path.Combine(path, folderName));
             manager.SelectFile(fileName);
