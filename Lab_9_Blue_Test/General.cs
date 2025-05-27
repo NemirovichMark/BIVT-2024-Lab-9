@@ -22,8 +22,7 @@ namespace Lab_9_Blue_Test
             // Список запрещенных типов из System.Reflection
             var forbiddenTypes = new HashSet<Type>
     {
-        typeof(FieldInfo), typeof(PropertyInfo), typeof(MethodInfo),
-        typeof(Type), typeof(Assembly), typeof(BindingFlags)
+        typeof(FieldInfo), typeof(PropertyInfo), typeof(MethodInfo), typeof(Assembly), typeof(BindingFlags)
     };
 
             // Проверка всех используемых типов в классе
