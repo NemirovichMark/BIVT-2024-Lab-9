@@ -1,4 +1,5 @@
-﻿using Lab_7;
+using Lab_7;
+using Lab_7.Blue_1_Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,12 +18,12 @@ namespace Lab_9
 
         public override void SerializeBlue1Response(Blue_1.Response participant, string fileName)
         {
-            if (participant == null || string.IsNullOrEmpty(fileName)) return; 
+            if (participant == null || string.IsNullOrEmpty(fileName)) return;
             SelectFile(fileName);
 
-            ResponseSD part = new ResponseSD(participant); 
-            XmlSerializer xml = new XmlSerializer(typeof(ResponseSD)); 
-            using (var file = new StreamWriter(fileName)) 
+            ResponseSD part = new ResponseSD(participant);
+            XmlSerializer xml = new XmlSerializer(typeof(ResponseSD));
+            using (var file = new StreamWriter(fileName))
             {
                 xml.Serialize(file, part);
             }
@@ -85,14 +86,14 @@ namespace Lab_9
 
             XmlSerializer xml = new XmlSerializer(typeof(ResponseSD));
             ResponseSD part;
-            using (var file = new StreamReader(fileName)) 
+            using (var file = new StreamReader(fileName))
             {
-                part = (ResponseSD)xml.Deserialize(file); 
+                part = (ResponseSD)xml.Deserialize(file);
             }
             Blue_1.Response result = new Blue_1.Response(part.Name, part.Votes);
             if (part.Surname != null)
             {
-                result = new Blue_1.HumanResponse(part.Name, part.Surname);
+                result = new Blue_1.HumanResponse(part.Name, part.Surname, part.Votes);
             }
             return result;
         }
@@ -115,10 +116,10 @@ namespace Lab_9
             }
             foreach (ParticipantSD i in part.Participants)
             {
-                Blue_2.Participant part2 = new Blue_2.Participant(i.Name, i.Surname); 
+                Blue_2.Participant part2 = new Blue_2.Participant(i.Name, i.Surname);
                 foreach (var j in i.Marks)
                 {
-                    part2.Jump(j); 
+                    part2.Jump(j);
                 }
 
                 result.Add(part2);
@@ -216,18 +217,18 @@ namespace Lab_9
             }
 
             Blue_5.Team result = new Blue_5.WomanTeam(part.Name);
-            if (part.Type == "ManTeam") 
+            if (part.Type == "ManTeam")
             {
                 result = new Blue_5.ManTeam(part.Name);
             }
 
-            if (part.Sporsman != null) 
+            if (part.Sporsman != null)
             {
                 foreach (var part2 in part.Sporsman)
                 {
                     if (part2 == null) continue;
 
-                    var sportsman = new Blue_5.Sportsman(part2.Name, part2.Surname); 
+                    var sportsman = new Blue_5.Sportsman(part2.Name, part2.Surname);
                     sportsman.SetPlace(part2.Place);
                     result.Add(sportsman);
                 }
