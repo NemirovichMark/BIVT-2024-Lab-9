@@ -3,9 +3,9 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Collections.Generic;
 using Lab_7;
-using System.Reflection;
 using System.Linq;
 using System.Xml;
+using System.Reflection;
 
 namespace Lab_9
 {
@@ -229,8 +229,8 @@ namespace Lab_9
         public override Blue_1.Response DeserializeBlue1Response(string fileName)
         {
             if (string.IsNullOrEmpty(fileName)) return null;
-            SelectFile(fileName); 
-            
+            SelectFile(fileName);
+
             Blue_1.Response domainResponse = null;
             int votes = 0;
 
@@ -246,9 +246,8 @@ namespace Lab_9
 
                 object deserializedDto = null;
 
-                
-                using (var fs = new FileStream(this.FilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) 
-                using (var streamReader = new StreamReader(fs)) 
+                using (var fs = new FileStream(this.FilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var streamReader = new StreamReader(fs))
                 {
                     if (rootElementName == "HumanResponseDTO")
                     {
@@ -273,47 +272,51 @@ namespace Lab_9
                     return null;
                 }
 
-                
                 if (deserializedDto is HumanResponseDTO humanDto)
                 {
                     domainResponse = new Blue_1.HumanResponse(humanDto.Name, humanDto.Surname);
                     votes = humanDto.Votes;
+
+                    
+                    var tempResponses = new Blue_1.Response[] { domainResponse };
+                    domainResponse.CountVotes(tempResponses);
+
+                    
+                    if (votes > 1)
+                    {
+                        var field = typeof(Blue_1.Response).GetField("_votes", BindingFlags.NonPublic | BindingFlags.Instance);
+                        field?.SetValue(domainResponse, votes);
+                    }
                 }
-                else if (deserializedDto is ResponseDTO responseDto) 
+               
+                else if (deserializedDto is ResponseDTO responseDto)
                 {
                     domainResponse = new Blue_1.Response(responseDto.Name);
                     votes = responseDto.Votes;
-                }
-                else
-                {
-                     Console.WriteLine($"XML Deserialization for Blue1: DTO is of unexpected type '{deserializedDto.GetType().FullName}' after deserialization.");
-                     return null;
-                }
-                
-                
-                if (domainResponse != null)
-                {
-                    var field = typeof(Blue_1.Response).GetField("_votes", BindingFlags.NonPublic | BindingFlags.Instance);
-                    if (field != null) 
+
+                    
+                    var tempResponses = new Blue_1.Response[] { domainResponse };
+                    domainResponse.CountVotes(tempResponses);
+
+                    
+                    if (votes > 1)
                     {
-                        field.SetValue(domainResponse, votes);
-                    }
-                    else 
-                    {
-                         Console.WriteLine("XML Deserialization for Blue1: _votes field not found via reflection.");
+                        var field = typeof(Blue_1.Response).GetField("_votes", BindingFlags.NonPublic | BindingFlags.Instance);
+                        field?.SetValue(domainResponse, votes);
                     }
                 }
                 else
                 {
-                     Console.WriteLine("XML Deserialization for Blue1: domainResponse object is null after DTO type check and instantiation.");
+                    Console.WriteLine($"XML Deserialization for Blue1: DTO is of unexpected type '{deserializedDto.GetType().FullName}' after deserialization.");
+                    return null;
                 }
 
                 return domainResponse;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine($"XML Deserialization Error for Blue1: {ex.Message} StackTrace: {ex.StackTrace}");
-                return null; 
+                return null;
             }
         }
 
@@ -394,7 +397,7 @@ namespace Lab_9
                 };
                 if (dto.Penalties != null)
                 {
-                    foreach(var penalty in dto.Penalties) domainParticipant.PlayMatch(penalty);
+                    foreach (var penalty in dto.Penalties) domainParticipant.PlayMatch(penalty);
                 }
                 return domainParticipant as T;
             }
@@ -413,7 +416,7 @@ namespace Lab_9
 
         public override Blue_4.Group DeserializeBlue4Group(string fileName)
         {
-             if (string.IsNullOrEmpty(fileName)) return null;
+            if (string.IsNullOrEmpty(fileName)) return null;
             SelectFile(fileName);
             try
             {
@@ -425,21 +428,21 @@ namespace Lab_9
                 var group = new Blue_4.Group(dto.Name);
                 if (dto.ManTeams != null)
                 {
-                    foreach(var teamDto in dto.ManTeams)
+                    foreach (var teamDto in dto.ManTeams)
                     {
-                        if(teamDto == null) continue;
+                        if (teamDto == null) continue;
                         var manTeam = new Blue_4.ManTeam(teamDto.Name);
-                        if(teamDto.Scores != null) foreach(var score in teamDto.Scores) manTeam.PlayMatch(score);
+                        if (teamDto.Scores != null) foreach (var score in teamDto.Scores) manTeam.PlayMatch(score);
                         group.Add(manTeam);
                     }
                 }
                 if (dto.WomanTeams != null)
                 {
-                    foreach(var teamDto in dto.WomanTeams)
+                    foreach (var teamDto in dto.WomanTeams)
                     {
-                        if(teamDto == null) continue;
+                        if (teamDto == null) continue;
                         var womanTeam = new Blue_4.WomanTeam(teamDto.Name);
-                        if(teamDto.Scores != null) foreach(var score in teamDto.Scores) womanTeam.PlayMatch(score);
+                        if (teamDto.Scores != null) foreach (var score in teamDto.Scores) womanTeam.PlayMatch(score);
                         group.Add(womanTeam);
                     }
                 }
@@ -469,19 +472,19 @@ namespace Lab_9
                 var dto = (Team5DTO)serializer.Deserialize(reader);
                 if (dto == null || string.IsNullOrEmpty(dto.Name)) return null;
 
-                Blue_5.Team domainTeam = dto.Type switch 
+                Blue_5.Team domainTeam = dto.Type switch
                 {
                     "ManTeam" => new Blue_5.ManTeam(dto.Name),
                     "WomanTeam" => new Blue_5.WomanTeam(dto.Name),
                     _ => null
                 };
-                if(domainTeam == null) return null;
+                if (domainTeam == null) return null;
 
                 if (dto.Sportsmen != null)
                 {
-                    foreach(var spDto in dto.Sportsmen)
+                    foreach (var spDto in dto.Sportsmen)
                     {
-                        if(spDto == null) continue;
+                        if (spDto == null) continue;
                         var sportsman = new Blue_5.Sportsman(spDto.Name, spDto.Surname);
                         sportsman.SetPlace(spDto.Place);
                         domainTeam.Add(sportsman);

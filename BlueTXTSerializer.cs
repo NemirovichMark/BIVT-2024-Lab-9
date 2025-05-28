@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Linq;
 using System.Collections.Generic;
@@ -12,28 +11,11 @@ namespace Lab_9
     {
         public override string Extension => "txt";
 
-        
-        private PropertyInfo[] GetPublicProperties(object obj)
-        {
-            return obj.GetType()
-                     .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                     .Where(p => p.CanRead && p.CanWrite)
-                     .ToArray();
-        }
 
         
-        private void WritePropertiesToFile(object obj, string filePath)
-        {
-            using (StreamWriter writer = new StreamWriter(filePath, false, Encoding.UTF8))
-            {
-                var properties = GetPublicProperties(obj);
-                foreach (var prop in properties)
-                {
-                    var value = prop.GetValue(obj)?.ToString() ?? "null";
-                    writer.WriteLine($"{prop.Name}={value}");
-                }
-            }
-        }
+
+
+        
 
         private void ReadPropertiesFromFile(object obj, string filePath)
         {
@@ -53,14 +35,14 @@ namespace Lab_9
                     {
                         try
                         {
-                            var convertedValue = propValue == "null" ? null : 
-                                Convert.ChangeType(propValue, 
+                            var convertedValue = propValue == "null" ? null :
+                                Convert.ChangeType(propValue,
                                     Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType);
                             property.SetValue(obj, convertedValue);
                         }
                         catch
                         {
-                            
+
                             continue;
                         }
                     }
@@ -146,25 +128,27 @@ namespace Lab_9
                         surname = value;
                         break;
                     case "Votes":
-                        if (int.TryParse(value, out int votesValue))
-                        {
-                            votes = votesValue;
-                        }
+                        int.TryParse(value, out votes);
                         break;
                 }
             }
 
             if (string.IsNullOrEmpty(name)) return null;
 
-            Blue_1.Response response = type == "HumanResponse" && !string.IsNullOrEmpty(surname)
-                ? new Blue_1.HumanResponse(name, surname)
-                : new Blue_1.Response(name);
-
-            
-            var field = typeof(Blue_1.Response).GetField("_votes", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (field != null)
+            Blue_1.Response response;
+            if (type == "HumanResponse" && !string.IsNullOrEmpty(surname))
             {
-                field.SetValue(response, votes);
+                response = new Blue_1.HumanResponse(name, surname);
+                // Восстанавливаем голоса через временный массив
+                var tempResponses = Enumerable.Repeat(response, votes).ToArray();
+                ((Blue_1.HumanResponse)response).CountVotes(tempResponses);
+            }
+            else
+            {
+                response = new Blue_1.Response(name);
+                // Восстанавливаем голоса через временный массив
+                var tempResponses = Enumerable.Repeat(response, votes).ToArray();
+                response.CountVotes(tempResponses);
             }
 
             return response;
@@ -180,7 +164,7 @@ namespace Lab_9
                 WriteValue(writer, "Type", wj.GetType().Name);
                 WriteValue(writer, "Name", wj.Name);
                 WriteValue(writer, "Bank", wj.Bank);
-                
+
                 if (wj.Participants?.Any() == true)
                 {
                     writer.Write("Participants::");
@@ -208,7 +192,7 @@ namespace Lab_9
                 {
                     var participantsData = line.Substring(line.IndexOf("::") + 2);
                     DeserializeBlue2Participants(participants, participantsData);
-                    continue; 
+                    continue;
                 }
 
                 var parts = line.Split(new[] { ": " }, StringSplitOptions.None);
@@ -256,14 +240,14 @@ namespace Lab_9
         private void DeserializeBlue2Participants(List<Blue_2.Participant> participants, string value)
         {
             if (string.IsNullOrEmpty(value)) return;
-            
+
             var participantStrings = value.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var pStr in participantStrings)
             {
                 if (pStr.Length <= 2) continue;
-                var participantData = pStr.Substring(1, pStr.Length - 2); 
+                var participantData = pStr.Substring(1, pStr.Length - 2);
                 var fields = participantData.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                
+
                 string? name = null, surname = null;
                 var marks = new List<int[]>();
 
@@ -324,98 +308,88 @@ namespace Lab_9
             if (participant == null || string.IsNullOrEmpty(fileName)) return;
 
             SelectFile(fileName);
+
             using (StreamWriter writer = new StreamWriter(FilePath))
             {
-                WriteValue(writer, "Type", participant.GetType().Name);
-                var properties = participant.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-                foreach (var prop in properties)
+                if (participant is Blue_3.Participant baseParticipant)
                 {
-                    var value = prop.GetValue(participant);
-                    if (value != null)
+                    string typeName = participant switch
                     {
-                        WriteValue(writer, prop.Name, value);
-                    }
+                        Blue_3.BasketballPlayer => "BasketballPlayer",
+                        Blue_3.HockeyPlayer => "HockeyPlayer",
+                        _ => "Participant"
+                    };
+
+                    WriteValue(writer, "Type", typeName);
+                    WriteValue(writer, "Name", baseParticipant.Name);
+                    WriteValue(writer, "Surname", baseParticipant.Surname);
+                    WriteValue(writer, "Penalties", string.Join(",", baseParticipant.Penalties));
                 }
             }
         }
 
         public override T? DeserializeBlue3Participant<T>(string fileName) where T : class
         {
-            if (string.IsNullOrEmpty(fileName)) return null;
+            if (string.IsNullOrEmpty(fileName)) return default;
             SelectFile(fileName);
-            
-            var lines = File.ReadAllLines(FilePath);
-            string? type = null, name = null, surname = null;
-            var penalties = new List<int>();
-            bool readingPenalties = false;
 
-            for (int i = 0; i < lines.Length; i++)
+            try
             {
-                var line = lines[i];
-                var trimmedLine = line.Trim();
+                var lines = File.ReadAllLines(FilePath);
+                string type = "", name = "", surname = "";
+                int[] penalties = Array.Empty<int>();
 
-                if (readingPenalties)
+                foreach (var line in lines)
                 {
-                    if (trimmedLine.StartsWith("-:"))
+                    var parts = line.Split(new[] { ": " }, StringSplitOptions.None);
+                    if (parts.Length != 2) continue;
+
+                    var key = parts[0].Trim();
+                    var value = parts[1].Trim();
+
+                    switch (key)
                     {
-                        var penaltyValueStr = trimmedLine.Substring(trimmedLine.IndexOf("-:") + 2).Trim();
-                        if (int.TryParse(penaltyValueStr, out int penaltyVal))
-                        {
-                            penalties.Add(penaltyVal);
-                        }
+                        case "Type":
+                            type = value;
+                            break;
+                        case "Name":
+                            name = value;
+                            break;
+                        case "Surname":
+                            surname = value;
+                            break;
+                        case "Penalties":
+                            penalties = value.Split(',')
+                                           .Where(s => !string.IsNullOrEmpty(s))
+                                           .Select(int.Parse)
+                                           .ToArray();
+                            break;
                     }
-                    else
-                    {
-                        readingPenalties = false; 
-                        i--; 
-                        continue;
-                    }
-                    continue; 
                 }
 
-                if (trimmedLine == "Penalties:")
+                if (string.IsNullOrEmpty(name)) return default;
+
+                Blue_3.Participant participant = type switch
                 {
-                    readingPenalties = true;
-                    penalties.Clear();
-                    continue;
-                }
+                    "BasketballPlayer" => new Blue_3.BasketballPlayer(name, surname),
+                    "HockeyPlayer" => new Blue_3.HockeyPlayer(name, surname),
+                    _ => new Blue_3.Participant(name, surname)
+                };
 
-                var parts = line.Split(new[] { ": " }, StringSplitOptions.None);
-                if (parts.Length != 2) continue;
-
-                var key = parts[0].Trim();
-                var value = parts[1].Trim();
-
-                switch (key)
+                foreach (var penalty in penalties)
                 {
-                    case "Type":
-                        type = value;
-                        break;
-                    case "Name":
-                        name = value;
-                        break;
-                    case "Surname":
-                        surname = value;
-                        break;
+                    participant.PlayMatch(penalty);
                 }
+
+                return (T)(object)participant;
             }
-
-            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname)) return null;
-
-            Blue_3.Participant participant = type switch
+            catch
             {
-                "BasketballPlayer" => new Blue_3.BasketballPlayer(name, surname),
-                "HockeyPlayer" => new Blue_3.HockeyPlayer(name, surname),
-                _ => new Blue_3.Participant(name, surname)
-            };
-
-            foreach (var penalty in penalties)
-            {
-                participant.PlayMatch(penalty);
+                return default;
             }
-
-            return participant as T;
         }
+
+
 
         public override void SerializeBlue4Group(Blue_4.Group? group, string fileName)
         {
@@ -434,7 +408,7 @@ namespace Lab_9
         {
             if (string.IsNullOrEmpty(fileName)) return null;
             SelectFile(fileName);
-            
+
             var lines = File.ReadAllLines(FilePath);
             string? groupName = null;
             var manTeams = new List<Blue_4.ManTeam>();
@@ -470,7 +444,7 @@ namespace Lab_9
                 if (key == "Name" && !originalKeyPart.StartsWith(" ") && !originalKeyPart.StartsWith("  -"))
                 {
                     groupName = value;
-                    continue; 
+                    continue;
                 }
 
                 if (originalKeyPart.StartsWith("    "))
@@ -521,7 +495,7 @@ namespace Lab_9
             var group = new Blue_4.Group(groupName);
             if (manTeams.Any()) group.Add(manTeams.ToArray());
             if (womanTeams.Any()) group.Add(womanTeams.ToArray());
-            
+
             return group;
         }
 
@@ -545,7 +519,7 @@ namespace Lab_9
         {
             if (string.IsNullOrEmpty(fileName)) return null;
             SelectFile(fileName);
-            
+
             var lines = File.ReadAllLines(FilePath);
             string? type = null, teamEntityName = null;
             var sportsmen = new List<Blue_5.Sportsman>();
@@ -614,7 +588,7 @@ namespace Lab_9
                             var sportsman = new Blue_5.Sportsman(sportsmanName, sportsmanSurname);
                             sportsman.SetPlace(place.Value);
                             sportsmen.Add(sportsman);
-                            sportsmanName = null; sportsmanSurname = null; place = null; 
+                            sportsmanName = null; sportsmanSurname = null; place = null;
                         }
                     }
                 }
@@ -708,4 +682,3 @@ namespace Lab_9
         }
     }
 }
-

@@ -3,7 +3,6 @@ using System.IO;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Lab_7;
-using System.Reflection;
 using Newtonsoft.Json.Linq;
 
 namespace Lab_9
@@ -12,9 +11,9 @@ namespace Lab_9
     {
         public override string Extension => "json";
 
-        #region Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ РєР»Р°СЃСЃС‹ РґР»СЏ СЃРµСЂРёР°Р»РёР·Р°С†РёРё РІ JSON
+        #region Вспомогательные классы для сериализации в JSON
 
-        
+
         public class ResponseDTO
         {
             public string Type { get; set; } = "Response";
@@ -30,7 +29,7 @@ namespace Lab_9
             }
         }
 
-       
+
         public class HumanResponseDTO : ResponseDTO
         {
             public string Surname { get; set; } = string.Empty;
@@ -47,7 +46,7 @@ namespace Lab_9
             }
         }
 
-        
+
         public class ParticipantDTO
         {
             public string Name { get; set; } = string.Empty;
@@ -66,7 +65,7 @@ namespace Lab_9
             }
         }
 
-       
+
         public class WaterJumpDTO
         {
             public string Name { get; set; } = string.Empty;
@@ -91,7 +90,7 @@ namespace Lab_9
             }
         }
 
-        
+
         public class Participant3DTO
         {
             public string Name { get; set; } = string.Empty;
@@ -110,7 +109,7 @@ namespace Lab_9
             }
         }
 
-        
+
         public class GroupDTO
         {
             public string Name { get; set; } = string.Empty;
@@ -141,7 +140,7 @@ namespace Lab_9
             }
         }
 
-        
+
         public class TeamDTO
         {
             public string Name { get; set; } = string.Empty;
@@ -158,7 +157,7 @@ namespace Lab_9
             }
         }
 
-        
+
         public class Team5DTO
         {
             public string Name { get; set; } = string.Empty;
@@ -182,7 +181,7 @@ namespace Lab_9
             }
         }
 
-        
+
         public class SportsmanDTO
         {
             public string Name { get; set; } = string.Empty;
@@ -232,8 +231,6 @@ namespace Lab_9
             }
 
             SelectFile(fileName);
-            Blue_1.Response response = null;
-            int votes = 0;
 
             try
             {
@@ -241,6 +238,7 @@ namespace Lab_9
                 JObject jObject = JObject.Parse(jsonString);
 
                 string typeFieldValue = jObject["Type"]?.Value<string>();
+                Blue_1.Response response = null;
 
                 if (typeFieldValue == "HumanResponse")
                 {
@@ -248,27 +246,21 @@ namespace Lab_9
                     if (dto != null)
                     {
                         response = new Blue_1.HumanResponse(dto.Name, dto.Surname);
-                        votes = dto.Votes;
+                        var tempResponses = Enumerable.Repeat(response, dto.Votes).ToArray();
+                        response.CountVotes(tempResponses); 
                     }
                 }
-                else 
+                else
                 {
                     var dto = jObject.ToObject<ResponseDTO>();
                     if (dto != null)
                     {
                         response = new Blue_1.Response(dto.Name);
-                        votes = dto.Votes;
+                        var tempResponses = Enumerable.Repeat(response, dto.Votes).ToArray();
+                        response.CountVotes(tempResponses); 
                     }
                 }
 
-                if (response != null)
-                {
-                    var field = typeof(Blue_1.Response).GetField("_votes", BindingFlags.NonPublic | BindingFlags.Instance);
-                    if (field != null)
-                    { 
-                        field.SetValue(response, votes);
-                    }
-                }
                 return response;
             }
             catch
@@ -304,7 +296,7 @@ namespace Lab_9
             {
                 string json = File.ReadAllText(FilePath);
                 var dto = JsonConvert.DeserializeObject<WaterJumpDTO>(json);
-                
+
                 Blue_2.WaterJump waterJump;
                 if (dto.Type == "WaterJump3m")
                 {
@@ -372,7 +364,7 @@ namespace Lab_9
             {
                 string json = File.ReadAllText(FilePath);
                 var dto = JsonConvert.DeserializeObject<Participant3DTO>(json);
-                
+
                 Blue_3.Participant participant;
                 if (dto.Type == "BasketballPlayer")
                 {
@@ -484,7 +476,7 @@ namespace Lab_9
             {
                 string json = File.ReadAllText(FilePath);
                 var dto = JsonConvert.DeserializeObject<Team5DTO>(json);
-                
+
                 Blue_5.Team team;
                 if (dto.Type == "ManTeam")
                 {
