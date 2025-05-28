@@ -265,7 +265,7 @@ namespace Lab_9
             if (s.Type == nameof(Purple_3.FigureSkating))
             {
                 var skat = new Purple_3.FigureSkating(s.Moods, false);
-                foreach (var p in skat.Participants)
+                foreach (var p in s.Participants)
                 {
                     var par = new Purple_3.Participant(p.Name, p.Surname);
                     foreach (var m in p.Marks) par.Evaluate(m);
@@ -279,7 +279,7 @@ namespace Lab_9
             else if (s.Type == nameof(Purple_3.IceSkating))
             {
                 var skat = new Purple_3.IceSkating(s.Moods, false);
-                foreach (var p in skat.Participants)
+                foreach (var p in s.Participants)
                 {
                     var par = new Purple_3.Participant(p.Name, p.Surname);
                     foreach (var m in p.Marks) par.Evaluate(m);

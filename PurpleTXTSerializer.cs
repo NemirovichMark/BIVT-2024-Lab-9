@@ -318,9 +318,9 @@ namespace Lab_9
                 Int32.TryParse(text[current++], out int count2);
                 for (int j = 0; j < count2; j++, current += 3)
                 {
-                    var ans1 = text[current].Split(' ')[1] == "" ? null : text[current].Split(' ')[1];
-                    var ans2 = text[current + 1].Split(' ')[1] == "" ? null : text[current + 1].Split(' ')[1];
-                    var ans3 = text[current + 2].Split(' ')[1] == "" ? null : text[current + 2].Split(' ')[1];
+                    var ans1 = text[current].Split(':')[1].Trim() == "" ? null : text[current].Split(':')[1].Trim();
+                    var ans2 = text[current + 1].Split(':')[1].Trim() == "" ? null : text[current + 1].Split(':')[1].Trim();
+                    var ans3 = text[current + 2].Split(':')[1].Trim() == "" ? null : text[current + 2].Split(':')[1].Trim();
                     var answers = new string[] { ans1, ans2, ans3 };
                     research.Add(answers);
                 }
