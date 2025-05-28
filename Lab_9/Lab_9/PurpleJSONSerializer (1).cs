@@ -44,7 +44,7 @@ namespace Lab_9
             string text = File.ReadAllText(FilePath);
             var json = JObject.Parse(text);
 
-            string type = json["type"]?.ToString();
+            string type = json["type"].ToString();
             json.Remove("type");//удаление поля тип
 
             T obj = default;
@@ -108,7 +108,7 @@ namespace Lab_9
                             if (participantj[i]["Name"] != null && participantj[i]["Surname"] != null && participantj[i]["Coefs"] != null && participantj[i]["Marks"] != null)
                             {
                                 string name = participantj[i]["Name"].ToString();
-                                string surname = participantj[i]["Surname"].ToString(); // исправлено
+                                string surname = participantj[i]["Surname"].ToString(); 
                                 double[] coefs = participantj[i]["Coefs"].ToObject<double[]>();
                                 int[,] marks = participantj[i]["Marks"].ToObject<int[,]>();
                                 var participantObj = new Purple_1.Participant(name, surname);
@@ -183,8 +183,7 @@ namespace Lab_9
                 int distance_p = participants[i]["Distance"].ToObject<int>(); // Дистанция
                 int[] marks_p = participants[i]["Marks"].ToObject<int[]>(); // Оценки
 
-                // Создание участника с правильным именем
-                var participant = new Purple_2.Participant(name_p, surname_p); // Изменено на name_p
+                var participant = new Purple_2.Participant(name_p, surname_p); 
                 participant.Jump(distance_p, marks_p, standard);
                 participants1[i] = participant;
             }
@@ -219,7 +218,7 @@ namespace Lab_9
             }
             else
             {
-                throw new Exception("Unknown Type");
+                return null;
             }
 
             
@@ -310,11 +309,10 @@ namespace Lab_9
                 // var responses1 = new Purple_5.Response[responses.Length];
                 foreach (var response in responses)
                 {
-                    string animal = response["Animal"]?.ToString();
-                    string character = response["CharacterTrait"]?.ToString();
-                    string concept = response["Concept"]?.ToString();
+                    string animal = response["Animal"].ToString();
+                    string character = response["CharacterTrait"].ToString();
+                    string concept = response["Concept"].ToString();
 
-                    // Присваиваем null, если строки пустые
                     animal = string.IsNullOrEmpty(animal) ? null : animal;
                     character = string.IsNullOrEmpty(character) ? null : character;
                     concept = string.IsNullOrEmpty(concept) ? null : concept;

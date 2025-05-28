@@ -378,7 +378,7 @@ namespace Lab_9
                 foreach (var research in report.Researches)
                 {
                     writer.Write(research.Name);
-                    writer.Write("|");
+                    writer.Write("!");
                     for (int i = 0; i < research.Responses.Length; i++)
                     {
                         var response = research.Responses[i];
@@ -388,7 +388,7 @@ namespace Lab_9
                         writer.Write(";");
                         writer.Write(response.Concept);
                         if (i != research.Responses.Length - 1)
-                            writer.Write(':');
+                            writer.Write('/');
                     }
                     writer.WriteLine();
                 }
@@ -399,15 +399,15 @@ namespace Lab_9
             SelectFile(fileName);
 
             string[] text = File.ReadAllLines(FilePath);
-            int r_count = int.Parse(text[0]);
-            Purple_5.Research[] researches = new Purple_5.Research[r_count];
+            int k = int.Parse(text[0]);
+            var researches = new Purple_5.Research[k];
 
             for (int i = 1; i < text.Length; i++)
             {
-                string[] line = text[i].Split('|');
+                string[] line = text[i].Split('!');
                 string name = line[0];
-                string[] responses = line[1].Split(':');
-                Purple_5.Research research = new Purple_5.Research(name);
+                string[] responses = line[1].Split('/');
+                var research = new Purple_5.Research(name);
                 foreach (string res in responses)
                 {
                     string[] answers = res.Split(';');
@@ -424,7 +424,7 @@ namespace Lab_9
                 researches[i - 1] = research;
             }
 
-            Purple_5.Report report = new Purple_5.Report();
+            var report = new Purple_5.Report();
             report.AddResearch(researches);
             return report;
         }
