@@ -6,7 +6,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Lab_7;
-using Lab_7.Blue_1_Models;
 
 namespace Lab_9
 {
@@ -101,7 +100,6 @@ namespace Lab_9
             return (T)dto.ToTeam();
         }
 
-        #region DTO Classes
         private class ResponseDTO
         {
             public string Type { get; set; }
