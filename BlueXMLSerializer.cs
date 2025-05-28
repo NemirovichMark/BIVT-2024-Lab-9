@@ -18,6 +18,7 @@ namespace Lab_9
         {
             public string Type { get; set; } = "Response";
             public string Name { get; set; } = string.Empty;
+            public string? Surname { get; set; } // для HumanResponse
             public int Votes { get; set; }
 
             public ResponseDTO() { }
@@ -26,8 +27,34 @@ namespace Lab_9
             {
                 Name = response.Name;
                 Votes = response.Votes;
+
+                if (response is Blue_1.HumanResponse hr)
+                {
+                    Type = "HumanResponse";
+                    Surname = hr.Surname;
+                }
+            }
+
+            public Blue_1.Response ToDomain(List<ResponseDTO>? context = null)
+            {
+                Blue_1.Response result;
+
+                if (Type == "HumanResponse")
+                    result = new Blue_1.HumanResponse(Name, Surname ?? "");
+                else
+                    result = new Blue_1.Response(Name);
+
+                // Вычисляем Votes, если передан контекст
+                if (context != null)
+                {
+                    var responses = context.Select(dto => dto.ToDomain()).ToArray();
+                    result.CountVotes(responses);
+                }
+
+                return result;
             }
         }
+
 
         public class HumanResponseDTO : ResponseDTO
         {
@@ -231,16 +258,12 @@ namespace Lab_9
             if (string.IsNullOrEmpty(fileName)) return null;
             SelectFile(fileName);
 
-            Blue_1.Response domainResponse = null;
-            int votes = 0;
-
             try
             {
                 string rootElementName = GetXmlRootElementName(this.FilePath);
 
                 if (string.IsNullOrEmpty(rootElementName))
                 {
-                    Console.WriteLine($"XML Deserialization for Blue1: Could not determine root element name from file: {this.FilePath}");
                     return null;
                 }
 
@@ -261,53 +284,39 @@ namespace Lab_9
                     }
                     else
                     {
-                        Console.WriteLine($"XML Deserialization for Blue1: Unexpected root element '{rootElementName}' in file: {this.FilePath}");
                         return null;
                     }
                 }
 
                 if (deserializedDto == null)
                 {
-                    Console.WriteLine("XML Deserialization for Blue1: DTO is null after specific deserialization attempt based on root element.");
                     return null;
                 }
 
+                Blue_1.Response domainResponse = null;
+
                 if (deserializedDto is HumanResponseDTO humanDto)
                 {
-                    domainResponse = new Blue_1.HumanResponse(humanDto.Name, humanDto.Surname);
-                    votes = humanDto.Votes;
-
-                    
-                    var tempResponses = new Blue_1.Response[] { domainResponse };
-                    domainResponse.CountVotes(tempResponses);
-
-                    
-                    if (votes > 1)
+                    var responses = new List<Blue_1.Response>();
+                    for (int i = 0; i < humanDto.Votes; i++)
                     {
-                        var field = typeof(Blue_1.Response).GetField("_votes", BindingFlags.NonPublic | BindingFlags.Instance);
-                        field?.SetValue(domainResponse, votes);
+                        responses.Add(new Blue_1.HumanResponse(humanDto.Name, humanDto.Surname));
                     }
+                    domainResponse = new Blue_1.HumanResponse(humanDto.Name, humanDto.Surname);
+                    domainResponse.CountVotes(responses.ToArray());
                 }
-               
                 else if (deserializedDto is ResponseDTO responseDto)
                 {
-                    domainResponse = new Blue_1.Response(responseDto.Name);
-                    votes = responseDto.Votes;
-
-                    
-                    var tempResponses = new Blue_1.Response[] { domainResponse };
-                    domainResponse.CountVotes(tempResponses);
-
-                    
-                    if (votes > 1)
+                    var responses = new List<Blue_1.Response>();
+                    for (int i = 0; i < responseDto.Votes; i++)
                     {
-                        var field = typeof(Blue_1.Response).GetField("_votes", BindingFlags.NonPublic | BindingFlags.Instance);
-                        field?.SetValue(domainResponse, votes);
+                        responses.Add(new Blue_1.Response(responseDto.Name));
                     }
+                    domainResponse = new Blue_1.Response(responseDto.Name);
+                    domainResponse.CountVotes(responses.ToArray());
                 }
                 else
                 {
-                    Console.WriteLine($"XML Deserialization for Blue1: DTO is of unexpected type '{deserializedDto.GetType().FullName}' after deserialization.");
                     return null;
                 }
 
@@ -315,10 +324,10 @@ namespace Lab_9
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"XML Deserialization Error for Blue1: {ex.Message} StackTrace: {ex.StackTrace}");
                 return null;
             }
         }
+
 
         public override void SerializeBlue2WaterJump(Blue_2.WaterJump participant, string fileName)
         {
