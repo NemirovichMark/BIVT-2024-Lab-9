@@ -15,20 +15,17 @@ namespace Lab_9
 
             if (root.TryGetProperty("Coefs", out _))
             {
-                Console.WriteLine("Deserialize Participant");
-                var dao = JsonSerializer.Deserialize<Purple_1_Participant_DAO>(json);
+                var dao = JsonSerializer.Deserialize<Purple_1_Participant_DTO>(json);
                 return (T)(Object)dao.ToObject();
             }
             if (root.TryGetProperty("FavMarks", out _))
             {
-                Console.WriteLine("Deserialize Judge");
-                var dao = JsonSerializer.Deserialize<Purple_1_Judge_DAO>(json);
+                var dao = JsonSerializer.Deserialize<Purple_1_Judge_DTO>(json);
                 return (T)(Object)dao.ToObject();
             }
             if (root.TryGetProperty("Participants", out _))
             {
-                Console.WriteLine("Deserialize Competition");
-                var dao = JsonSerializer.Deserialize<Purple_1_Competition_DAO>(json);
+                var dao = JsonSerializer.Deserialize<Purple_1_Competition_DTO>(json);
                 return (T)(Object)dao.ToObject();
             }
 
@@ -40,7 +37,7 @@ namespace Lab_9
             SelectFile(fileName);
             string json = File.ReadAllText(FilePath);
 
-            var dao = JsonSerializer.Deserialize<Purple_2_Ski_Jumping_DAO>(json);
+            var dao = JsonSerializer.Deserialize<Purple_2_Ski_Jumping_DTO>(json);
             return (T)(Object)dao.ToObject();
         }
 
@@ -54,12 +51,12 @@ namespace Lab_9
 
             if (skatingKind == nameof(Purple_3.IceSkating))
             {
-                var dao = JsonSerializer.Deserialize<Purple_3_Scating_DAO<Purple_3.IceSkating>>(json);
+                var dao = JsonSerializer.Deserialize<Purple_3_Scating_DTO<Purple_3.IceSkating>>(json);
                 return (T)(Object)dao.ToObject();
             }
             else if (skatingKind == nameof(Purple_3.FigureSkating))
             {
-                var dao = JsonSerializer.Deserialize<Purple_3_Scating_DAO<Purple_3.FigureSkating>>(json);
+                var dao = JsonSerializer.Deserialize<Purple_3_Scating_DTO<Purple_3.FigureSkating>>(json);
                 return (T)(Object)dao.ToObject();
             }
 
@@ -87,17 +84,17 @@ namespace Lab_9
             string json = "";
             if (obj is Purple_1.Participant p)
             {
-                var dao = new Purple_1_Participant_DAO(p);
+                var dao = new Purple_1_Participant_DTO(p);
                 json = JsonSerializer.Serialize(dao, JsonSerializerOptions.Default);
             }
             if (obj is Purple_1.Judge j)
             {
-                var dao = new Purple_1_Judge_DAO(j);
+                var dao = new Purple_1_Judge_DTO(j);
                 json = JsonSerializer.Serialize(dao, JsonSerializerOptions.Default);
             }
             if (obj is Purple_1.Competition c)
             {
-                var dao = new Purple_1_Competition_DAO(c);
+                var dao = new Purple_1_Competition_DTO(c);
                 json = JsonSerializer.Serialize(dao, JsonSerializerOptions.Default);
             }
             if (string.IsNullOrEmpty(json)) return;
@@ -107,7 +104,7 @@ namespace Lab_9
 
         public override void SerializePurple2SkiJumping<T>(T jumping, string fileName)
         {
-            var dao = new Purple_2_Ski_Jumping_DAO(jumping.Name, jumping.Standard, jumping.Participants.Select(p => new Purple_2_Participant_DAO(p)).ToArray());
+            var dao = new Purple_2_Ski_Jumping_DTO(jumping.Name, jumping.Standard, jumping.Participants.Select(p => new Purple_2_Participant_DTO(p)).ToArray());
             string json = JsonSerializer.Serialize(dao, JsonSerializerOptions.Default);
 
             SelectFile(fileName);
@@ -116,7 +113,7 @@ namespace Lab_9
 
         public override void SerializePurple3Skating<T>(T skating, string fileName)
         {
-            var dao = new Purple_3_Scating_DAO<T>(skating);
+            var dao = new Purple_3_Scating_DTO<T>(skating);
             string json = JsonSerializer.Serialize(dao, JsonSerializerOptions.Default);
 
             SelectFile(fileName);

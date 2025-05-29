@@ -13,24 +13,23 @@ namespace Lab_9
 
             if (typeof(T) == typeof(Purple_1.Participant))
             {
-                var serializer = new XmlSerializer(typeof(Purple_1_Participant_DAO));
-                var dao = (Purple_1_Participant_DAO)serializer.Deserialize(stream);
+                var serializer = new XmlSerializer(typeof(Purple_1_Participant_DTO));
+                var dao = (Purple_1_Participant_DTO)serializer.Deserialize(stream);
                 stream.Close();
                 return (T)(Object)dao.ToObject();
             }
             if (typeof(T) == typeof(Purple_1.Judge))
             {
-                var serializer = new XmlSerializer(typeof(Purple_1_Judge_DAO));
-                var dao = (Purple_1_Judge_DAO)serializer.Deserialize(stream);
+                var serializer = new XmlSerializer(typeof(Purple_1_Judge_DTO));
+                var dao = (Purple_1_Judge_DTO)serializer.Deserialize(stream);
                 stream.Close();
                 return (T)(Object)dao.ToObject();
             }
             if (typeof(T) == typeof(Purple_1.Competition))
             {
-                var serializer = new XmlSerializer(typeof(Purple_1_Competition_DAO));
-                var dao = (Purple_1_Competition_DAO)serializer.Deserialize(stream);
+                var serializer = new XmlSerializer(typeof(Purple_1_Competition_DTO));
+                var dao = (Purple_1_Competition_DTO)serializer.Deserialize(stream);
                 stream.Close();
-                Console.WriteLine(string.Join(' ', dao.Participants.AsEnumerable()));
                 return (T)(Object)dao.ToObject();
             }
 
@@ -41,8 +40,8 @@ namespace Lab_9
         {
             SelectFile(fileName);
             var stream = new StreamReader(FilePath);
-            var serializer = new XmlSerializer(typeof(Purple_2_Ski_Jumping_DAO));
-            var dao = (Purple_2_Ski_Jumping_DAO)serializer.Deserialize(stream);
+            var serializer = new XmlSerializer(typeof(Purple_2_Ski_Jumping_DTO));
+            var dao = (Purple_2_Ski_Jumping_DTO)serializer.Deserialize(stream);
             stream.Close();
             return (T)(Object)dao.ToObject();
         }
@@ -54,23 +53,23 @@ namespace Lab_9
 
             if (typeof(T) == typeof(Purple_3.IceSkating))
             {
-                var serializer = new XmlSerializer(typeof(Purple_3_Scating_DAO<Purple_3.IceSkating>));
-                var dao = (Purple_3_Scating_DAO<Purple_3.IceSkating>)serializer.Deserialize(stream);
+                var serializer = new XmlSerializer(typeof(Purple_3_Scating_DTO<Purple_3.IceSkating>));
+                var dao = (Purple_3_Scating_DTO<Purple_3.IceSkating>)serializer.Deserialize(stream);
                 stream.Close();
                 return (T)(Object)dao.ToObject();
             }
             else if (typeof(T) == typeof(Purple_3.FigureSkating))
             {
-                var serializer = new XmlSerializer(typeof(Purple_3_Scating_DAO<Purple_3.FigureSkating>));
-                var dao = (Purple_3_Scating_DAO<Purple_3.FigureSkating>)serializer.Deserialize(stream);
+                var serializer = new XmlSerializer(typeof(Purple_3_Scating_DTO<Purple_3.FigureSkating>));
+                var dao = (Purple_3_Scating_DTO<Purple_3.FigureSkating>)serializer.Deserialize(stream);
                 stream.Close();
                 return (T)(Object)dao.ToObject();
             }
             else if (typeof(T) == typeof(Purple_3.Skating))
             {
 
-                var serializer = new XmlSerializer(typeof(Purple_3_Scating_DAO<Purple_3.Skating>));
-                var dao = (Purple_3_Scating_DAO<Purple_3.Skating>)serializer.Deserialize(stream);
+                var serializer = new XmlSerializer(typeof(Purple_3_Scating_DTO<Purple_3.Skating>));
+                var dao = (Purple_3_Scating_DTO<Purple_3.Skating>)serializer.Deserialize(stream);
                 stream.Close();
                 return (T)(Object)dao.ToObject();
             }
@@ -104,22 +103,22 @@ namespace Lab_9
             var stream = new StreamWriter(FilePath);
             if (obj is Purple_1.Participant p)
             {
-                var serializer = new XmlSerializer(typeof(Purple_1_Participant_DAO));
-                var dao = new Purple_1_Participant_DAO(p);
+                var serializer = new XmlSerializer(typeof(Purple_1_Participant_DTO));
+                var dao = new Purple_1_Participant_DTO(p);
                 serializer.Serialize(stream, dao);
                 stream.Close();
             }
             if (obj is Purple_1.Judge j)
             {
-                var serializer = new XmlSerializer(typeof(Purple_1_Judge_DAO));
-                var dao = new Purple_1_Judge_DAO(j);
+                var serializer = new XmlSerializer(typeof(Purple_1_Judge_DTO));
+                var dao = new Purple_1_Judge_DTO(j);
                 serializer.Serialize(stream, dao);
                 stream.Close();
             }
             if (obj is Purple_1.Competition c)
             {
-                var serializer = new XmlSerializer(typeof(Purple_1_Competition_DAO));
-                var dao = new Purple_1_Competition_DAO(c);
+                var serializer = new XmlSerializer(typeof(Purple_1_Competition_DTO));
+                var dao = new Purple_1_Competition_DTO(c);
                 serializer.Serialize(stream, dao);
                 stream.Close();
             }
@@ -129,8 +128,8 @@ namespace Lab_9
         {
             SelectFile(fileName);
             var stream = new StreamWriter(FilePath);
-            var serializer = new XmlSerializer(typeof(Purple_2_Ski_Jumping_DAO));
-            var dao = new Purple_2_Ski_Jumping_DAO(jumping.Name, jumping.Standard, jumping.Participants.Select(p => new Purple_2_Participant_DAO(p)).ToArray());
+            var serializer = new XmlSerializer(typeof(Purple_2_Ski_Jumping_DTO));
+            var dao = new Purple_2_Ski_Jumping_DTO(jumping.Name, jumping.Standard, jumping.Participants.Select(p => new Purple_2_Participant_DTO(p)).ToArray());
             serializer.Serialize(stream, dao);
             stream.Close();
         }
@@ -139,8 +138,8 @@ namespace Lab_9
         {
             SelectFile(fileName);
             var stream = new StreamWriter(FilePath);
-            var serializer = new XmlSerializer(typeof(Purple_3_Scating_DAO<T>));
-            var dao = new Purple_3_Scating_DAO<T>(skating);
+            var serializer = new XmlSerializer(typeof(Purple_3_Scating_DTO<T>));
+            var dao = new Purple_3_Scating_DTO<T>(skating);
             serializer.Serialize(stream, dao);
             stream.Close();
         }
