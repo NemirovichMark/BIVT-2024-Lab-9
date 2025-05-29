@@ -1,4 +1,4 @@
-﻿using Lab_7;
+using Lab_7;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -218,9 +218,9 @@ namespace Lab_9
 
                 for (int j = 0; j < responseItems.Length; j++)
                 {
-                    string animalValue = responseItems[j]["Animal"] != null ? responseItems[j]["Animal"].ToString() : "";
-                    string traitValue = responseItems[j]["CharacterTrait"] != null ? responseItems[j]["CharacterTrait"].ToString() : "";
-                    string conceptValue = responseItems[j]["Concept"] != null ? responseItems[j]["Concept"].ToString() : "";
+                    string animalValue = GetValueOrNull(responseItems[j], "Animal");
+                    string traitValue = GetValueOrNull(responseItems[j], "CharacterTrait");
+                    string conceptValue = GetValueOrNull(responseItems[j], "Concept");
 
                     currentResearch.Add(new string[] { animalValue, traitValue, conceptValue });
                 }
@@ -228,6 +228,16 @@ namespace Lab_9
             }
 
             return outputReport;
+        }
+        private string GetValueOrNull(JObject obj, string propertyName)
+        {
+            if (obj.TryGetValue(propertyName, out var token) &&
+                token != null &&
+                !string.IsNullOrEmpty(token.ToString()))
+            {
+                return token.ToString();
+            }
+            return null;
         }
     }
 }
