@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using static Lab_7.Blue_2;
+using static Lab_7.Blue_3;
 using static Lab_9.BlueXMLSerializer;
 
 namespace Lab_9
@@ -207,12 +208,15 @@ namespace Lab_9
         
         public override void SerializeBlue2WaterJump(Blue_2.WaterJump participant, string fileName)
         {
-            if (participant == null || string.IsNullOrWhiteSpace(fileName)) return;
+            if (participant == null || string.IsNullOrEmpty(fileName)) 
+            { 
+                return; 
+            }
             SelectFile(fileName);
             var data = new WaterJumpData(participant);
             var serializer = new XmlSerializer(typeof(WaterJumpData));
 
-            using (var writer = new StreamWriter(fileName))
+            using (var writer = new StreamWriter(FilePath))
             {
                 serializer.Serialize(writer, data);
             }
@@ -275,10 +279,11 @@ namespace Lab_9
             {
                 Name = student.Name,
                 Surname = student.Surname,
-                Penalties = student.Penalties
+                Penalties = student.Penalties,
+                Type = student.GetType().Name
             };
             var serializer = new XmlSerializer(typeof(PenaltiesData));
-            using (var writer = new StreamWriter(fileName))
+            using (var writer = new StreamWriter(FilePath))
             {
                 serializer.Serialize(writer, data);
             }
@@ -293,24 +298,24 @@ namespace Lab_9
             }
             SelectFile(fileName);
             var serializer = new XmlSerializer(typeof(PenaltiesData));
-            using (var reader = new StreamReader(fileName))
+            using (var reader = new StreamReader(FilePath))
             {
                 data = (PenaltiesData)serializer.Deserialize(reader);
             }
             Blue_3.Participant Ans=null;
             switch (data.Type)
             {
-                case "Participant":
+                case nameof(Blue_3.Participant):
                     Ans= new Blue_3.Participant(data.Name, data.Surname);
 
                     break;
 
-                case "HockeyPlayer":
+                case nameof(Blue_3.HockeyPlayer):
                     Ans = new Blue_3.HockeyPlayer(data.Name, data.Surname);
 
                     break;
 
-                case "BasketballPlayer":
+                case nameof(Blue_3.BasketballPlayer):
                     Ans = new Blue_3.BasketballPlayer(data.Name, data.Surname);
 
                     break;

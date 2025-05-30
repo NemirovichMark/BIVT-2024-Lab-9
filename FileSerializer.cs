@@ -40,6 +40,10 @@ namespace Lab_9
 
         public void SelectFile(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                return;
+            }
             if (string.IsNullOrEmpty(FolderPath))
             {
                 return;
@@ -51,7 +55,7 @@ namespace Lab_9
                 var newf= File.Create(FullPath); //создаем новый файл
                 newf.Close(); //моментально закрываем файл чтобы можно было с ним работать
             }
-            FolderPath = FullPath;
+            FilePath = FullPath;
         }
     }
 }

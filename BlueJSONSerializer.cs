@@ -126,7 +126,6 @@ namespace Lab_9
             }
             return waterJump;
         }
-
         public override void SerializeBlue3Participant<T>(T student, string fileName)
         {
             if (student == null || string.IsNullOrEmpty(fileName))
@@ -134,15 +133,12 @@ namespace Lab_9
                 return;
             }
             SelectFile(fileName);
-            var data = new
-            {
-                Type = student.GetType().Name,
-                student.Name,
-                student.Surname,
-                student.Penalties
-            };
-            string json = JsonConvert.SerializeObject(data);
-            File.WriteAllText(fileName, json);
+            JObject json = JObject.FromObject(student);
+            string type = student.GetType().ToString();
+            json["Type"] = type;
+            string jsonStr = json.ToString();
+            File.WriteAllText(FilePath, jsonStr);
+
         }
 
         public override T DeserializeBlue3Participant<T>(string fileName) //T: Blue_3.Participant
@@ -157,12 +153,12 @@ namespace Lab_9
             Blue_3.Participant participants;
             switch ((string)data["Type"]) //вернет значение "BasketballPlayer"
             {
-                case "BasketballPlayer":
+                case "Lab_7.Blue_3+BasketballPlayer":
                     participants = new Blue_3.BasketballPlayer(
                         (string)data.Name,
                         (string)data.Surname);
                     break;
-                case "HockeyPlayer":
+                case "Lab_7.Blue_3+HockeyPlayer":
                     participants = new Blue_3.HockeyPlayer(
                         (string)data.Name,
                         (string)data.Surname);
@@ -180,77 +176,76 @@ namespace Lab_9
                     participants.PlayMatch((int)penalty);
                 }
             }
-            return (T)participants;
+            return (T)(object)participants;
         }
 
         public override void SerializeBlue4Group(Blue_4.Group participant, string fileName)
         {
-            if (participant == null || string.IsNullOrEmpty(fileName)) 
-            { 
-                return; 
+            if (participant == null || string.IsNullOrEmpty(fileName))
+            {
+                return;
             }
             SelectFile(fileName);
             var data = new
             {
                 type = participant.GetType().Name,
                 participant.Name,
-                manTeam = participant.ManTeams.Where(team => team != null).Select
+                womanTeam = participant.WomanTeams.Where(team => team != null).Select
                 (team => new
                 {
-                    Type = team.GetType().Name,
                     team.Name,
                     team.Scores
 
                 }).ToArray(),
-                womanTeam = participant.WomanTeams.Where(team => team != null).Select
+                manTeam = participant.ManTeams.Where(team => team != null).Select
                 (team => new
                 {
-                    Type = team.GetType().Name,
                     team.Name,
                     team.Scores
 
                 }).ToArray()
             };
-            File.WriteAllText(fileName, JsonConvert.SerializeObject(data));
+            File.WriteAllText(FilePath, JsonConvert.SerializeObject(data));
         }
+
         public override Blue_4.Group DeserializeBlue4Group(string fileName)
         {
-            if (string.IsNullOrEmpty(fileName)) 
-            { 
-                return null; 
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return null;
             }
             SelectFile(fileName);
-            var json = File.ReadAllText(fileName);
+            var json = File.ReadAllText(FilePath);
             var data = JsonConvert.DeserializeObject<dynamic>(json);
-            if (data == null) 
-            { 
-                return null; 
-            }
-            var group = new Blue_4.Group(data.Name);
-            foreach (var woman in data.Women)
+            if (data == null)
             {
-                var team = new Blue_4.WomanTeam(woman.Name);
-                foreach (var score in woman.Scores)
+                return null;
+            }
+            var group = new Blue_4.Group(data.Name.ToString());
+            foreach (var woman in data.womanTeam)
+            {
+                var team = new Blue_4.WomanTeam(woman.Name.ToString());
+                foreach (int score in woman.Scores)
                 {
-                    team.PlayMatch(int.Parse(score.ToString()));
+                    team.PlayMatch(score);
                 }
                 if (team != null)
                 {
                     group.Add(team);
                 }
             }
-            foreach (var man in data.Men)
+            foreach (var man in data.manTeam)
             {
-                var team = new Blue_4.ManTeam(man.Name);
+                var team = new Blue_4.ManTeam(man.Name.ToString());
                 foreach (int score in man.Scores)
                 {
-                    team.PlayMatch(int.Parse(score.ToString()));
+                    team.PlayMatch(score);
                 }
                 if (team != null)
                 {
                     group.Add(team);
                 }
-                
+
             }
             return group;
 
@@ -277,7 +272,7 @@ namespace Lab_9
                 }).ToArray(),
             };
 
-            File.WriteAllText(fileName, JsonConvert.SerializeObject(data));
+            File.WriteAllText(FilePath, JsonConvert.SerializeObject(data));
         }
         public override T DeserializeBlue5Team<T>(string fileName) //T: Blue_5.Team
         {
@@ -285,22 +280,23 @@ namespace Lab_9
             {
                 return null;
             }
-            var json = File.ReadAllText(fileName);
+            SelectFile(fileName);
+            var json = File.ReadAllText(FilePath);
             var data = JsonConvert.DeserializeObject<dynamic>(json);
             if (data == null) 
             { 
                 return null; 
             }
             Blue_5.Team team;
-            if (typeof(T) == typeof(Blue_5.ManTeam))
+            if ((string)data.Type == "ManTeam")
             {
-                team = (T)(object)new Blue_5.ManTeam(data.Name);
+                team = (T)(object)new Blue_5.ManTeam((string)data.Name);
             }
             else
             {
-                team = (T)(object)new Blue_5.WomanTeam(data.Name);
+                team = (T)(object)new Blue_5.WomanTeam((string)data.Name);
             }
-            foreach (var p in data.sportsman)
+            foreach (var p in data.Sportsmen)
             {
                 var sportsman = new Blue_5.Sportsman((string)p.Name, (string)p.Surname);
                 sportsman.SetPlace((int)p.Place);

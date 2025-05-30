@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Reflection.Metadata.Ecma335;
 using static Lab_7.Blue_2;
 using static System.Formats.Asn1.AsnWriter;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace Lab_9
 {
@@ -261,8 +263,11 @@ namespace Lab_9
             SelectFile(fileName);
             using (StreamWriter writer = new StreamWriter(FilePath))
             {
-                writer.WriteLine(group.GetType().Name);
+                if (group is Blue_5.ManTeam) writer.WriteLine(group.GetType().Name);
+                else writer.WriteLine(group.GetType().Name);
+                //writer.WriteLine(group is Blue_5.ManTeam ? nameof(Blue_5.ManTeam) : nameof(Blue_5.WomanTeam) );
                 writer.WriteLine(group.Name);
+                writer.WriteLine(group.Sportsmen.Length);
                 foreach (var spor in group.Sportsmen)
                 {
                     if (spor != null)
@@ -274,23 +279,29 @@ namespace Lab_9
                 }
             }
         }
+        
+
         public override T DeserializeBlue5Team<T>(string fileName) //T: Blue_5.Team
         {
             SelectFile(fileName);
-            using (StreamReader reader = new StreamReader(fileName))
+            using (StreamReader reader = new StreamReader(FilePath))
             {
                 Blue_5.Team team;
                 string type = reader.ReadLine();
                 string name = reader.ReadLine();
-                if (type == "ManTeam")
+                if (type == nameof(Blue_5.ManTeam))
                 {
                     team = new Blue_5.ManTeam(name);
                 }
-                else if (type == "WomanTeam")
+                else 
+                //if (type == nameof(Blue_5.WomanTeam))
                 {
                     team = new Blue_5.WomanTeam(name);
                 }
-                else { return default(T); }
+                //else
+                //{
+                //    team = null;
+                //}
                 int.TryParse(reader.ReadLine(), out int countParticipant);
                 for (int i = 0; i < countParticipant; i++)
                 {
@@ -307,7 +318,6 @@ namespace Lab_9
                 }
                 return (T)team;
             }
-
         }
     }
 }
