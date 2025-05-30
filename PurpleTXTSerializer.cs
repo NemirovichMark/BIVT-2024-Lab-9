@@ -1,4 +1,4 @@
-﻿using Lab_7;
+using Lab_7;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -6,12 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Lab_7.Purple_1;
+using static Lab_7.Purple_3;
 
 namespace Lab_9
 {
     public class PurpleTXTSerializer : PurpleSerializer
     {
         public override string Extension => "txt";
+        //public override void SerializePurple1<T>(T obj, string fileName) => throw new NotImplementedException();
+        //public override T DeserializePurple1<T>(string fileName) => throw new NotImplementedException();
         public override void SerializePurple1<T>(T obj, string fileName)
         {
             if (obj == null || string.IsNullOrEmpty(fileName)) return;
@@ -61,7 +64,7 @@ namespace Lab_9
                     }
 
                     res.AppendLine("Participants:");
-                    if (c.Participants is Participant[] participants)
+                    if (c.Participants is Purple_1.Participant[] participants)
                     {
                         foreach (var p in participants)
                         {
@@ -113,70 +116,45 @@ namespace Lab_9
             File.WriteAllText(FilePath, res.ToString());
         }
 
-        //private string DictToString(Dictionary<string, string> dictionary)
-        //{
-        //    var res = new StringBuilder();
-        //    foreach (var word in dictionary)
-        //    {
-        //        res.AppendLine($"{word.Key}: {word.Value}");
-        //    }
-        //    res.AppendLine();
-        //    return res.ToString();
-        //}
         public override void SerializePurple3Skating<T>(T skating, string fileName)
         {
-            if (skating == null || string.IsNullOrEmpty(fileName)) return;
+            var output = new StringBuilder();
+
+            output.AppendLine(skating switch
+            {
+                FigureSkating _ => "FigureSkating",
+                IceSkating _ => "IceSkating",
+                _ => "UnknownSkating"
+            });
+
+            output.Append("moods:").AppendLine(string.Join(" ", skating.Moods));
+            output.Append("participants:").AppendLine(skating.Participants.Length.ToString());
+
+            foreach (var p in skating.Participants)
+            {
+                var data = new Dictionary<string, string>(4)
+                {
+                    ["name"] = p.Name,
+                    ["surname"] = p.Surname,
+                    ["marks"] = string.Join(" ", p.Marks),
+                    ["places"] = string.Join(" ", p.Places)
+                };
+                output.Append(DictToString(data));
+            }
+
             SelectFile(fileName);
-            var content = new StringBuilder();
-
-            // Тип соревнования
-            if (skating is Purple_3.FigureSkating)
-                content.AppendLine("FigureSkating");
-            else if (skating is Purple_3.IceSkating)
-                content.AppendLine("IceSkating");
-
-            // Настроения судей
-            content.Append("Moods:");
-            if (skating.Moods != null)
+            File.WriteAllText(FilePath, output.ToString());
+        }
+        private static string DictToString(Dictionary<string, string> dict)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var k in dict.Keys)
             {
-                for (int i = 0; i < skating.Moods.Length; i++)
-                {
-                    content.Append(" " + skating.Moods[i].ToString(CultureInfo.InvariantCulture));
-                }
+                sb.Append(k);
+                sb.Append(':');
+                sb.AppendLine(dict[k]);
             }
-            content.AppendLine();
-
-            // Записываем количество участников
-            content.AppendLine($"ParticipantsCount: {skating.Participants.Length}");
-
-            // Записываем участников
-            for (int i = 0; i < skating.Participants.Length; i++)
-            {
-                var p = skating.Participants[i];
-                content.AppendLine("Participant:");
-                content.AppendLine($"Name: {p.Name}");
-                content.AppendLine($"Surname: {p.Surname}");
-
-                content.Append("Marks:");
-                if (p.Marks != null)
-                {
-                    for (int j = 0; j < p.Marks.Length; j++)
-                        content.Append(" " + p.Marks[j].ToString(CultureInfo.InvariantCulture));
-                }
-                content.AppendLine();
-
-                content.Append("Places:");
-                if (p.Places != null)
-                {
-                    for (int j = 0; j < p.Places.Length; j++)
-                        content.Append(" " + p.Places[j]);
-                }
-                content.AppendLine();
-
-                content.AppendLine($"Score: {p.Score}");
-            }
-
-            File.WriteAllText(FilePath, content.ToString());
+            return sb.ToString();
         }
         public override void SerializePurple4Group(Purple_4.Group group, string fileName)
         {
@@ -251,7 +229,7 @@ namespace Lab_9
             foreach (var line in lines)
             {
                 if (string.IsNullOrWhiteSpace(line)) continue;
-                var parts = line.Split(new[] { ':' }, 2);
+                var parts = line.Split( ':' , 2);
                 if (parts.Length != 2) continue;
                 var key = parts[0].Trim().ToLower();
                 var value = parts[1].Trim();
@@ -472,96 +450,43 @@ namespace Lab_9
             return (T)(object)jumping;
         }
 
-        //private Purple_2.Participant ParseSkiJumper(string[] lines, int standard)
-        //{
-        //    var data = ParseKeyValuePairs(lines);
-        //    var p = new Purple_2.Participant(data["name"], data["surname"]);
-
-        //    if (data.TryGetValue("distance", out var dist) && data.TryGetValue("marks", out var marks))
-        //    {
-        //        var marksArr = marks.Split(' ').Select(int.Parse).ToArray();
-        //        p.Jump(int.Parse(dist), marksArr, standard);
-        //    }
-
-        //    return p;
-        //}
-
         public override T DeserializePurple3Skating<T>(string fileName)
         {
             SelectFile(fileName);
-            if (!File.Exists(FilePath))
-                throw new FileNotFoundException($"File {fileName} not found");
+            var content = File.ReadAllText(FilePath);
+            var lines = content.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
-            string[] lines = File.ReadAllLines(FilePath);
-            if (lines.Length == 0)
-                throw new InvalidDataException("Empty file");
-
+            var type = lines[0].Trim();
+            double[] moods = lines[1].Split(':')[1].Trim().Split(' ').Select(x => double.Parse(x)).ToArray();
             Purple_3.Skating skating;
-            if (lines[0] == "FigureSkating")
-                skating = new Purple_3.FigureSkating(new double[7], false);
-            else if (lines[0] == "IceSkating")
-                skating = new Purple_3.IceSkating(new double[7], false);
-            else
-                throw new InvalidDataException("Unknown skating type");
+            if (type == "IceSkating") skating = new Purple_3.IceSkating(moods, false);
+            else if (type == "FigureSkating") skating = new Purple_3.FigureSkating(moods, false);
+            else return null;
 
-            try
+            var pCount = int.Parse(lines[2].Split(':')[1]);
+            var participants = Enumerable.Empty<Purple_3.Participant>();
+
+            for (int i = 0; i < pCount; i++)
             {
-                // 2. Читаем настроения судей
-                if (lines.Length > 1 && lines[1].StartsWith("Moods:"))
+                var start = 3 + i * 4;
+                var dict = new Dictionary<string, string>(4);
+
+                for (int j = start; j < start + 4; j++)
                 {
-                    string moodsStr = lines[1].Substring(6).Trim();
-                    if (!string.IsNullOrEmpty(moodsStr))
-                    {
-                        string[] moods = moodsStr.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        for (int i = 0; i < Math.Min(moods.Length, 7); i++)
-                        {
-                            skating.Moods[i] = double.Parse(moods[i], CultureInfo.InvariantCulture);
-                        }
-                    }
+                    var parts = lines[j].Split(':');
+                    dict[parts[0].Trim()] = parts[1].Trim();
                 }
 
-                // 3. Читаем участников
-                for (int i = 2; i < lines.Length; i++)
-                {
-                    if (lines[i] == "Participant:")
-                    {
-                        // Читаем данные участника
-                        string name = SafeGetValue(lines, ++i, "Name:");
-                        string surname = SafeGetValue(lines, ++i, "Surname:");
-                        var participant = new Purple_3.Participant(name, surname);
+                var p = new Purple_3.Participant(dict["name"], dict["surname"]);
+                var marks = Array.ConvertAll(dict["marks"].Split(), double.Parse);
 
-                        // Оценки
-                        string marksStr = SafeGetValue(lines, ++i, "Marks:");
-                        if (!string.IsNullOrEmpty(marksStr))
-                        {
-                            string[] marks = marksStr.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                            for (int j = 0; j < Math.Min(marks.Length, 7); j++)
-                            {
-                                participant.Evaluate(double.Parse(marks[j], CultureInfo.InvariantCulture));
-                            }
-                        }
+                foreach (var mark in marks) p.Evaluate(mark);
 
-                        // Места
-                        string placesStr = SafeGetValue(lines, ++i, "Places:");
-                        if (!string.IsNullOrEmpty(placesStr))
-                        {
-                            string[] places = placesStr.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                            for (int j = 0; j < Math.Min(places.Length, 7); j++)
-                            {
-                                if (int.TryParse(places[j], out int place))
-                                    participant.Places[j] = place;
-                            }
-                        }
-
-                        skating.Add(participant);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidDataException("Error deserializing skating data", ex);
+                participants = participants.Append(p);
             }
 
+            skating.Add(participants.ToArray());
+            Purple_3.Participant.SetPlaces(skating.Participants);
             return (T)(object)skating;
         }
 
@@ -571,19 +496,6 @@ namespace Lab_9
             string line = lines[index];
             return line.StartsWith(prefix) ? line.Substring(prefix.Length).Trim() : string.Empty;
         }
-        //private Purple_3.Participant ParseSkater(string[] lines)
-        //{
-        //    var data = ParseKeyValuePairs(lines);
-        //    var p = new Purple_3.Participant(data["name"], data["surname"]);
-
-        //    if (data.TryGetValue("marks", out var marksStr))
-        //    {
-        //        var marks = marksStr.Split(' ').Select(double.Parse).ToArray();
-        //        for (int i = 0; i < Math.Min(marks.Length, 7); i++)
-        //            p.Evaluate(marks[i]);
-        //    }
-        //    return p;
-        //}
         public override Purple_4.Group DeserializePurple4Group(string fileName)
         {
             SelectFile(fileName);
