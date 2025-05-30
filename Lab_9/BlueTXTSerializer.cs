@@ -289,7 +289,7 @@ namespace Lab_9
         public override T DeserializeBlue5Team<T>(string fileName) //where T : class
         {
             SelectFile(fileName);
-            using (var reader = new StreamReader(fileName))
+            using (var reader = new StreamReader(FilePath))
             {
                 string tstr = reader.ReadLine();
                 string grpstr = reader.ReadLine();

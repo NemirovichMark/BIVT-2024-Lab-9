@@ -53,7 +53,7 @@ namespace Lab_9
         public override Blue_1.Response DeserializeBlue1Response(string fileName)
         {
             SelectFile(fileName);
-            using (StreamReader reader = new StreamReader(fileName))
+            using (StreamReader reader = new StreamReader(FilePath))
             {
                 string json = reader.ReadToEnd();
                 dynamic obj = JsonConvert.DeserializeObject<dynamic>(json);
