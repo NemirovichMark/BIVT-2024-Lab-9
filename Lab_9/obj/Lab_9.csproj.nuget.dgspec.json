@@ -1,0 +1,136 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/guko/Library/Mobile Documents/com~apple~CloudDocs/uniprog/repos/Lab_9/Lab_9.csproj": {}
+  },
+  "projects": {
+    "/Users/guko/Library/Mobile Documents/com~apple~CloudDocs/uniprog/repos/Lab_7/Lab_7.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/guko/Library/Mobile Documents/com~apple~CloudDocs/uniprog/repos/Lab_7/Lab_7.csproj",
+        "projectName": "Lab_7",
+        "projectPath": "/Users/guko/Library/Mobile Documents/com~apple~CloudDocs/uniprog/repos/Lab_7/Lab_7.csproj",
+        "packagesPath": "/Users/guko/.nuget/packages/",
+        "outputPath": "/Users/guko/Library/Mobile Documents/com~apple~CloudDocs/uniprog/repos/Lab_7/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/guko/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.102/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/guko/Library/Mobile Documents/com~apple~CloudDocs/uniprog/repos/Lab_9/Lab_9.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/guko/Library/Mobile Documents/com~apple~CloudDocs/uniprog/repos/Lab_9/Lab_9.csproj",
+        "projectName": "Lab_9",
+        "projectPath": "/Users/guko/Library/Mobile Documents/com~apple~CloudDocs/uniprog/repos/Lab_9/Lab_9.csproj",
+        "packagesPath": "/Users/guko/.nuget/packages/",
+        "outputPath": "/Users/guko/Library/Mobile Documents/com~apple~CloudDocs/uniprog/repos/Lab_9/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/guko/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "/Users/guko/Library/Mobile Documents/com~apple~CloudDocs/uniprog/repos/Lab_7/Lab_7.csproj": {
+                "projectPath": "/Users/guko/Library/Mobile Documents/com~apple~CloudDocs/uniprog/repos/Lab_7/Lab_7.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Newtonsoft.json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.102/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
