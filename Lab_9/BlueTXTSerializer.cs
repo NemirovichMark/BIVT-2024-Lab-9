@@ -11,7 +11,6 @@ namespace Lab_9
     {
         public override string Extension => "txt";
 
-        //СЕРИАЛИЗАЦИЯ
 
         public override void SerializeBlue1Response(Blue_1.Response response, string fileName)
         {
@@ -36,8 +35,6 @@ namespace Lab_9
             sb.AppendLine(jump.GetType().Name);
             sb.AppendLine(jump.Name);
             sb.AppendLine(jump.Bank.ToString());
-            sb.AppendLine(jump.Count.ToString());
-            sb.AppendLine(jump.Count5m.ToString());
 
             if (jump.Participants != null)
             {
@@ -46,9 +43,12 @@ namespace Lab_9
                     sb.AppendLine($"{p.Name},{p.Surname}");
                     if (p.Marks != null)
                     {
-                        for (int i = 0; i < p.Marks.GetLength(0); i++)
+                        // Сохраняем оценки для каждого прыжка (2 строки по 5 оценок)
+                        for (int i = 0; i < 2; i++)
                         {
-                            var marks = string.Join(",", Enumerable.Range(0, p.Marks.GetLength(1)).Select(j => p.Marks[i, j]));
+                            var marks = string.Join(",", 
+                                Enumerable.Range(0, 5)
+                                    .Select(j => p.Marks[i, j]));
                             sb.AppendLine(marks);
                         }
                     }
@@ -134,7 +134,6 @@ namespace Lab_9
             File.WriteAllText(fileName, sb.ToString());
         }
 
-        //ДЕСЕРИАЛИЗАЦИЯ
 
         public override Blue_1.Response DeserializeBlue1Response(string fileName)
         {
@@ -156,36 +155,33 @@ namespace Lab_9
         public override Blue_2.WaterJump DeserializeBlue2WaterJump(string fileName)
         {
             var lines = File.ReadAllLines(fileName);
-            if (lines.Length < 5) return null;
+            if (lines.Length < 3) return null;
 
             var typeName = lines[0];
             var name = lines[1];
             var bank = int.Parse(lines[2]);
-            var count = int.Parse(lines[3]);
-            var count5m = int.Parse(lines[4]);
 
-            Blue_2.WaterJump jump = typeName == nameof(Blue_2.WaterJump5m) ? 
-                new Blue_2.WaterJump5m(name, bank) : 
-                new Blue_2.WaterJump3m(name, bank);
+            Blue_2.WaterJump jump = typeName == nameof(Blue_2.WaterJump5m) 
+                ? new Blue_2.WaterJump5m(name, bank) 
+                : new Blue_2.WaterJump3m(name, bank);
 
-            for (int i = 5; i < lines.Length; i += 3)
+            for (int i = 3; i < lines.Length;)
             {
-                if (i >= lines.Length) break;
-                
-                var nameParts = lines[i].Split(',');
+                if (i + 2 >= lines.Length) break;
+
+                // Чтение участника
+                var nameParts = lines[i++].Split(',');
+                if (nameParts.Length != 2) continue;
+
                 var participant = new Blue_2.Participant(nameParts[0], nameParts[1]);
-                
-                if (i + 1 < lines.Length && !string.IsNullOrEmpty(lines[i + 1]))
-                {
-                    var marks1 = lines[i + 1].Split(',').Select(int.Parse).ToArray();
-                    var marks2 = i + 2 < lines.Length ? 
-                        lines[i + 2].Split(',').Select(int.Parse).ToArray() : 
-                        new int[5];
-                    
-                    participant.Jump(marks1);
-                    participant.Jump(marks2);
-                }
-                
+
+                // Чтение оценок (2 прыжка)
+                var marks1 = lines[i++].Split(',').Select(int.Parse).ToArray();
+                var marks2 = lines[i++].Split(',').Select(int.Parse).ToArray();
+
+                participant.Jump(marks1);
+                participant.Jump(marks2);
+
                 jump.Add(participant);
             }
 
@@ -240,9 +236,9 @@ namespace Lab_9
                 var teamType = teamInfo[0];
                 var teamName = teamInfo[1];
 
-                Blue_4.Team team = teamType == "ManTeam" ? 
-                    new Blue_4.ManTeam(teamName) : 
-                    new Blue_4.WomanTeam(teamName);
+                Blue_4.Team team = teamType == "ManTeam" 
+                    ? new Blue_4.ManTeam(teamName) 
+                    : new Blue_4.WomanTeam(teamName);
 
                 if (i + 1 < lines.Length && !string.IsNullOrEmpty(lines[i + 1]))
                 {
@@ -268,9 +264,9 @@ namespace Lab_9
             var typeName = lines[0];
             var teamName = lines[1];
 
-            Blue_5.Team team = typeName == nameof(Blue_5.ManTeam) ? 
-                new Blue_5.ManTeam(teamName) : 
-                new Blue_5.WomanTeam(teamName) as Blue_5.Team;
+            Blue_5.Team team = typeName == nameof(Blue_5.ManTeam) 
+                ? new Blue_5.ManTeam(teamName) 
+                : new Blue_5.WomanTeam(teamName) as Blue_5.Team;
 
             for (int i = 2; i < lines.Length; i++)
             {
