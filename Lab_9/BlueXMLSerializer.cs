@@ -71,7 +71,6 @@ namespace Lab_9
                     this.Name = obj.Name;
                     this.Bank = obj.Bank;
                     this.Prize = obj.Prize;
-                    this.Count5m = obj.Count5m;
 
                     var prts = new Participant[obj.Participants.Length];
                     for (int i = 0; i < obj.Participants.Length; i++) prts[i] = new Participant(obj.Participants[i]);
