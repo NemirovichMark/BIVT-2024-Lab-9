@@ -94,6 +94,7 @@ namespace Lab_9
         public override Blue_1.Response DeserializeBlue1Response(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName) || (!File.Exists(fileName))) return null;
+            SelectFile(fileName);
             string[] lines = File.ReadAllLines(FilePath).Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
             int index = 0;
 
@@ -110,6 +111,7 @@ namespace Lab_9
         public override Blue_2.WaterJump DeserializeBlue2WaterJump(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName) || !File.Exists(fileName)) return null;
+            SelectFile(fileName);
             string[] lines = File.ReadAllLines(FilePath).Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
             int index = 0;
             string type = lines[index++];
@@ -138,6 +140,7 @@ namespace Lab_9
         public override T DeserializeBlue3Participant<T>(string fileName) where T : class
         {
             if (string.IsNullOrEmpty(fileName) || !File.Exists(fileName)) return default;
+            SelectFile(fileName);
             string[] lines = File.ReadAllLines(FilePath).Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
             int index = 0;
 
@@ -163,6 +166,7 @@ namespace Lab_9
         public override Blue_4.Group DeserializeBlue4Group(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName) || !File.Exists(fileName)) return null;
+            SelectFile(fileName);
             string[] lines = File.ReadAllLines(FilePath).Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
             int index = 0;
             if (lines[index++] != "Group") return null;
@@ -201,6 +205,7 @@ namespace Lab_9
         public override T DeserializeBlue5Team<T>(string fileName) where T : class
         {
             if (string.IsNullOrWhiteSpace(fileName) || !File.Exists(fileName)) return null;
+            SelectFile(fileName);
             string[] lines = File.ReadAllLines(FilePath).Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
             int index = 0;
             string type = lines[index++];
