@@ -411,7 +411,7 @@ namespace Lab_9
         #region Purple_5
         public override void SerializePurple5Report(Purple_5.Report group, string fileName)
         {
-            SelectFile(fileName);
+            SelectFile(fileName);   
             StringBuilder contentBuilder = new StringBuilder();
             contentBuilder.AppendLine($"researchesCount:{group.Researches.Length}");
 
@@ -474,12 +474,22 @@ namespace Lab_9
 
             for (int r = 0; r < responseCount; r++)
             {
-                string animal = data[$"Animal_{idx}_{r}"] ?? "";
-                string trait = data[$"characterTrait_{idx}_{r}"] ?? "";
-                string concept = data[$"Concept_{idx}_{r}"] ?? "";
+                string animal = GetValueOrNull(data, $"Animal_{idx}_{r}");
+                string trait = GetValueOrNull(data, $"characterTrait_{idx}_{r}");
+                string concept = GetValueOrNull(data, $"Concept_{idx}_{r}");
+
                 research.Add(new string[] { animal, trait, concept });
             }
             return research;
+        }
+
+        private string GetValueOrNull(Dictionary<string, string> data, string key)
+        {
+            if (data.TryGetValue(key, out string value))
+            {
+                return string.IsNullOrEmpty(value) ? null : value;
+            }
+            return null;
         }
         #endregion
     }
